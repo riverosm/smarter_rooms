@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SmarterRooms</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<head>
+  <title>SmarterRooms</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <body>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+
+  <%= render "header" %>
+
+  <div class="container-fluid">
+
+    <% flash.each do |message_type, message| %>
+    <%= content_tag :div, message, class: "alert alert-#{message_type} rounded" %>
+    <% end %>
+
     <%= yield %>
-  </body>
+  </div>
+
+  <%= render "footer" %>
+
+  <%= yield %>
+</body>
+
 </html>
