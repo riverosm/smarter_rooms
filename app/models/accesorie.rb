@@ -1,0 +1,2 @@
+class Accesorie < ApplicationRecord
+end
