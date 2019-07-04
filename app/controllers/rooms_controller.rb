@@ -1,6 +1,8 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
+  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:new, :edit, :update, :destroy]
+
   # GET /rooms
   # GET /rooms.json
   def index
