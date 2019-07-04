@@ -1,4 +1,4 @@
-<h1>Users</h1>
+<h1>Buildings</h1>
 
 <%= link_to 'Create new building', new_building_path, :class => "btn btn-outline-success btn-block btn-lg"%>
 
@@ -23,7 +23,9 @@
         <td><%= building.latitude %></td>
         <td><%= building.longitude %></td>
         <td>
-          <%= link_to 'Show', building %>
+          <%= link_to building do %>
+          <%= icon('fas', 'eye', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "right") %>
+          <% end %>
         </td>
         <td>
           <%= link_to edit_building_path(building) do %>

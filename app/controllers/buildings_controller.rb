@@ -28,9 +28,15 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if @building.save
-        format.html { redirect_to @building, notice: 'Building was successfully created.' }
+        flash[:success] = "Building was successfully created."
+        format.html { redirect_to @building }
         format.json { render :show, status: :created, location: @building }
       else
+        error_msgs = ""
+        @building.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@building.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :new }
         format.json { render json: @building.errors, status: :unprocessable_entity }
       end
@@ -42,9 +48,14 @@ class BuildingsController < ApplicationController
   def update
     respond_to do |format|
       if @building.update(building_params)
-        format.html { redirect_to @building, notice: 'Building was successfully updated.' }
+        flash[:success] = "Building was successfully updated."
         format.json { render :show, status: :ok, location: @building }
       else
+        error_msgs = ""
+        @building.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@building.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :edit }
         format.json { render json: @building.errors, status: :unprocessable_entity }
       end
@@ -56,7 +67,8 @@ class BuildingsController < ApplicationController
   def destroy
     @building.destroy
     respond_to do |format|
-      format.html { redirect_to buildings_url, notice: 'Building was successfully destroyed.' }
+      flash[:success] = "Building was successfully destroyed."
+      format.html { redirect_to buildings_url }
       format.json { head :no_content }
     end
   end
