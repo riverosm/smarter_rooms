@@ -12,6 +12,10 @@ class RoomsController < ApplicationController
   # GET /rooms/1
   # GET /rooms/1.json
   def show
+    if !@room.active?
+      flash[:danger] = "You are not allowed to access this room."
+      redirect_to rooms_url
+    end
   end
 
   # GET /rooms/new
