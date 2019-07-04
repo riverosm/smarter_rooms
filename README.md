@@ -1,24 +1,32 @@
-# README
+# \<Code Academy\> Nivel 3 - Trabajo final
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ejecución
 
-Things you may want to cover:
+```sh
+$ git clone "git@github.ibm.com:riverosm/smarter_rooms.git"
+$ cd smarter_rooms
+$ bundle install
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
+$ rails s
+```
 
-* Ruby version
+Ruby on Rails asignará el puerto configurado y se podrá acceder desde el navegador, por ejemplo:
 
-* System dependencies
+http://127.0.0.1:3000/
 
-* Configuration
+Se generará un usuario administrador:
 
-* Database creation
+<b>room_reservation@ar.ibm.com</b>
+<b>CodeAcademy$1</b>
 
-* Database initialization
+## Navegación
 
-* How to run the test suite
+## Contacto
 
-* Services (job queues, cache servers, search engines, etc.)
+![Imagen autor](https://github.ibm.com/riverosm/smarter_rooms/blob/master/public/riverosm.jpg)
 
-* Deployment instructions
-
-* ...
+* Matias Riveros
+* IBM Argentina
+* riverosm@ar.ibm.com
