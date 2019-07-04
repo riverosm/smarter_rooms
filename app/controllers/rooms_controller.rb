@@ -6,7 +6,11 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
+    if (current_user.is_admin?)
+      @rooms = Room.all
+    else
+      @rooms = Room.active
+    end
   end
 
   # GET /rooms/1
