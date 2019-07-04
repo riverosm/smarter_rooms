@@ -44,3 +44,8 @@ Room.find_or_create_by({name: "Puente de la Mujer", floor: 2, code: "A214", max_
 Room.find_or_create_by({name: "Catalinas", floor: 2, code: "A215", max_capacity: 4, building: martinez_ma})
 Room.find_or_create_by({name: "La Boca", floor: 2, code: "A216", max_capacity: 6, building: martinez_ma})
 Room.find_or_create_by({name: "Tilcara", floor: 2, code: "A217", max_capacity: 8, building: martinez_ma})
+
+# Adding random accesories to rooms
+Room.all.each do |r|
+  RoomAccesory.find_or_create_by(quantity: rand(1..2), room: r, accesory_id: rand(1..Accesory.count) )
+end
