@@ -24,6 +24,11 @@
           <%= icon('fas', 'building') %> Buildings
           <% end %>
         </li>
+        <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">
+          <%= link_to rooms_path, class: 'nav-link' do %>
+          <%= icon('fas', 'door-open') %> Rooms
+          <% end %>
+        </li>
         <% end %>
 
         <% if (logged_in? && !current_user.is_admin?) %>
