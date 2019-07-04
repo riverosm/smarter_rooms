@@ -19,6 +19,7 @@ http://127.0.0.1:3000/
 Se generará un usuario administrador:
 
 <b>room_reservation@ar.ibm.com</b>
+
 <b>CodeAcademy$1</b>
 
 ## Navegación
