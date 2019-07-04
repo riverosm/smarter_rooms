@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:index, :destroy]
+
   # GET /users
   # GET /users.json
   def index
