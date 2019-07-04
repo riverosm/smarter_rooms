@@ -1,37 +1,23 @@
-<%= form_with(model: building, local: true) do |form| %>
-  <% if building.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(building.errors.count, "error") %> prohibited this building from being saved:</h2>
+<%= form_with model: @building, local: true, class: "forms" do |f| %>
 
-      <ul>
-      <% building.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render partial: "form_label", locals: {required: true, field: :name,  fa_icon: 'building',
+                                           placeholder: 'Name', type: 'text', form: f} %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :address,  fa_icon: 'map-pin',
+                                           placeholder: 'Address', type: 'text', form: f} %>
 
-  <div class="field">
-    <%= form.label :address %>
-    <%= form.text_field :address %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :latitude,  fa_icon: 'compass',
+                                           placeholder: 'Latitude', type: 'number', form: f} %>
 
-  <div class="field">
-    <%= form.label :latitude %>
-    <%= form.text_field :latitude %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :longitude,  fa_icon: 'compass',
+                                           placeholder: 'Longitude', type: 'number', form: f} %>
 
-  <div class="field">
-    <%= form.label :longitude %>
-    <%= form.text_field :longitude %>
-  </div>
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<% if action == "new" %>
+  <%= f.submit :"Create building", class: "btn-outline-success btn btn-block btn-lg" %>
+<% else %>
+  <%= f.submit :"Change building", class: "btn-outline-warning btn btn-block btn-lg" %>
+<% end %>
+<% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

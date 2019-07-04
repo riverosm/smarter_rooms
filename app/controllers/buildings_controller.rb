@@ -51,6 +51,7 @@ class BuildingsController < ApplicationController
     respond_to do |format|
       if @building.update(building_params)
         flash[:success] = "Building was successfully updated."
+        format.html { redirect_to @building }
         format.json { render :show, status: :ok, location: @building }
       else
         error_msgs = ""
