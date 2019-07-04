@@ -53,8 +53,8 @@
         <% end %>
       </ul>
       <% if logged_in? %>
-      <%= form_tag(root_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
-      <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room ...' %>
+      <%= form_tag(rooms_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
+      <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
       <%= button_tag 'Search', class: 'btn btn-success my-2 my-sm-0' %>
       <% end %>
       <% end %>
