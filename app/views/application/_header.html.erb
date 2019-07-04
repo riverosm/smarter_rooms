@@ -13,26 +13,32 @@
           <%= icon('fas', 'home') %> Home
           <% end %>
         </li>
-        <% if logged_in? %>
-        <% if current_user.is_admin? %>
+        <% if (logged_in? && current_user.is_admin?) %>
         <li class="nav-item<%= ' active' if controller_name == 'users' %>">
           <%= link_to users_path, class: 'nav-link' do %>
           <%= icon('fas', 'users') %> Users
           <% end %>
         </li>
-        <% else %>
+        <li class="nav-item<%= ' active' if controller_name == 'buildings' %>">
+          <%= link_to buildings_path, class: 'nav-link' do %>
+          <%= icon('fas', 'building') %> Buildings
+          <% end %>
+        </li>
+        <% end %>
+
+        <% if (logged_in? && !current_user.is_admin?) %>
         <li class="nav-item<%= ' active' if controller_name == 'users' %>">
           <%= link_to current_user, class: 'nav-link' do %>
           <%= icon('fas', 'user') %> My Profile
           <% end %>
         </li>
         <% end %>
+
         <li class="nav-item">
           <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
           <%= icon('fas', 'sign-out-alt') %> Logout
           <% end %>
         </li>
-        <% end %>
       </ul>
       <% if logged_in? %>
       <%= form_tag(root_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
