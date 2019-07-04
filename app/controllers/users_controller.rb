@@ -64,11 +64,21 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      # MR - If the user is not admin only can see their profile
+      if @user.is_admin?
+        @user = User.find(params[:id])
+      else
+        @user = User.find(current_user.id)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :phone, :role, :password_digest, :admin)
+      # MR - If the user is not admin can't assign the admin flag
+      if @user.is_admin?
+        params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation, :admin)
+      else
+        params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation)
+      end
     end
 end
