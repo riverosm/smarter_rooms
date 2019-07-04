@@ -1,0 +1,19 @@
+<h1>Log in</h1>
+<%= form_with scope: :session, url: login_path do |f|%>
+
+<div class="input-group input-group mb-3 row">
+  <%= f.label :email, class: "col-6 input-group-prepend input-group-text" %>
+  <%= f.email_field :email, :required => true, class: "col form-control" %>
+</div>
+
+<div class="input-group input-group mb-3 row">
+  <%= f.label :password, class: "col-6 input-group-prepend input-group-text" %>
+  <%= f.password_field :password, :required => true, class: "col form-control" %>
+</div>
+
+<div class="input-group input-group mb-3 row">
+  <%= f.submit :"Log in", class: "btn-outline-success btn btn-block btn-lg" %>
+</div>
+<% end %>
+
+<p>New user? <%= link_to 'Sign up now', signup_path %></p>
