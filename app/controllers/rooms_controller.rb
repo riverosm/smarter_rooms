@@ -17,10 +17,12 @@ class RoomsController < ApplicationController
   # GET /rooms/new
   def new
     @room = Room.new
+    @buildings = Building.all.sort_by{|b| b.name}
   end
 
   # GET /rooms/1/edit
   def edit
+    @buildings = Building.all.sort_by{|b| b.name}
   end
 
   # POST /rooms
@@ -30,9 +32,15 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       if @room.save
-        format.html { redirect_to @room, notice: 'Room was successfully created.' }
+        flash[:success] = "Room was successfully created."
+        format.html { redirect_to @room }
         format.json { render :show, status: :created, location: @room }
       else
+        error_msgs = ""
+        @room.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@room.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :new }
         format.json { render json: @room.errors, status: :unprocessable_entity }
       end
@@ -44,9 +52,15 @@ class RoomsController < ApplicationController
   def update
     respond_to do |format|
       if @room.update(room_params)
-        format.html { redirect_to @room, notice: 'Room was successfully updated.' }
+        flash[:success] = "Room was successfully updated."
+        format.html { redirect_to @room }
         format.json { render :show, status: :ok, location: @room }
       else
+        error_msgs = ""
+        @room.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@room.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :edit }
         format.json { render json: @room.errors, status: :unprocessable_entity }
       end
@@ -58,7 +72,8 @@ class RoomsController < ApplicationController
   def destroy
     @room.destroy
     respond_to do |format|
-      format.html { redirect_to rooms_url, notice: 'Room was successfully destroyed.' }
+      flash[:success] = "Building was successfully destroyed."
+      format.html { redirect_to rooms_url }
       format.json { head :no_content }
     end
   end

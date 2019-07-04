@@ -41,6 +41,9 @@
     <%= form.text_field :building_id %>
   </div>
 
+  <%= form.label :building_id %>
+  <%= form.collection_select :building_id, @buildings, :id, :name, {prompt: "Select a genre"}, {class: "form-control"} %>
+  
   <div class="actions">
     <%= form.submit %>
   </div>
