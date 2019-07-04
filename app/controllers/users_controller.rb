@@ -54,6 +54,11 @@ class UsersController < ApplicationController
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
+        error_msgs = ""
+        @user.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -86,9 +91,9 @@ class UsersController < ApplicationController
     def user_params
       # MR - If the user is not admin can't assign the admin flag
       if current_user.is_admin?
-        params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation, :admin)
+        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation, :admin)
       else
-        params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation)
+        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation)
       end
     end
 end
