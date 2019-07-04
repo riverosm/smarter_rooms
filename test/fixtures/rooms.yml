@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  code: MyString
+  floor: 1
+  max_capacity: 1
+  active: false
+  building: one
+
+two:
+  name: MyString
+  code: MyString
+  floor: 1
+  max_capacity: 1
+  active: false
+  building: two

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_04_190728) do
+ActiveRecord::Schema.define(version: 2019_07_04_192426) do
 
   create_table "accesories", force: :cascade do |t|
     t.string "name"
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(version: 2019_07_04_190728) do
     t.decimal "longitude", precision: 10, scale: 6
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.integer "floor"
+    t.integer "max_capacity"
+    t.boolean "active"
+    t.integer "building_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_rooms_on_building_id"
+    t.index ["code"], name: "index_rooms_on_code", unique: true
   end
 
   create_table "users", force: :cascade do |t|
