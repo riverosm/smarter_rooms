@@ -1,47 +1,32 @@
-<%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<%= form_with model: @user, local: true, class: "forms" do |f| %>
 
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render partial: "form_label", locals: {required: true, field: :name,  fa_icon: 'user',
+                                           placeholder: 'Name', type: 'text', form: f} %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :email,  fa_icon: 'at',
+                                           placeholder: 'E-mail', type: 'email', form: f} %>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :phone,  fa_icon: 'phone',
+                                           placeholder: 'Phone', type: 'text', form: f} %>
 
-  <div class="field">
-    <%= form.label :phone %>
-    <%= form.text_field :phone %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :password,  fa_icon: 'key',
+                                           placeholder: 'Password', type: 'password', form: f} %>
 
-  <div class="field">
-    <%= form.label :role %>
-    <%= form.text_field :role %>
-  </div>
+<%= render partial: "form_label", locals: {required: true, field: :password_confirmation,  fa_icon: 'key',
+                                           placeholder: 'Password confirmation', type: 'password', form: f} %>
 
-  <div class="field">
-    <%= form.label :password_digest %>
-    <%= form.text_field :password_digest %>
-  </div>
 
-  <div class="field">
-    <%= form.label :admin %>
-    <%= form.check_box :admin %>
-  </div>
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= f.check_box :admin, :required => false, class: "faw" %> &nbsp;
+<% end %>
+<% end %>
+<%= f.text_field "", :disabled => true, placeholder: "User is admin", class: "form-control", style: "background-color: white" %>
+<% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= f.submit :"Create user", class: "btn-outline-success btn btn-block btn-lg" %>
+<% end %>
+
 <% end %>

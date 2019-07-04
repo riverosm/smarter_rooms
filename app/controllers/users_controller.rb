@@ -28,9 +28,15 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        flash[:success] = "User was successfully created."
+        format.html { redirect_to @user }
         format.json { render :show, status: :created, location: @user }
       else
+        error_msgs = ""
+        @user.errors.full_messages.each do |msg|
+            error_msgs = "<li>#{msg}</li>"
+        end
+        flash[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -42,7 +48,8 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        flash[:warning] = "User was successfully updated."
+        format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -56,7 +63,8 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      flash[:warning] = "User was successfully destroyed."
+      format.html { redirect_to users_url }
       format.json { head :no_content }
     end
   end
@@ -65,7 +73,7 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       # MR - If the user is not admin only can see their profile
-      if @user.is_admin?
+      if current_user.is_admin?
         @user = User.find(params[:id])
       else
         @user = User.find(current_user.id)
@@ -75,7 +83,7 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       # MR - If the user is not admin can't assign the admin flag
-      if @user.is_admin?
+      if current_user.is_admin?
         params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation, :admin)
       else
         params.require(:user).permit(:name, :email, :phone, :role, :password, :password_confirmation)

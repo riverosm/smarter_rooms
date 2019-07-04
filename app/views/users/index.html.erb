@@ -23,19 +23,19 @@
         <td><%= user.phone %></td>
         <td>
           <% if user.is_admin? %>
-          <%= fa_icon "check 2x", class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is admin", "data-placement" => "right" %>
+          <%= icon('fas', 'check', class: "fa-2x text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is admin", "data-placement" => "right") %>
           <% else %>
-          <%= fa_icon "remove 2x", class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right" %>
+          <%= icon('fas', 'minus-circle', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right") %>
           <% end %>
         </td>
         <td>
           
           <%= link_to edit_user_path(user) do %>
-          <%= fa_icon "edit 2x", class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right" %>
+          <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right") %>
           <% end %>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
-          <%= fa_icon "remove 2x", class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right" %>
+          <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
           <% end %>
 
         </td>

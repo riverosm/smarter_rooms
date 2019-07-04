@@ -1,0 +1,17 @@
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', fa_icon, class: 'fa-fw') %>
+<% end %>
+<% end %>
+<%=
+case type
+  when "text"
+    form.text_field field, :required => required, placeholder: placeholder, class: "form-control"
+  when "email"
+    form.email_field field, :required => required, placeholder: placeholder, class: "form-control"
+  when "password"
+    form.password_field field, :required => required, placeholder: placeholder, class: "form-control"
+end
+%>
+<% end %>

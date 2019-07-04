@@ -10,18 +10,26 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item<%= ' active' if controller_name == 'static_pages' || controller_name == 'sessions' %>">
           <%= link_to '/', class: 'nav-link' do %>
-          <%= fa_icon "home", text: "Home", left: true %>
+          <%= icon('fas', 'home') %> Home
           <% end %>
         </li>
         <% if logged_in? %>
+        <% if current_user.is_admin? %>
         <li class="nav-item<%= ' active' if controller_name == 'users' %>">
-          <%= link_to current_user, class: 'nav-link' do %>
-          <%= fa_icon "user", text: "My Profile", left: true %>
+          <%= link_to users_path, class: 'nav-link' do %>
+          <%= icon('fas', 'users') %> Users
           <% end %>
         </li>
+        <% else %>
+        <li class="nav-item<%= ' active' if controller_name == 'users' %>">
+          <%= link_to current_user, class: 'nav-link' do %>
+          <%= icon('fas', 'user') %> My Profile
+          <% end %>
+        </li>
+        <% end %>
         <li class="nav-item">
           <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
-          <%= fa_icon "sign-out", text: "Logout", left: true %>
+          <%= icon('fas', 'sign-out-alt') %> Logout
           <% end %>
         </li>
         <% end %>
