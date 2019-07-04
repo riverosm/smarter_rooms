@@ -1,33 +1,42 @@
-<p id="notice"><%= notice %></p>
+<h1>Users</h1>
 
-<h1>Buildings</h1>
+<%= link_to 'Create new building', new_building_path, :class => "btn btn-outline-success btn-block btn-lg"%>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<br />
+<div class="table-responsive">
+  <table class="table table-striped text-center">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th colspan="3">Actions</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <% @buildings.each do |building| %>
+    <tbody>
+      <% @buildings.each do |building| %>
       <tr>
         <td><%= building.name %></td>
         <td><%= building.address %></td>
         <td><%= building.latitude %></td>
         <td><%= building.longitude %></td>
-        <td><%= link_to 'Show', building %></td>
-        <td><%= link_to 'Edit', edit_building_path(building) %></td>
-        <td><%= link_to 'Destroy', building, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to 'Show', building %>
+        </td>
+        <td>
+          <%= link_to edit_building_path(building) do %>
+          <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit building", "data-placement" => "right") %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to building, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
+          <% end %>
+        </td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Building', new_building_path %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
