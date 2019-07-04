@@ -1,4 +1,32 @@
 <header>
-  <nav>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <img src="/ibm_logo.png" style="width: 50px; border: solid 0px #000;" /> &nbsp;&nbsp;
+    <a class="navbar-brand" href="/">SmarterRooms</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item<%= ' active' if controller_name == 'static_pages' || controller_name == 'sessions' %>">
+          <%= link_to '/', class: 'nav-link' do %>
+          <%= fa_icon "home", text: "Home", left: true %>
+          <% end %>
+        </li>
+        <% if logged_in? %>
+        <li class="nav-item">
+          <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
+          <%= fa_icon "sign-out", text: "Logout", left: true %>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+      <% if logged_in? %>
+      <%= form_tag(root_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
+      <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room ...' %>
+      <%= button_tag 'Search', class: 'btn btn-success my-2 my-sm-0' %>
+      <% end %>
+      <% end %>
+    </div>
   </nav>
 </header>
