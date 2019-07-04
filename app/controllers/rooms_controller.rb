@@ -12,7 +12,7 @@ class RoomsController < ApplicationController
   # GET /rooms/1
   # GET /rooms/1.json
   def show
-    if !@room.active?
+    if (!@room.active? && !current_user.is_admin?)
       flash[:danger] = "You are not allowed to access this room."
       redirect_to rooms_url
     end
@@ -57,8 +57,12 @@ class RoomsController < ApplicationController
     respond_to do |format|
       if @room.update(room_params)
         flash[:success] = "Room was successfully updated."
-        format.html { redirect_to @room }
-        format.json { render :show, status: :ok, location: @room }
+        if (room_params.has_key?(:name))
+          format.html { redirect_to @room }
+          format.json { render :show, status: :ok, location: @room }
+        else
+          format.html { redirect_to rooms_path }
+        end
       else
         error_msgs = ""
         @room.errors.full_messages.each do |msg|
