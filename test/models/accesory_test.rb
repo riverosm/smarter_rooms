@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RoomAccesorieTest < ActiveSupport::TestCase
+class AccesoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

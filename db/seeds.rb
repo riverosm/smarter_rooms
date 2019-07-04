@@ -7,9 +7,9 @@ Building.find_or_create_by({name: "Martinez Módulo B", address: "Hipólito Yrig
   latitude: -34.5007196, longitude: -58.5282738})
 Building.find_or_create_by({name: "Catalinas", address: "Ing. Butty 275", latitude: -34.5961506 , longitude: -58.3733886})
 
-Accesorie.find_or_create_by({name: "Proyector"})
-Accesorie.find_or_create_by({name: "Pizarra"})
-Accesorie.find_or_create_by({name: "Videoconferencia"})
+Accesory.find_or_create_by({name: "Proyector"})
+Accesory.find_or_create_by({name: "Pizarra"})
+Accesory.find_or_create_by({name: "Videoconferencia"})
 
 martinez_ma = Building.find_by(name: "Martinez Módulo A")
 
