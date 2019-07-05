@@ -29,8 +29,8 @@ class Room < ApplicationRecord
     end_minutes = "20:00".split(":")[1].to_i
     step_in_minutes = 5
 
-    begin_time = Time.new(date.year, date.month, date.day, begin_hour, begin_minutes, 0)
-    end_time = Time.new(date.year, date.month, date.day, end_hour, end_minutes, 0)
+    begin_time = DateTime.new(date.year, date.month, date.day, begin_hour, begin_minutes, 0, "-03:00")
+    end_time = DateTime.new(date.year, date.month, date.day, end_hour, end_minutes, 0, "-03:00")
 
     until end_time < begin_time do
       # MR TODO - Get the available from database

@@ -6,7 +6,7 @@ module ApplicationHelper
     time_hour = time.split(":")[0].to_i
     time_minutes = time.split(":")[1].to_i
 
-    datetime = DateTime.new(date.year, date.month, date.day, time_hour, time_minutes, 0)
+    datetime = DateTime.new(date.year, date.month, date.day, time_hour, time_minutes, 0, "-03:00")
     if datetime.class != DateTime
       nil
     else
