@@ -1,2 +1,47 @@
-<h1>Bookings#new</h1>
-<p>Find me in app/views/bookings/new.html.erb</p>
+<div class="card">
+  <h5 class="card-header">You are booking the <b><%= @room.name %></b> room</h5>
+  <div class="card-body centered">
+    <table class="table">
+      <tr>
+        <th style="width: 180px;" class="align-middle">Location:</th>
+        <td>
+          <%= @room.building.name %>
+          <br />
+          <%= @room.building.address %>
+        </td>
+        <td rowspan="4">Aca va ir todo lo demás</td>
+      </tr>
+      <tr>
+        <th>Floor:</th>
+        <td><%= @room.floor %></td>
+      </tr>
+      <tr>
+        <th>Max capacity:</th>
+        <td><%= @room.max_capacity %></td>
+      </tr>
+      <tr class="border-bottom">
+        <th>Devices:</th>
+        <td>
+          <% @room.room_accesories.each do |ra| %>
+          - <%= ra.accesory.name + " x " + ra.quantity.to_s %><br />
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table table-borderless text-center">
+      <tr>
+        <td class="col-2">
+          <%= link_to "Back", rooms_path, class: "btn-outline-secondary btn btn-block btn-lg" %>
+        </td>
+        <td class="col-2">
+          <%= form_for @booking, url: {action: "create"} do |f| %>
+          <%= hidden_field_tag(:room_id, @room.id) %>
+          <%= f.submit "Book room", class: "btn-outline-success btn btn-block btn-lg" %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>

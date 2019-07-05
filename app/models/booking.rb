@@ -10,7 +10,7 @@ class Booking < ApplicationRecord
   scope :not_active, -> { where("? NOT BETWEEN valid_from AND valid_to", Time.now) }
 
   def not_currently_booked
-    errors.add(:rental, "You already have an active rental for this Movie") if currently_rented?
+    errors.add(:rental, "You already have an active rental for this Movie") if currently_booked?
   end
 
   def currently_booked?

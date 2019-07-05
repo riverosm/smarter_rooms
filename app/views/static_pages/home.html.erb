@@ -1,10 +1,8 @@
 <h1>Home</h1>
 
-<p>
-  <% if logged_in? %>
-  <%= link_to "Profile", current_user %>
-  <%= link_to "Log out", logout_path, method: :delete %>
-  <% else %>
-  <%= link_to "Log in", login_path %>
-  <% end %>
-</p>
+<% if logged_in? %>
+<%= link_to "Profile", current_user %>
+<%= link_to "Log out", logout_path, method: :delete %>
+<% else %>
+<%= link_to "Log in", login_path %>
+<% end %>
