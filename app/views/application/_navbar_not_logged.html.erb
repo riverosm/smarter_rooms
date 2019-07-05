@@ -1,5 +1,5 @@
 <ul class="navbar-nav mr-auto">
-  <li class="nav-item<%= ' active' if request.fullpath == '/login' %>">
+  <li class="nav-item<%= ' active' if request.fullpath == '/login' || request.fullpath == '/signup' %>">
     <%= link_to login_path, class: 'nav-link' do %>
     <%= icon('fas', 'sign-in-alt') %> Log in
     <% end %>
@@ -10,5 +10,3 @@
     <% end %>
   </li>
 </ul>
-
-Dale: <%= request.fullpath %>

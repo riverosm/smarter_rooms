@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       # MR - If the user is not admin can't assign the admin flag
-      if current_user.is_admin?
+      if logged_in? && current_user.is_admin?
         params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation, :admin)
       else
         params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation)

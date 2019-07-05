@@ -6,7 +6,7 @@
 <%= render partial: "form_label", locals: {required: true, field: :email,  fa_icon: 'at',
                                            placeholder: 'E-mail', type: 'email', form: f} %>
 
-<%= render partial: "form_label", locals: {required: true, field: :phone,  fa_icon: 'phone',
+<%= render partial: "form_label", locals: {required: false, field: :phone,  fa_icon: 'phone',
                                            placeholder: 'Phone', type: 'text', form: f} %>
 
 <% if action == "new" %>
@@ -17,7 +17,7 @@
                                            placeholder: 'Password confirmation', type: 'password', form: f} %>
 <% end %>
 
-<% if current_user.is_admin? %>
+<% if logged_in? && current_user.is_admin? %>
   <%= content_tag :div, class: "input-group mb-3 row" do %>
   <%= content_tag :div, class: "input-group-prepend" do %>
   <%= content_tag :span, class: "input-group-text" do %>
@@ -30,7 +30,7 @@
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <% if action == "new" %>
-  <%= f.submit :"Create user", class: "btn-outline-success btn btn-block btn-lg" %>
+  <%= f.submit :"Create user", class: "btn-outline-primary btn btn-block btn-lg" %>
 <% else %>
   <%= f.submit :"Change user", class: "btn-outline-warning btn btn-block btn-lg" %>
 <% end %>
