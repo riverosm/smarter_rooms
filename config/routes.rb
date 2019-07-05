@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :bookings, only: [:index, :show, :new, :create]
+
   resources :rooms
   resources :buildings
   resources :users

@@ -59,7 +59,7 @@
       </td>
       <% else %>
       <td colspan="4">
-        MR TODO Acá reserva sala
+          <%= link_to 'Book', new_booking_path(room_id: room.id), class: 'btn btn-sm btn-danger' %>
       </td>
       <% end %>
     </tr>

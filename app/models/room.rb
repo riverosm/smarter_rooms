@@ -5,4 +5,7 @@ class Room < ApplicationRecord
 
   scope :active, -> {where("active = 1")}
 
+  has_many :bookings
+  has_many :users, through: :bookings
+
 end

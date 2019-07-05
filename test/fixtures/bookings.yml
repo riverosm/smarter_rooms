@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  valid_from: 2019-07-04 21:44:01
+  valid_to: 2019-07-04 21:44:01
+  number_of_attendants: 1
+  user: one
+  room: one
+
+two:
+  valid_from: 2019-07-04 21:44:01
+  valid_to: 2019-07-04 21:44:01
+  number_of_attendants: 1
+  user: two
+  room: two

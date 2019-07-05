@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_04_204852) do
+ActiveRecord::Schema.define(version: 2019_07_05_004401) do
 
   create_table "accesories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_accesories_on_name", unique: true
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.datetime "valid_from"
+    t.datetime "valid_to"
+    t.integer "number_of_attendants"
+    t.integer "user_id"
+    t.integer "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_bookings_on_room_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "buildings", force: :cascade do |t|

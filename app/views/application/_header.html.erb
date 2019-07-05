@@ -29,12 +29,22 @@
           <%= icon('fas', 'door-open') %> Rooms
           <% end %>
         </li>
+        <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
+          <%= link_to bookings_path, class: 'nav-link' do %>
+          <%= icon('fas', 'book-open') %> Bookings
+          <% end %>
+        </li>
         <% end %>
 
         <% if (logged_in? && !current_user.is_admin?) %>
         <li class="nav-item<%= ' active' if controller_name == 'users' %>">
           <%= link_to current_user, class: 'nav-link' do %>
           <%= icon('fas', 'user') %> My Profile
+          <% end %>
+        </li>
+        <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
+          <%= link_to bookings_path, class: 'nav-link' do %>
+          <%= icon('fas', 'book-open') %> My Bookings
           <% end %>
         </li>
         <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">

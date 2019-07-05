@@ -6,6 +6,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 8 }
   has_secure_password
 
+  has_many :bookings
+  has_many :rooms, through: :bookings
+
   def is_admin?
     self.admin
   end
