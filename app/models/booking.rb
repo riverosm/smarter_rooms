@@ -20,7 +20,10 @@ class Booking < ApplicationRecord
     end
 
     def room_is_booked?
-      room.bookings.where("(valid_from >= ? and valid_from < ?) or (valid_to >= ? and valid_to < ?)", valid_from, valid_to, valid_from, valid_to).count > 0
+      room.bookings.where("? BETWEEN valid_from AND valid_to", valid_from + 1.second).count > 0 || 
+      room.bookings.where("? BETWEEN valid_from AND valid_to", valid_to - 1.second).count > 0 ||
+      room.bookings.where(valid_from: valid_from + 1.second..valid_to - 1.second).count > 0 || 
+      room.bookings.where(valid_to: valid_from + 1.second..valid_to - 1.second).count > 0
     end
 
 
