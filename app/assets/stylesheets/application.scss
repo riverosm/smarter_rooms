@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  */
+$primary: #1C71C1;
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -46,7 +47,7 @@ H1 {
 }
 
 .active {
-	background-color: #4CAF50;
+	background-color: #1C71C1;
   color: white;
   border-radius:8px;
 }
