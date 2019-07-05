@@ -11,7 +11,7 @@ class BookingsController < ApplicationController
     @booking = generate_new_booking
     @buildings = Building.all.sort_by{|b| b.name}
     one_time = Hash.new
-    @times_from = @room.get_available_times DateTime.now
+    @times_from = @room.get_available_times
     @times_to = @times_from
   end
 

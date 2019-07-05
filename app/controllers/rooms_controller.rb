@@ -28,6 +28,11 @@ class RoomsController < ApplicationController
     if (!@room.active? && !current_user.is_admin?)
       flash[:danger] = "You are not allowed to access this room."
       redirect_to rooms_url
+    else
+      respond_to do |format|
+        format.html { render :show }
+        format.json { render :show, status: :created, location: @room }
+      end
     end
   end
 

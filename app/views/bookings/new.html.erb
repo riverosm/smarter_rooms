@@ -30,7 +30,7 @@
           <%= select_tag "booking[valid_from]", 
               options_for_select(@times_from.map { |time| [time[:value], time[:id]] }, 
               disabled: @times_from.select {|time| time[:disabled]}.map {|time| time[:id]}), 
-              {:include_blank => "From time", class: 'form-control', required: true} %>
+              {:include_blank => "From time ...", class: 'form-control', required: true} %>
           <% end %>
 
 
@@ -43,7 +43,7 @@
           <%= select_tag "booking[valid_to]", 
               options_for_select(@times_to.map { |time| [time[:value], time[:id]] }, 
               disabled: @times_to.select {|time| time[:disabled]}.map {|time| time[:id]}), 
-              {:include_blank => "To time", class: 'form-control', required: true} %>
+              {:include_blank => "Choose a from time ...", class: 'form-control', required: true, disabled: true} %>
           <% end %>
 
           <%= render partial: "form_label", locals: {required: true, field: :number_of_attendants,  fa_icon: 'users',
@@ -83,33 +83,41 @@
   </div>
 </div>
 
-<select id="locality-dropdown" name="locality">
-</select>
-
 <script>
+  function fillOptions(url, select_id, text) {
+    let dropdown = $('#' + select_id);
+
+    dropdown.empty();
+
+    dropdown.append('<option selected="true" disabled>' + text + '</option>');
+    dropdown.prop('selectedIndex', 0);
+
+    $.getJSON(url, function (data) {
+      $.each(data, function (key, entry) {
+        if (entry.disabled) {
+          dropdown.append($('<option disabled="disabled></option>').attr('value', entry.value.substr(0, 2) + entry.value.substr(3,4)).text(entry.value));
+        } else {
+          dropdown.append($('<option></option>').attr('value', entry.value.substr(0, 2) + entry.value.substr(3,4)).text(entry.value));
+        }
+      })
+    });
+  }
+
   $(document).ready(function () {
     $('select#booking_valid_from').change(
       function () {
-        // javascript
-        console.log("Changed from select" + this.value);
+        fillOptions('/rooms/<%= @room.id %>.json?date=' + $('#booking_id').val() + '&from_time=' + $('#booking_valid_from option:selected').text(), "booking_valid_to", "To time ...");
+        $("#booking_valid_to").prop("disabled", false);
       }
     )
   });
 
-  let dropdown = $('#locality-dropdown');
-
-  dropdown.empty();
-
-  dropdown.append('<option selected="true" disabled>Choose State/Province</option>');
-  dropdown.prop('selectedIndex', 0);
-
-  const url = '/test.json';
-
-  // Populate dropdown with list of provinces
-  $.getJSON(url, function (data) {
-    $.each(data, function (key, entry) {
-      dropdown.append($('<option></option>').attr('value', entry.abbreviation).text(entry.name));
-    })
+  $(document).ready(function () {
+    $('input#booking_id').change(
+      function () {
+        fillOptions('/rooms/<%= @room.id %>.json?date=' + this.value, "booking_valid_from", "From time ...");
+      }
+    )
   });
 
 </script>

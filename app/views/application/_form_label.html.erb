@@ -8,9 +8,6 @@
 if !local_variables.include?(:max)
   max = 1000
 end
-if !local_variables.include?(:min)
-  min = 1
-end
 case type
   when "text"
     form.text_field field, :required => required, placeholder: placeholder, class: "form-control"
@@ -19,7 +16,7 @@ case type
   when "password"
     form.password_field field, :required => required, placeholder: placeholder, class: "form-control"
   when "number"
-    form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: :any, min: min, max: max
+    form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: :any, min: 1, max: max
 end
 %>
 <% end %>
