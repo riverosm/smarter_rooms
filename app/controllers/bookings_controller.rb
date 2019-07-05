@@ -16,24 +16,19 @@ class BookingsController < ApplicationController
   end
 
   def create
-    if @room_booked
-      flash[:danger] = "You already have an active book for #{@room.name}"
+    @booking = Booking.new
+    @booking.valid_from = date_time_string_to_datetime(booking_params[:valid_from_date], booking_params[:valid_from_time])
+    @booking.valid_to = date_time_string_to_datetime(booking_params[:valid_from_date], booking_params[:valid_to_time])
+    @booking.number_of_attendants = booking_params[:number_of_attendants]
+    @booking.room = @room
+    @booking.user = current_user
+
+    if @booking.save
+      flash[:success] = "You have successfully booked #{@room.name}"
       redirect_to rooms_path
     else
-      @booking = Booking.new
-      @booking.valid_from = booking_params[:valid_from_date]
-      @booking.valid_to = 2.days.from_now.to_date
-      @booking.number_of_attendants = booking_params[:number_of_attendants]
-      @booking.room = @room
-      @booking.user = current_user
-
-      if @booking.save
-        flash[:success] = "You have successfully booked #{@room.name}"
-        redirect_to rooms_path
-      else
-        flash[:danger] = "There was an error perfmorming the operation. #{@booking.errors.first.last}"
-        redirect_to rooms_path
-      end
+      flash[:danger] = "There was errors perfmorming the operation: <br> #{@booking.errors.first.last}"
+      redirect_to new_booking_path(room_id: @room.id)
     end
   end
 
@@ -44,8 +39,6 @@ class BookingsController < ApplicationController
       flash[:danger] = "You are not allowed to access this room."
       redirect_to rooms_url
     end
-
-    @room_booked = current_user.bookings.active.any?{|br| br.room == @room}
   end
 
   def generate_new_booking
@@ -56,6 +49,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:valid_from_date, :valid_from, :valid_to, :number_of_attendants, :room_id)
+    params.require(:booking).permit(:valid_from_date, :valid_from_time, :valid_to_time, :number_of_attendants, :room_id)
   end
 end

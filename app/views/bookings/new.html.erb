@@ -1,3 +1,4 @@
+<br />
 <div class="card">
   <h5 class="card-header">You are booking the <b><%= @room.name %></b> room</h5>
   <div class="card-body centered">
@@ -27,9 +28,9 @@
           <%= icon('fas', 'city', class: 'fa-door-open') %>
           <% end %>
           <% end %>
-          <%= select_tag "booking[valid_from]", 
-              options_for_select(@times_from.map { |time| [time[:value], time[:id]] }, 
-              disabled: @times_from.select {|time| time[:disabled]}.map {|time| time[:id]}), 
+          <%= select_tag "booking[valid_from_time]", 
+              options_for_select(@times_from.map { |time| [time[:value], time[:value]] }, 
+              disabled: @times_from.select {|time| time[:disabled]}.map {|time| time[:value]}), 
               {:include_blank => "From time ...", class: 'form-control', required: true} %>
           <% end %>
 
@@ -40,9 +41,9 @@
           <%= icon('fas', 'city', class: 'fa-door-closed') %>
           <% end %>
           <% end %>
-          <%= select_tag "booking[valid_to]", 
-              options_for_select(@times_to.map { |time| [time[:value], time[:id]] }, 
-              disabled: @times_to.select {|time| time[:disabled]}.map {|time| time[:id]}), 
+          <%= select_tag "booking[valid_to_time]", 
+              options_for_select(@times_to.map { |time| [time[:value], time[:value]] }, 
+              disabled: @times_to.select {|time| time[:disabled]}.map {|time| time[:value]}), 
               {:include_blank => "Choose a from time ...", class: 'form-control', required: true, disabled: true} %>
           <% end %>
 
@@ -95,19 +96,19 @@
     $.getJSON(url, function (data) {
       $.each(data, function (key, entry) {
         if (entry.disabled) {
-          dropdown.append($('<option disabled="disabled></option>').attr('value', entry.value.substr(0, 2) + entry.value.substr(3,4)).text(entry.value));
+          dropdown.append($('<option disabled="disabled></option>').attr('value', entry.value).text(entry.value));
         } else {
-          dropdown.append($('<option></option>').attr('value', entry.value.substr(0, 2) + entry.value.substr(3,4)).text(entry.value));
+          dropdown.append($('<option></option>').attr('value', entry.value).text(entry.value));
         }
       })
     });
   }
 
   $(document).ready(function () {
-    $('select#booking_valid_from').change(
+    $('select#booking_valid_from_time').change(
       function () {
-        fillOptions('/rooms/<%= @room.id %>.json?date=' + $('#booking_id').val() + '&from_time=' + $('#booking_valid_from option:selected').text(), "booking_valid_to", "To time ...");
-        $("#booking_valid_to").prop("disabled", false);
+        fillOptions('/rooms/<%= @room.id %>.json?date=' + $('#booking_id').val() + '&from_time=' + $('#booking_valid_from_time option:selected').text(), "booking_valid_to_time", "To time ...");
+        $("#booking_valid_to_time").prop("disabled", false);
       }
     )
   });
@@ -115,7 +116,7 @@
   $(document).ready(function () {
     $('input#booking_id').change(
       function () {
-        fillOptions('/rooms/<%= @room.id %>.json?date=' + this.value, "booking_valid_from", "From time ...");
+        fillOptions('/rooms/<%= @room.id %>.json?date=' + this.value, "booking_valid_from_time", "From time ...");
       }
     )
   });
