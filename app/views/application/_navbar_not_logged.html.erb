@@ -1,0 +1,14 @@
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item<%= ' active' if request.fullpath == '/login' %>">
+    <%= link_to login_path, class: 'nav-link' do %>
+    <%= icon('fas', 'sign-in-alt') %> Log in
+    <% end %>
+  </li>
+  <li class="nav-item<%= ' active' if request.fullpath == '/about' %>">
+    <%= link_to about_path, class: 'nav-link' do %>
+    <%= icon('fas', 'envelope') %> About
+    <% end %>
+  </li>
+</ul>
+
+Dale: <%= request.fullpath %>

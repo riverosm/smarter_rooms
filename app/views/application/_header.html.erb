@@ -1,73 +1,21 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <img src="/ibm_logo.png" style="width: 50px; border: solid 0px #000;" /> &nbsp;&nbsp;
+    <img src="/ibm_logo.png" style="width: 50px; border: solid 0px #000;" />&nbsp;&nbsp;&nbsp;&nbsp;
     <a class="navbar-brand" href="/">SmarterRooms</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item<%= ' active' if controller_name == 'static_pages' || controller_name == 'sessions' %>">
-          <%= link_to '/', class: 'nav-link' do %>
-          <%= icon('fas', 'home') %> Home
-          <% end %>
-        </li>
-        <% if (logged_in? && current_user.is_admin?) %>
-        <li class="nav-item<%= ' active' if controller_name == 'users' %>">
-          <%= link_to users_path, class: 'nav-link' do %>
-          <%= icon('fas', 'users') %> Users
-          <% end %>
-        </li>
-        <li class="nav-item<%= ' active' if controller_name == 'buildings' %>">
-          <%= link_to buildings_path, class: 'nav-link' do %>
-          <%= icon('fas', 'building') %> Buildings
-          <% end %>
-        </li>
-        <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">
-          <%= link_to rooms_path, class: 'nav-link' do %>
-          <%= icon('fas', 'door-open') %> Rooms
-          <% end %>
-        </li>
-        <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
-          <%= link_to bookings_path, class: 'nav-link' do %>
-          <%= icon('fas', 'book-open') %> Bookings
-          <% end %>
-        </li>
+        <% if !logged_in? %>
+        <%= render partial: "navbar_not_logged" %>
+        <% else %>
+        <% if current_user.is_admin? %>
+        <%= render partial: "navbar_admin_logged" %>
+        <% else %>
+        <%= render partial: "navbar_user_logged" %>
         <% end %>
-
-        <% if (logged_in? && !current_user.is_admin?) %>
-        <li class="nav-item<%= ' active' if controller_name == 'users' %>">
-          <%= link_to current_user, class: 'nav-link' do %>
-          <%= icon('fas', 'user') %> My Profile
-          <% end %>
-        </li>
-        <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
-          <%= link_to bookings_path, class: 'nav-link' do %>
-          <%= icon('fas', 'book-open') %> My Bookings
-          <% end %>
-        </li>
-        <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">
-          <%= link_to rooms_path, class: 'nav-link' do %>
-          <%= icon('fas', 'door-open') %> Rooms
-          <% end %>
-        </li>
         <% end %>
-
-        <% if logged_in? %>
-        <li class="nav-item">
-          <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
-          <%= icon('fas', 'sign-out-alt') %> Logout
-          <% end %>
-        </li>
-        <% end %>
-      </ul>
-      <% if logged_in? %>
-      <%= form_tag(rooms_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
-      <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
-      <%= button_tag 'Search', class: 'btn btn-success my-2 my-sm-0' %>
-      <% end %>
-      <% end %>
     </div>
   </nav>
 </header>

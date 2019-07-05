@@ -1,19 +1,17 @@
-<h1>Log in</h1>
-<%= form_with scope: :session, url: login_path do |f|%>
+<br />
 
-<div class="input-group input-group mb-3 row">
-  <%= f.label :email, class: "col-6 input-group-prepend input-group-text" %>
-  <%= f.email_field :email, :required => true, class: "col form-control" %>
-</div>
+<%= form_with scope: :session, url: login_path, class: "forms" do |f|%>
 
-<div class="input-group input-group mb-3 row">
-  <%= f.label :password, class: "col-6 input-group-prepend input-group-text" %>
-  <%= f.password_field :password, :required => true, class: "col form-control" %>
-</div>
+<%= render partial: "form_label", locals: {required: true, field: :email,  fa_icon: 'at',
+                                           placeholder: 'E-mail', type: 'email', form: f} %>
 
-<div class="input-group input-group mb-3 row">
-  <%= f.submit :"Log in", class: "btn-outline-success btn btn-block btn-lg" %>
-</div>
+<%= render partial: "form_label", locals: {required: true, field: :password,  fa_icon: 'key',
+                                           placeholder: 'Password', type: 'password', form: f} %>
+
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= f.submit :"Log in", class: "btn-outline-success btn btn-block btn-lg" %>
 <% end %>
 
 <p>New user? <%= link_to 'Sign up now', signup_path %></p>
+
+<% end %>

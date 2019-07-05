@@ -1,0 +1,31 @@
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item<%= ' active' if controller_name == 'static_pages' || controller_name == 'sessions' %>">
+    <%= link_to '/', class: 'nav-link' do %>
+    <%= icon('fas', 'home') %> Home
+    <% end %>
+  </li>
+  <li class="nav-item<%= ' active' if controller_name == 'users' %>">
+    <%= link_to current_user, class: 'nav-link' do %>
+    <%= icon('fas', 'user') %> My Profile
+    <% end %>
+  </li>
+  <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
+    <%= link_to bookings_path, class: 'nav-link' do %>
+    <%= icon('fas', 'book-open') %> My Bookings
+    <% end %>
+  </li>
+  <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">
+    <%= link_to rooms_path, class: 'nav-link' do %>
+    <%= icon('fas', 'door-open') %> Rooms
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
+    <%= icon('fas', 'sign-out-alt') %> Logout
+    <% end %>
+  </li>
+</ul>
+<%= form_tag(rooms_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
+<%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
+<%= button_tag 'Search', class: 'btn btn-success my-2 my-sm-0' %>
+<% end %>
