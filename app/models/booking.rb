@@ -9,10 +9,15 @@ class Booking < ApplicationRecord
   validate :room_not_currently_booked
   validate :valid_from_greater_valid_to
   validate :exceed_capacity
+  validate :not_in_the_past
 
   private
     def valid_from_greater_valid_to
       errors.add(:booking, "To time must be greater than the from time.") if valid_to <= valid_from
+    end
+
+    def not_in_the_past
+      errors.add(:booking, "You can't make bookings in the past.") if valid_to < DateTime.now || valid_from < DateTime.now
     end
     
     def room_not_currently_booked
