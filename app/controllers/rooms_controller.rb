@@ -46,6 +46,7 @@ class RoomsController < ApplicationController
   # POST /rooms.json
   def create
     @room = Room.new(room_params)
+    @buildings = Building.all.sort_by{|b| b.name}
 
     respond_to do |format|
       if @room.save

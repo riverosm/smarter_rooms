@@ -1,4 +1,7 @@
 class Room < ApplicationRecord
+  validates :name, presence: true, length: { maximum: 90 }
+  validates :code, presence: true, uniqueness: true
+
   belongs_to :building
   has_many :room_accesories
   has_many :accesories, through: :room_accesories

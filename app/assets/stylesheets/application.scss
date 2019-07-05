@@ -175,3 +175,10 @@ H1 {
   border-color: #ca452e;
   background: #da4932;
 }
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+  width: 92%;
+}
