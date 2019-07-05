@@ -17,7 +17,20 @@
   <div class="container-fluid">
 
     <% flash.each do |message_type, message| %>
-    <%= content_tag :div, sanitize(message), class: "alert alert-#{message_type} rounded" %>
+    <%= content_tag :div, class: "alert alert-#{message_type} alert-white rounded" do %>
+    <%= content_tag :div, class: "icon" do %>
+    <% if message_type == "danger" %>
+    <%= icon('fas', 'times-circle') %>
+    <% elsif message_type == "success" %>
+    <%= icon('fas', 'check-circle') %>
+    <% elsif message_type == "info" %>
+    <%= icon('fas', 'info-circle') %>
+    <% else %>
+    <%= icon('fas', 'exclamation-circle') %>
+    <% end %>
+    <% end %>
+    <%= sanitize(message) %>
+    <% end %>
     <% end %>
 
     <%= yield %>
