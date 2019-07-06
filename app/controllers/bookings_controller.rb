@@ -2,6 +2,8 @@ class BookingsController < ApplicationController
   before_action :set_room, only: [:new, :create]
 
   def index
+    @bookings_today = Booking.where(valid_to: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
+    @bookings_lasts = Booking.where(created_at: DateTime.now.beginning_of_day..DateTime.now.end_of_day).order("created_at DESC")
   end
 
   def show

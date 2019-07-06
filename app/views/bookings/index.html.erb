@@ -1,3 +1,45 @@
+<br />
+<% if current_user.is_admin? %>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Today's bookings</h5>
+      <div class="card-body centered">
+        <% @bookings_today.each do |b| %>
+        <b><%= b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
+        <br />
+        <%= b.user.name %> <br /> <br />
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+      <div class="card">
+        <h5 class="card-header">Last bookings</h5>
+        <div class="card-body centered">
+            <% @bookings_lasts.each do |b| %>
+            <b><%= b.created_at.to_s + " " + b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
+            <br />
+            <%= b.user.name %> <br /> <br />
+            <% end %>
+        </div>
+      </div>
+    </div>
+  <div class="col">
+      <div class="card">
+        <h5 class="card-header">All bookings</h5>
+        <div class="card-body centered">
+          By Room <br />
+          By Site <br />
+          By Date <br />
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<% else %>
+
 <h1>Bookings#index</h1>
 <p>Find me in app/views/bookings/index.html.erb</p>
 
@@ -7,4 +49,6 @@
 <%= b.valid_to %> <br />
 <%= b.number_of_attendants %> <br />
 <%= b.room.name %> <br /> <br /> <br />
+<% end %>
+
 <% end %>
