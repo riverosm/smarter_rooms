@@ -49,3 +49,28 @@ Room.find_or_create_by({name: "Tilcara", floor: 2, code: "A217", max_capacity: 8
 Room.all.each do |r|
   RoomAccesory.find_or_create_by(quantity: rand(1..2), room: r, accesory_id: rand(1..Accesory.count) )
 end
+
+# Remove this lines before production
+
+User.create({name: 'User 1', email: 'user_1@ar.ibm.com', phone: '5286-1111',
+  password: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], password_confirmation: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], admin: false})
+
+User.create({name: 'User 2', email: 'user_2@ar.ibm.com', phone: '5286-2222',
+  password: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], password_confirmation: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], admin: false})
+
+User.create({name: 'User 3', email: 'user_3@ar.ibm.com', phone: '5286-3333',
+  password: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], password_confirmation: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], admin: false})
+
+User.create({name: 'User 4', email: 'user_4@ar.ibm.com', phone: '5286-4444',
+  password: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], password_confirmation: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], admin: false})
+
+User.create({name: 'User 5', email: 'user_5@ar.ibm.com', phone: '5286-5555',
+  password: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], password_confirmation: ENV["SMARTER_ROOMS_DEFAULT_PASSWORD"], admin: false})
+
+# Adding random bookings to rooms
+Room.all.each do |r|
+  valid_from = rand(Date.civil(2019, 7, 3)..Date.civil(2019, 7, 10))
+  random_hours = rand(9..17)
+  random_hours_b = rand(1..2)
+  Booking.create(number_of_attendants: rand(1..3), room: r, user_id: rand(2..User.count), valid_from: valid_from + random_hours.hours, valid_to: valid_from + random_hours.hours + random_hours_b.hours)
+end
