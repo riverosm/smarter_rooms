@@ -6,20 +6,22 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    if (params["search_name"] != nil && params["search_name"] != "")
-      room_name = params["search_name"]
-      if @current_user.is_admin?
-        @rooms = Room.where("name like ?", "%#{room_name}%")
-      else
-        @rooms = Room.active.where("name like ?", "%#{room_name}%")
-      end
+    @title = "Rooms"
+    if @current_user.is_admin?
+      @rooms = Room.all
     else
-      if @current_user.is_admin?
-        @rooms = Room.all
-      else
-        @rooms = Room.active
-      end
+      @rooms = Room.active
     end
+
+    if (params["search_name"] != nil && params["search_name"] != "")
+      @title = "Rooms search results"
+      @rooms = @rooms.where("name like ?", "%#{params["search_name"]}%")
+    elsif (params["building"] != nil && params["building"] != "")
+      building = Building.find(params[:building])
+      @rooms = @rooms.where(building: building)
+      @title = building.name + " rooms"
+    end
+
     @rooms = @rooms.order(:name).page params[:pagina]
   end
 

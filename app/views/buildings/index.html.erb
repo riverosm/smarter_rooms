@@ -1,44 +1,98 @@
-<h1>Buildings</h1>
-
-<%= link_to 'Create new building', new_building_path, :class => "btn btn-outline-success btn-block btn-lg"%>
-
-<br />
-<div class="table-responsive">
-  <table class="table table-striped text-center">
-    <thead class="thead-dark">
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th colspan="3">Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @buildings.each do |building| %>
-      <tr>
-        <td><%= building.name %></td>
-        <td><%= building.address %></td>
-        <td><%= building.latitude %></td>
-        <td><%= building.longitude %></td>
-        <td>
-          <%= link_to building do %>
-          <%= icon('fas', 'eye', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "right") %>
+<% i = 0 %>
+<% @buildings.each do |building| 
+building_image = "ibm_logo.png"
+path = Rails.root.join("public/sites/#{building.id}.jpg")
+if File.exists?(path)
+  building_image = "sites/#{building.id}.jpg"
+end
+if (i % 4) == 0 %>
+<div class="row justify-content-md-center text-center">
+  <% end %>
+  <div class="col-sm-3">
+    <div class="card">
+      <h5 class="card-header"><b><%= building.name %></b></h5>
+      <div class="card-body centered">
+        <table class="text-center w-100 table-borderedless">
+          <tr>
+            <td colspan="5"><%= building.address %></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <div style="width: 100%; height: 200px;">
+                <img src="<%= building_image %>" style="width: 95%; margin-top: 35px;" />
+              </div>
+            </td>
+          </tr>
+          <% if current_user.is_admin? %>
+          <tr>
+            <td colspan="5"><%= building.latitude %></td>
+          </tr>
+          <tr>
+            <td colspan="5"><%= building.longitude %></td>
+          </tr>
+          <tr>
+            <td>
+              <%= link_to rooms_path(:building => building.id) do %>
+              <%= icon('fas', 'door-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "top") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to building do %>
+              <%= icon('fas', 'eye', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "top") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_building_path(building) do %>
+              <%= icon('fas', 'edit', class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit building", "data-placement" => "top") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to building, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= icon('fas', 'trash-alt', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete building", "data-placement" => "top") %>
+              <% end %>
+            </td>
+          </tr>
+          <% else %>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td>
+              <%= link_to rooms_path(:building => building.id) do %>
+              <%= icon('fas', 'search', class: "fa-3x text-primary", "data-toggle" => "tooltip", "data-original-title" => "Find rooms (" + building.rooms.size.to_s + ")", "data-placement" => "top") %>
+              <% end %>
+            </td>
+          </tr>
           <% end %>
-        </td>
-        <td>
-          <%= link_to edit_building_path(building) do %>
-          <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit building", "data-placement" => "right") %>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to building, method: :delete, data: { confirm: 'Are you sure?' } do %>
-          <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <% i = i + 1 %>
+  <%if (i % 4) == 0 || i == @buildings.size %>
 </div>
+<% end %>
+<% end %>
+
+<% if current_user.is_admin? %>
+
+<div class="row mt-4 justify-content-md-center text-center">
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Back', root_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+  </div>
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Create new building', new_building_path, :class => "btn btn-outline-success btn-block btn-lg"%>
+  </div>
+</div>
+
+<% else %>
+
+<div class="row mt-4 justify-content-md-center text-center">
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Back', root_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+  </div>
+  <div class="col-sm-3 m-1">
+    <%= link_to 'View all rooms', rooms_path, :class => "btn btn-outline-primary btn-block btn-lg"%>
+  </div>
+</div>
+
+<% end %>
