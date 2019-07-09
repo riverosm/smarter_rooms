@@ -1,27 +1,36 @@
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @user.phone %>
-</p>
-
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
-
-<p>
-  <strong>Admin:</strong>
-  <%= @user.admin %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="row justify-content-sm-center">
+  <div class="col-sm-4">
+    <div class="card">
+      <h5 class="card-header"><%= @user.name %> profile</h5>
+      <div class="card-body centered">
+        <table class="table table-borderless">
+          <tr>
+            <th>E-mail:</th>
+            <td><%= @user.email %></td>
+          </tr>
+          <tr>
+            <th>Phone:</th>
+            <td><%= @user.phone %></td>
+          </tr>
+          <% if current_user.is_admin? %>
+          <tr>
+            <th>Is admin:</th>
+            <td>
+              <% if @user.is_admin? %>
+              <%= icon('fas', 'check', class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is admin", "data-placement" => "right") %>
+              <% else %>
+              <%= icon('fas', 'minus-circle', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right") %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+          <tr>
+            <td colspan="2">
+              <%= link_to 'Edit', edit_user_path(@user), :class => "btn btn-outline-primary btn-block btn-lg"%>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
