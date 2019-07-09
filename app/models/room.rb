@@ -7,6 +7,7 @@ class Room < ApplicationRecord
   has_many :accesories, through: :room_accesories
 
   scope :active, -> {where("active = 1")}
+  scope :inactive, -> {where("active = 0")}
 
   has_many :bookings
   has_many :users, through: :bookings
