@@ -9,17 +9,18 @@ class RoomsController < ApplicationController
     if (params["search_name"] != nil && params["search_name"] != "")
       room_name = params["search_name"]
       if @current_user.is_admin?
-        @rooms = Room.where("name like ?", "%#{room_name}%").order(:name).page params[:pagina]
+        @rooms = Room.where("name like ?", "%#{room_name}%")
       else
-        @rooms = Room.active.where("name like ?", "%#{room_name}%").order(:name).page params[:pagina]
+        @rooms = Room.active.where("name like ?", "%#{room_name}%")
       end
     else
       if @current_user.is_admin?
-        @rooms = Room.all.order(:name).page params[:pagina]
+        @rooms = Room.all
       else
-        @rooms = Room.active.order(:name).page params[:pagina]
+        @rooms = Room.active
       end
     end
+    @rooms = @rooms.order(:name).page params[:pagina]
   end
 
   # GET /rooms/1
