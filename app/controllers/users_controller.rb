@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        flash[:success] = "User was successfully created."
+        flash.now[:success] = "User was successfully created."
         format.html { redirect_to @user }
         format.json { render :show, status: :created, location: @user }
       else
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
         @user.errors.full_messages.each do |msg|
             error_msgs = "<li>#{msg}</li>"
         end
-        flash[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
+        flash.now[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        flash[:warning] = "User was successfully updated."
+        flash.now[:warning] = "User was successfully updated."
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         @user.errors.full_messages.each do |msg|
             error_msgs = "<li>#{msg}</li>"
         end
-        flash[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
+        flash.now[:danger] = "There was #{@user.errors.count.to_s} error(s): <br /> <ul>#{error_msgs}</ul>"
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      flash[:warning] = "User was successfully destroyed."
+      flash.now[:warning] = "User was successfully destroyed."
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end

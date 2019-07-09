@@ -26,10 +26,10 @@ class BookingsController < ApplicationController
     @booking.user = current_user
 
     if @booking.save
-      flash[:success] = "You have successfully booked #{@room.name}"
+      flash.now[:success] = "You have successfully booked #{@room.name}"
       redirect_to rooms_path
     else
-      flash[:danger] = "There was errors perfmorming the operation: <br> #{@booking.errors.first.last}"
+      flash.now[:danger] = "There was errors perfmorming the operation: <br> #{@booking.errors.first.last}"
       redirect_to new_booking_path(room_id: @room.id)
     end
   end
@@ -38,7 +38,7 @@ class BookingsController < ApplicationController
   def set_room
     @room = Room.where("active = 1 AND id = ?",params[:room_id]).first
     if @room.nil?
-      flash[:danger] = "You are not allowed to access this room."
+      flash.now[:danger] = "You are not allowed to access this room."
       redirect_to rooms_url
     end
   end
