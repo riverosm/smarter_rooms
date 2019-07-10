@@ -12,6 +12,21 @@ class Room < ApplicationRecord
   has_many :bookings
   has_many :users, through: :bookings
 
+  def get_estimated_occupants
+    # get_estimated_occupants returns:
+    #   nil -> room was not found by code
+    #   0 -> room is free
+    #   # -> estimated occupants
+
+    room_api_full_url = Rails.configuration.smarter_rooms_rooms_api_url + Rails.configuration.smarter_rooms_rooms_api_path + code
+    @response = Faraday.get room_api_full_url
+    if (@response.status != 200)
+      nil
+    else
+      JSON.parse(@response.body)["estimated_occupants"]
+    end
+  end
+
   def get_available_times (date = DateTime.now, from_time = "08:00")
     if date.class == String
       date = Date.parse date
