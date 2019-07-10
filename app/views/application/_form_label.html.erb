@@ -14,7 +14,7 @@ case type
   when "email"
     form.email_field field, :required => required, placeholder: placeholder, class: "form-control"
   when "password"
-    form.password_field field, :required => required, placeholder: placeholder, class: "form-control"
+    form.password_field field, :required => required, placeholder: placeholder, class: "form-control", minlength: 8
   when "number"
     form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: :any, min: 1, max: max
 end
