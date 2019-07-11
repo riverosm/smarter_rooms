@@ -11,6 +11,8 @@ class Booking < ApplicationRecord
   validate :exceed_capacity
   validate :not_in_the_past
 
+  scope :last_30_days, -> {where('created_at > ?', 30.days.ago)}
+
   private
     def valid_from_greater_valid_to
       errors.add(:booking, "To time must be greater than the from time.") if valid_to <= valid_from
