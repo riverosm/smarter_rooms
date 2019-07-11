@@ -19,3 +19,5 @@
 //= require bootstrap
 //= require moment 
 //= require fullcalendar
+//= require chartkick
+//= require Chart.bundle
