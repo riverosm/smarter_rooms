@@ -1,0 +1,38 @@
+<h1>Real state of rooms</h1>
+
+<div id="div_info" style="display: none;"><i>The provided information is estimated.</i></div>
+
+<div id="div_loading">
+  <button class="btn btn-block btn-primary" type="button" disabled>
+    Plase wait, collecting information from IoT ... <br />
+    <span class="spinner-grow" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></span>
+    <br />Don't close this browser window ...
+  </button>
+</div>
+
+<div class="row justify-content-md-center text-center" id="showData"></div>
+
+<script>
+$.getJSON("/rooms/real_state.json").done(function (data) {
+  $.each(data, function (key, room) {
+
+    var new_div = document.createElement("div");
+    new_div.className = "col-sm-2 mt-1"
+    new_div.innerHTML =  '<div class="card text-center"><h5 class="card-header"><b>' + room.name + '</b></h5>' +
+          '<div class="card-body centered">' +
+            '<p>' + room.building + '</p>' +
+            '<div class="progress" style="height: 15px;">' +
+              '<div class="progress-bar bg-primary" role="progressbar" style="width: ' + room.used_percent + '%;" aria-valuenow="' + room.used_percent +'" aria-valuemin="0" aria-valuemax="100"></div>' +
+            '</div>' +
+            '<p>' + room.estimated_occupants + ' of ' + room.max_capacity + '</p>' +
+            '<button class="btn btn-block btn-' + room.class + '" type="button" disabled>' +
+              room.state +
+            '</button>' +
+          '</div>' +
+      '</div>';
+    $('#showData').append(new_div);
+  })
+  $('#div_loading').hide();
+  $('#div_info').show();
+});
+</script>

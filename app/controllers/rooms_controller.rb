@@ -27,11 +27,56 @@ class RoomsController < ApplicationController
 
   # GET /rooms/real_state
   def real_state
-    @rooms = Room.all
+    respond_to do |format|
+      format.html { render :real_state }
+      format.json {        
+        @rooms = []
+        Room.all.each do |r|
+          room_info = Hash.new
+          room_info["name"] = r.name
+          room_info["building"] = r.building.name
+          room_info["max_capacity"] = r.max_capacity
+          room_info["estimated_occupants"] = r.get_estimated_occupants
+          room_info["used_percent"] = 100
+
+          if room_info["estimated_occupants"].nil?
+            room_info["state"] = "No info!"
+            room_info["class"] = "danger"
+            room_info["used_percent"] = 0
+            room_info["estimated_occupants"] = "Unknown"
+          elsif room_info["estimated_occupants"] == 0
+            room_info["state"] = "Empty room!"
+            room_info["class"] = "success"
+            room_info["used_percent"] = 0
+          elsif room_info["max_capacity"] == room_info["estimated_occupants"]
+            room_info["state"] = "Filled room!"
+            room_info["class"] = "warning"
+          elsif room_info["max_capacity"] > room_info["estimated_occupants"]
+            room_info["state"] = "Busy room!"
+            room_info["class"] = "primary"
+            room_info["used_percent"] = (room_info["estimated_occupants"].to_f / room_info["max_capacity"].to_f * 100).ceil
+          elsif room_info["max_capacity"] < room_info["estimated_occupants"]
+            room_info["state"] = "Overfilled room!"
+            room_info["class"] = "danger"
+          end
+          @rooms << room_info
+        end
+        render json: @rooms 
+      }
+    end
   end
 
-  # GET /rooms/real_state
+  # GET /rooms/busy_without_booking
   def busy_without_booking
+    @rooms = []
+    Room.first.each do |r|
+      room_info = Hash.new
+      room_info["name"] = r.name
+      room_info["estimated_occupants"] = self.get_estimated_occupants
+      @rooms << room_info
+      byebug
+    end
+    @rooms
   end
 
   # GET /rooms/1
