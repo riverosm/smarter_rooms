@@ -49,7 +49,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if user_params["change_password"] == "1"
+        updated = @user.update(user_params.except(:change_password))
+      else
+        updated = @user.update_columns(name: user_params["name"], phone: user_params["phone"], email: user_params["email"], admin: user_params["admin"])
+      end
+
+      if updated
         flash[:warning] = "User was successfully updated."
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
@@ -92,9 +98,9 @@ class UsersController < ApplicationController
     def user_params
       # MR - If the user is not admin can't assign the admin flag
       if logged_in? && current_user.is_admin?
-        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation, :admin)
+        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation, :admin, :change_password)
       else
-        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation)
+        params.require(:user).permit(:name, :email, :phone, :password, :password_confirmation, :change_password)
       end
     end
 end

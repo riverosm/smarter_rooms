@@ -8,32 +8,55 @@
 
 <%= render partial: "form_label", locals: {required: false, field: :phone,  fa_icon: 'phone',
                                            placeholder: 'Phone', type: 'text', form: f} %>
+<% if action == "edit" %>
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= f.check_box :change_password, onclick: "showPasswordInput();", :required => false, class: "faw" %> &nbsp;
+<% end %>
+<% end %>
+<%= f.text_field "", :disabled => true, placeholder: "Change password", class: "form-control", style: "background-color: white" %>
+<% end %>
+<% end %>
 
-<% if action == "new" %>
-<%= render partial: "form_label", locals: {required: true, field: :password,  fa_icon: 'key',
+<%= content_tag :div, id: "password_hidden" do %>
+
+<%= render partial: "form_label", locals: {required: action == "new", field: :password,  fa_icon: 'key',
                                            placeholder: 'Password', type: 'password', form: f} %>
 
-<%= render partial: "form_label", locals: {required: true, field: :password_confirmation,  fa_icon: 'key',
+<%= render partial: "form_label", locals: {required: action == "new", field: :password_confirmation,  fa_icon: 'key',
                                            placeholder: 'Password confirmation', type: 'password', form: f} %>
+
 <% end %>
 
 <% if logged_in? && current_user.is_admin? %>
-  <%= content_tag :div, class: "input-group mb-3 row" do %>
-  <%= content_tag :div, class: "input-group-prepend" do %>
-  <%= content_tag :span, class: "input-group-text" do %>
-  <%= f.check_box :admin, :required => false, class: "faw" %> &nbsp;
-  <% end %>
-  <% end %>
-  <%= f.text_field "", :disabled => true, placeholder: "User is admin", class: "form-control", style: "background-color: white" %>
-  <% end %>
+<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= f.check_box :admin, :required => false, class: "faw" %> &nbsp;
+<% end %>
+<% end %>
+<%= f.text_field "", :disabled => true, placeholder: "User is admin", class: "form-control", style: "background-color: white" %>
+<% end %>
 <% end %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <% if action == "new" %>
-  <%= f.submit :"Create user", class: "btn-outline-primary btn btn-block btn-lg" %>
+<%= f.submit :"Create user", class: "btn-outline-primary btn btn-block btn-lg" %>
 <% else %>
-  <%= f.submit :"Change user", class: "btn-outline-warning btn btn-block btn-lg" %>
+<%= f.submit :"Change user", class: "btn-outline-warning btn btn-block btn-lg" %>
 <% end %>
 <% end %>
+
+<% end %>
+
+<% if action == "edit" %>
+
+<script>
+  $('#password_hidden').hide();
+  function showPasswordInput () {
+    $('#password_hidden').toggle();  
+  }
+</script>
 
 <% end %>
