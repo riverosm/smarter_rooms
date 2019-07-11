@@ -68,12 +68,13 @@ class BuildingsController < ApplicationController
   # DELETE /buildings/1
   # DELETE /buildings/1.json
   def destroy
-    @building.destroy
-    respond_to do |format|
-      flash.now[:success] = "Building was successfully destroyed."
-      format.html { redirect_to buildings_url }
-      format.json { head :no_content }
-    end
+    # Remove for enable delete
+    #@building.destroy
+    #respond_to do |format|
+    #  flash.now[:success] = "Building was successfully destroyed."
+    #  format.html { redirect_to buildings_url }
+    #  format.json { head :no_content }
+    #end
   end
 
   private

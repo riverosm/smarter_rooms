@@ -33,7 +33,7 @@ if (i % 4) == 0 %>
           <tr>
             <td>
               <%= link_to rooms_path(:building => building.id) do %>
-              <%= icon('fas', 'door-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "top") %>
+              <%= icon('fas', 'door-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View rooms", "data-placement" => "top") %>
               <% end %>
             </td>
             <td>
@@ -46,11 +46,13 @@ if (i % 4) == 0 %>
               <%= icon('fas', 'edit', class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit building", "data-placement" => "top") %>
               <% end %>
             </td>
+            <!-- Remove for enable delete
             <td>
               <%= link_to building, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <%= icon('fas', 'trash-alt', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete building", "data-placement" => "top") %>
               <% end %>
             </td>
+            //-->
           </tr>
           <% else %>
           <tr><td>&nbsp;</td></tr>

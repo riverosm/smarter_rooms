@@ -39,12 +39,13 @@
         <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right") %>
         <% end %>
       </td>
+      <!-- Remove for enable delete
       <td>
         <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
         <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
         <% end %>
-
       </td>
+      -->
     </tr>
     <% end %>
   </tbody>

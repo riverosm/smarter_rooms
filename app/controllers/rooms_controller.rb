@@ -172,12 +172,13 @@ class RoomsController < ApplicationController
   # DELETE /rooms/1
   # DELETE /rooms/1.json
   def destroy
-    @room.destroy
-    respond_to do |format|
-      flash[:success] = "Room was successfully destroyed."
-      format.html { redirect_to rooms_url }
-      format.json { head :no_content }
-    end
+    # Remove for enable delete
+    #@room.destroy
+    #respond_to do |format|
+    #  flash[:success] = "Room was successfully destroyed."
+    #  format.html { redirect_to rooms_url }
+    #  format.json { head :no_content }
+    #end
   end
 
   private
