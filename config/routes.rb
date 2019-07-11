@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :buildings
   resources :users
 
+  get '/stats', to: 'stats#home'
+
   root 'static_pages#home'
   get '/about', to: 'static_pages#about'
 
