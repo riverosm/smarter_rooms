@@ -193,11 +193,11 @@ H1 {
   width: 92%;
 }
 
-#dropdownMenuLink {
+#dropdownMenuLink, #dropdownRoomsLink {
   color: rgba(255, 255, 255, 0.5);
 }
 
-#dropdownMenuLink:hover {
+#dropdownMenuLink:hover, #dropdownRoomsLink:hover {
   color: rgba(255, 255, 255, 0.75);
 }
 

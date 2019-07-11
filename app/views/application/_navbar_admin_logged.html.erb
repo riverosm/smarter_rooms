@@ -4,7 +4,8 @@
     <%= icon('fas', 'home') %> Home
     <% end %>
   </li>
-  <li class="nav-item<%= ' active' if (controller_name == 'users' && request.fullpath != '/users/' + current_user.id.to_s) %>">
+  <li
+    class="nav-item<%= ' active' if (controller_name == 'users' && request.fullpath != '/users/' + current_user.id.to_s) %>">
     <%= link_to users_path, class: 'nav-link' do %>
     <%= icon('fas', 'users') %> Users
     <% end %>
@@ -14,11 +15,27 @@
     <%= icon('fas', 'building') %> Buildings
     <% end %>
   </li>
-  <li class="nav-item<%= ' active' if controller_name == 'rooms' %>">
-    <%= link_to rooms_path, class: 'nav-link' do %>
-    <%= icon('fas', 'door-open') %> Rooms
-    <% end %>
-  </li>
+  <div class="dropdown show<%= ' active' if (controller_name == 'rooms') %>">
+    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownRoomsLink" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false"
+      <%= sanitize(' style="color: white;"') if controller_name == 'rooms' %></a> <i class="fas fa-door-open"></i>
+      Rooms
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownRoomsLink">
+      <%= link_to rooms_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'door-closed') %> View all rooms
+      <% end %>
+
+      <%= link_to rooms_real_state_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'chalkboard-teacher') %> View real state rooms
+      <% end %>
+
+      <%= link_to rooms_busy_without_booking_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'user-slash') %> View busy rooms without booking
+      <% end %>
+    </div>
+  </div>
   <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
     <%= link_to bookings_path, class: 'nav-link' do %>
     <%= icon('fas', 'book-open') %> Bookings
@@ -29,7 +46,8 @@
     <%= icon('fas', 'chart-bar') %> Stats
     <% end %>
   </li>
-  <div class="dropdown show<%= ' active' if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %>">
+  <div
+    class="dropdown show<%= ' active' if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %>">
     <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false"
       <%= sanitize(' style="color: white;"') if controller_name == 'users' %></a> <i class="fas fa-user-circle"></i>

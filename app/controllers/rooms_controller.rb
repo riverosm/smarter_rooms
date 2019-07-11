@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
-  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:new, :edit, :update, :destroy]
+  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:new, :edit, :update, :destroy, :real_state, :busy_without_booking]
 
   # GET /rooms
   # GET /rooms.json
@@ -23,6 +23,15 @@ class RoomsController < ApplicationController
     end
 
     @rooms = @rooms.order(:name).page params[:pagina]
+  end
+
+  # GET /rooms/real_state
+  def real_state
+    @rooms = Room.all
+  end
+
+  # GET /rooms/real_state
+  def busy_without_booking
   end
 
   # GET /rooms/1
