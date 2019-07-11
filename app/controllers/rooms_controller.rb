@@ -26,10 +26,11 @@ class RoomsController < ApplicationController
   end
 
   # GET /rooms/real_state
+  # GET /rooms/real_state.json
   def real_state
     respond_to do |format|
       format.html { render :real_state }
-      format.json {        
+      format.json {
         @rooms = []
         Room.all.each do |r|
           room_info = Hash.new
@@ -61,22 +62,39 @@ class RoomsController < ApplicationController
           end
           @rooms << room_info
         end
-        render json: @rooms 
+        render json: @rooms
       }
     end
   end
 
   # GET /rooms/busy_without_booking
+  # GET /rooms/busy_without_booking.json
   def busy_without_booking
-    @rooms = []
-    Room.first.each do |r|
-      room_info = Hash.new
-      room_info["name"] = r.name
-      room_info["estimated_occupants"] = self.get_estimated_occupants
-      @rooms << room_info
-      byebug
+    respond_to do |format|
+      format.html { render :busy_without_booking }
+      format.json {
+        @rooms = []
+        booked_now_rooms = Booking.booked_now.map{|booked_now| booked_now.room}
+        if booked_now_rooms == []
+          booked_now_rooms = ''
+        end
+        Room.where("id NOT IN (?)", booked_now_rooms).each do |not_booked_room|
+          room_info = Hash.new
+          room_info["estimated_occupants"] = not_booked_room.get_estimated_occupants
+
+          if !room_info["estimated_occupants"].nil? && room_info["estimated_occupants"] > 0
+            room_info["name"] = not_booked_room.name
+            room_info["building"] = not_booked_room.building.name
+            room_info["max_capacity"] = not_booked_room.max_capacity
+            room_info["state"] = "Busy without booking!"
+            room_info["class"] = "danger"
+            room_info["used_percent"] = (room_info["estimated_occupants"].to_f / room_info["max_capacity"].to_f * 100).ceil
+            @rooms << room_info
+          end
+        end
+        render json: @rooms 
+      }
     end
-    @rooms
   end
 
   # GET /rooms/1

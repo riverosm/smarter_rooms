@@ -70,7 +70,7 @@ User.create({name: 'User 5', email: 'user_5@ar.ibm.com', phone: '5286-5555',
 
 # Adding random bookings to rooms
 Room.all.each do |r|
-  valid_from = rand(Date.civil(2019, 7, 3)..Date.civil(2019, 7, 10))
+  valid_from = rand(Date.civil(2019, 7, 11)..Date.civil(2019, 7, 20))
   random_hours = rand(9..17)
   random_hours_b = rand(1..2)
   Booking.create(number_of_attendants: rand(1..3), room: r, user_id: rand(2..User.count), valid_from: valid_from + random_hours.hours, valid_to: valid_from + random_hours.hours + random_hours_b.hours)
