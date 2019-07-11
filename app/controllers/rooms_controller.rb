@@ -29,7 +29,7 @@ class RoomsController < ApplicationController
   # GET /rooms/1.json
   def show
     if (!@room.active? && !current_user.is_admin?)
-      flash.now[:danger] = "You are not allowed to access this room."
+      flash[:danger] = "You are not allowed to access this room."
       redirect_to rooms_url
     else
       respond_to do |format|
@@ -58,7 +58,7 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       if @room.save
-        flash.now[:success] = "Room was successfully created."
+        flash[:success] = "Room was successfully created."
         format.html { redirect_to @room }
         format.json { render :show, status: :created, location: @room }
       else
@@ -78,7 +78,7 @@ class RoomsController < ApplicationController
   def update
     respond_to do |format|
       if @room.update(room_params)
-        flash.now[:success] = "Room was successfully updated."
+        flash[:success] = "Room was successfully updated."
         if (room_params.has_key?(:name))
           format.html { redirect_to @room }
           format.json { render :show, status: :ok, location: @room }
@@ -102,7 +102,7 @@ class RoomsController < ApplicationController
   def destroy
     @room.destroy
     respond_to do |format|
-      flash.now[:success] = "Building was successfully destroyed."
+      flash[:success] = "Room was successfully destroyed."
       format.html { redirect_to rooms_url }
       format.json { head :no_content }
     end
