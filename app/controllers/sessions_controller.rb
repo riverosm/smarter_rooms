@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       # MR - Change later to rooms_url
       redirect_to root_url
     else
-      flash.now[:danger] = 'Invalid email/password combination'
+      flash[:danger] = 'Invalid email/password combination'
       redirect_to login_url
     end
   end
