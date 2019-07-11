@@ -188,3 +188,11 @@ H1 {
   display: table;
   width: 92%;
 }
+
+#dropdownMenuLink {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#dropdownMenuLink:hover {
+  color: rgba(255, 255, 255, 0.75);
+}

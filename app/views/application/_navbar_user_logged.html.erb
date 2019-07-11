@@ -4,11 +4,6 @@
     <%= icon('fas', 'home') %> Home
     <% end %>
   </li>
-  <li class="nav-item<%= ' active' if controller_name == 'users' %>">
-    <%= link_to current_user, class: 'nav-link' do %>
-    <%= icon('fas', 'user') %> My Profile
-    <% end %>
-  </li>
   <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
     <%= link_to bookings_path, class: 'nav-link' do %>
     <%= icon('fas', 'book-open') %> My Bookings
@@ -19,11 +14,22 @@
     <%= icon('fas', 'door-open') %> Rooms
     <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to logout_path, method: 'delete', class: 'nav-link' do %>
-    <%= icon('fas', 'sign-out-alt') %> Logout
-    <% end %>
-  </li>
+  <div class="dropdown show<%= ' active' if controller_name == 'users' %>">
+    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false"<%= sanitize(' style="color: white;"') if controller_name == 'users' %></a>
+      <i class="fas fa-user-circle"></i>
+      <%= current_user.name %>
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <%= link_to current_user, class: 'dropdown-item' do %>
+      <%= icon('fas', 'user') %> My Profile
+      <% end %>
+      <%= link_to logout_path, method: 'delete', class: 'dropdown-item' do %>
+      <%= icon('fas', 'sign-out-alt') %> Logout
+      <% end %>
+    </div>
+  </div>
 </ul>
 <%= form_tag(rooms_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
 <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
