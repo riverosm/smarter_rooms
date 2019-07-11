@@ -50,7 +50,7 @@
     class="dropdown show<%= ' active' if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %>">
     <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false"
-      <%= sanitize(' style="color: white;"') if controller_name == 'users' %></a> <i class="fas fa-user-circle"></i>
+      <%= sanitize(' style="color: white;"') if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %></a> <i class="fas fa-user-circle"></i>
       <%= current_user.name %>
     </a>
 
