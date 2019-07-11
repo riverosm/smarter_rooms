@@ -1,77 +1,137 @@
-<h1><%= @title %></h1>
+<h3><%= @title %></h3>
 
-<% if current_user.is_admin? %>
-<%= link_to 'Create new room', new_room_path, :class => "btn btn-outline-success btn-block btn-lg"%>
-<br />
+<% if @rooms.size == 0 %>
+
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms with selected criteria."} %>
+
 <% end %>
 
-<table class="table table-striped text-center">
-  <thead class="thead-dark">
-    <tr>
-      <th>Name</th>
-      <th>Floor</th>
-      <th>Max capacity</th>
-      <th>Building</th>
-      <th>Accesories</th>
-      <th colspan="4">Actions</th>
-    </tr>
-  </thead>
+<% i = 0 %>
+<% @rooms.each do |room| 
+room_image = "/room_icon.png"
+data_image = "No room picture"
+path = Rails.root.join("public/rooms/#{room.id}.jpg")
+if File.exists?(path)
+  room_image = "/rooms/#{room.id}.jpg"
+  data_image = ""
+end
+if (i % Kaminari.config.default_per_page) == 0 %>
+<div class="row justify-content-md-center text-center">
+  <% end %>
+  <div class="col-sm-2 mt-1">
+    <div class="card<%= ' room_disabled' if !room.active? %>">
+      <h5 class="card-header"><b><%= room.name %></b></h5>
+      <div class="card-body centered">
+        <table class="text-left w-100">
+          <tr>
+            <td style="width: 40px;">
+              <%= icon('fas', 'city') %>
+            </td>
+            <td class="text-center">
+              <%= room.building.name %> <br /> <%= room.floor %> floor
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= icon('fas', 'users') %>
+            </td>
+            <td class="text-center"><%= room.max_capacity %> people max.</td>
+          </tr>
+        </table>
+        <table class="text-center w-100 table-borderedless">
+          <tr>
+            <td colspan="4" class="text-left">Devices:</td>
+          </tr>
+          <tr>
+            <% room.get_room_accesories_count.map {|ra| %>
+            <td>
+              <%= icon('fas',ra["icon"], class: ra["class"], "data-toggle" => "tooltip", "data-original-title" => ra["quantity"].to_s + " " + ra["name"], "data-placement" => "bottom") %>
+            </td>
+            <% } %>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-center">
+              <div style="max-width: 200px; max-height: 200px; margin: 0 auto;">
+                <%= image_tag(room_image, "data-toggle" => "tooltip", "data-original-title" => data_image, "data-placement" => "bottom") %>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <% if current_user.is_admin? %>
+        <table class="text-center w-100 table-borderedless">
+          <tr>
+            <td colspan="4">&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <% if room.active? %>
+              <%= link_to room_path(room, "room[active]": '0'), method: :put, data: { confirm: room.name + ' is enabled, do you want to disable this room?' } do %>
+              <%= icon('fas','ban', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Disable room", "data-placement" => "bottom") %>
+              <% end %>
+              <% else %>
+              <%= link_to room_path(room, "room[active]": '1'), method: :put, data: { confirm: room.name + ' is disabled, do you want to enable this room?' } do %>
+              <%= icon('fas','check-circle', class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "Enable room", "data-placement" => "bottom") %>
+              <% end %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to room do %>
+              <%= icon('fas', 'eye', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View room details", "data-placement" => "bottom") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_room_path(room) do %>
+              <%= icon('fas', 'edit', class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit room", "data-placement" => "bottom") %>
+              <% end %>
+            </td>
+            <!-- Remove for enable delete
+            <td>
+              <%= link_to room, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= icon('fas', 'trash-alt', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete room", "data-placement" => "bottom") %>
+              <% end %>
+            </td>
+            -->
+            <% else %>
+            <td colspan="4">
+              <%= link_to 'Book this room', new_booking_path(room_id: room.id), class: 'btn btn-sm btn-outline-primary' %>
+            </td>
+          </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
 
-  <tbody>
-    <% if @rooms.size == 0 %>
-    <tr>
-      <td colspan="6">There are no rooms with the selected criteria.</td>
-    </tr>
-    <% end %>
-    <% @rooms.each do |room| %>
-    <tr>
-      <td><%= room.name %></td>
-      <td><%= room.floor %></td>
-      <td><%= room.max_capacity %></td>
-      <td><%= room.building.name %></td>
-      <td class="text-left">
-        <% room.room_accesories.each do |ra| %>
-        - <%= ra.quantity.to_s + " " + ra.accesory.name %><br />
-        <% end %>
-        </ul>
-      </td>
-      <% if current_user.is_admin? %>
-      <td>
-        <% if room.active? %>
-        <%= link_to room_path(room, "room[active]": '0'), method: :put, data: { confirm: 'Are you sure?' } do %>
-        <%= icon('fas','ban', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Disable room", "data-placement" => "right") %>
-        <% end %>
-        <% else %>
-        <%= link_to room_path(room, "room[active]": '1'), method: :put, data: { confirm: 'Are you sure?' } do %>
-        <%= icon('fas','check-circle', class: "fa-2x text-success", "data-toggle" => "tooltip", "data-original-title" => "Enable room", "data-placement" => "right") %>
-        <% end %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to room do %>
-        <%= icon('fas', 'eye', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View room", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to edit_room_path(room) do %>
-        <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit room", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to room, method: :delete, data: { confirm: 'Are you sure?' } do %>
-        <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete room", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <% else %>
-      <td colspan="4">
-          <%= link_to 'Book', new_booking_path(room_id: room.id), class: 'btn btn-sm btn-danger' %>
-      </td>
-      <% end %>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+  <% i = i + 1 %>
+  <%if (i % Kaminari.config.default_per_page) == 0 || i == @rooms.size %>
+</div>
+<% end %>
+<% end %>
 
 <br />
 
 <%= paginate @rooms, param_name: :pagina %>
+
+<% if current_user.is_admin? %>
+
+<div class="row mt-4 justify-content-md-center text-center">
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Back', root_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+  </div>
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Create new building', new_room_path, :class => "btn btn-outline-success btn-block btn-lg"%>
+  </div>
+</div>
+
+<% else %>
+
+<div class="row mt-4 justify-content-md-center text-center">
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Back', root_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+  </div>
+  <div class="col-sm-3 m-1">
+    <%= link_to 'View all rooms', rooms_path, :class => "btn btn-outline-primary btn-block btn-lg"%>
+  </div>
+</div>
+
+<% end %>

@@ -12,6 +12,30 @@ class Room < ApplicationRecord
   has_many :bookings
   has_many :users, through: :bookings
 
+  def get_room_accesories_count
+    room_accesories_count = []
+    Accesory.all.each do |a|
+      room_accesories = Hash.new
+      room_accesories["name"] = a.name
+      room_accesories["quantity"] = self.accesory_count(a)
+      room_accesories["icon"] = a.icon
+      room_accesories["class"] = ""
+      room_accesories["class"] = "accesory_disabled" if room_accesories["quantity"] == 0
+      room_accesories["quantity"] = "No " if room_accesories["quantity"] == 0
+      room_accesories_count << room_accesories
+    end
+    room_accesories_count
+  end
+
+  def accesory_count (accesory)
+    has_accesory = self.room_accesories.where(accesory: accesory).first
+    if has_accesory != nil
+      has_accesory.quantity
+    else
+      0
+    end
+  end
+
   def get_estimated_occupants
     # get_estimated_occupants returns:
     #   nil -> room was not found by code
