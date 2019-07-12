@@ -1,0 +1,188 @@
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    clearFields();
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: ['moment', 'dayGrid', 'timeGrid', 'list', 'interaction'],
+      defaultView: 'dayGridMonth',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGrid,dayGridMonth'
+      },
+      nowIndicator: true,
+      fixedWeekCount: true,
+      allDaySlot: false,
+      minTime: "08:00:00",
+      maxTime: "20:00:00",
+      slotDuration: "00:05:00",
+      defaultDate: "2019-07-12",
+      editable: false,
+      navLinks: true,
+      eventLimit: false,
+      hiddenDays: [0, 6],
+      noEventsMessage: 'No bookings to display',
+      eventTimeFormat: {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      },
+      slotLabelFormat: {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      },
+      views: {
+        week: {
+          titleFormat: 'DD/MM'
+        }
+      },
+      buttonText: {
+        timeGrid: 'day'
+      },
+      loading: function (bool) {
+        $('#div_cargando').toggle(bool);
+      },
+      events: {
+        url: '/rooms/<%=@room.id%>.json?only_bookings=1',
+        error: function () {
+          $('#script-warning').show();
+        }
+      },
+      eventMouseEnter: function (mouseEnterInfo) {
+        console.log(mouseEnterInfo.el.innerHTML);
+        console.log(mouseEnterInfo.event.title);
+      },
+
+      validRange: function (nowDate) {
+        return {
+          start: nowDate,
+          // end: nowDate.clone().add(1, 'months')
+        };
+      },
+
+      selectable: true,
+
+      selectMirror: true,
+
+      viewSkeletonRender: function (info) {
+        clearFields();
+        if (calendar.view.type == 'dayGridMonth' && calendar.getOption('selectable') == true) {
+          calendar.setOption('selectable', false);
+        } else if (calendar.view.type != 'dayGridMonth' && calendar.getOption('selectable') == false) {
+          calendar.setOption('selectable', true);
+        }
+      },
+
+      selectOverlap: function (event) {
+        return event.rendering === 'background';
+      },
+
+      selectAllow: function (selectInfo) {
+        if (selectInfo.start < new Date() || selectInfo.start.getDate() != selectInfo.end.getDate()) {
+          alert("You can't book in the past.");
+          return false;
+        }
+        return true;
+      },
+
+      unselect: function (info) {
+        clearFields();
+      },
+
+      select: function (info) {
+        $('#booking_valid_from').val(calendar.formatDate(info.startStr, 'HH:mm'));
+        $('#booking_valid_to').val(calendar.formatDate(info.endStr, 'HH:mm'));
+        $('#booking_valid_from_date').val(calendar.formatDate(info.endStr, 'DD/MM/YYYY'));
+      },
+
+      dateClick: function (info) {
+        if (info.allDay) {
+          calendar.changeView('timeGridDay');
+          calendar.gotoDate(info.date);
+          $('#booking_valid_from_date').val(calendar.formatDate(info.date, 'DD/MM/YYYY'));
+        }
+      },
+
+      eventRender: function (info) {
+        if (info.event.extendedProps.icon) {
+          if (info.el.querySelector('.fc-title') != null) {
+            info.el.querySelector('.fc-title').innerHTML = '<i class="fas fa-' + info.event.extendedProps.icon + '"></i>&nbsp;' + info.event.title;
+          }
+        }
+      },
+
+
+    });
+    calendar.render();
+  });
+
+  function clearFields() {
+    $('#booking_valid_to').val('');
+    $('#booking_valid_from').val('');
+    $('#booking_valid_from_date').val('');
+    $('#booking_valid_to').attr('placeholder', 'Choose a to time ...');
+    $('#booking_valid_from').attr('placeholder', 'Choose a from time ...');
+    $('#booking_valid_from_date').attr('placeholder', 'Choose a date ...');
+  }
+
+
+</script>
+
+<style>
+  #div_cargando {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  #div_cargando:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  #script-warning {
+    display: none;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    padding: 0 10px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: red;
+  }
+
+  #calendar {
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    #calendar H2 {
+      margin-top: 20px;
+    }
+  }
+
+
+  .fc-dayGridMonth-view .fc-event-container {
+    display: none;
+  }
+</style>
