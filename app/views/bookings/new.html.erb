@@ -1,88 +1,89 @@
-<br />
-<div class="card">
-  <h5 class="card-header">You are booking the <b><%= @room.name %></b> room</h5>
-  <div class="card-body centered">
-    <%= form_for @booking, url: {action: "create"} do |f| %>
-    <table class="table">
-      <tr>
-        <th style="width: 180px;" class="align-middle">Location:</th>
-        <td>
-          <%= @room.building.name %>
-          <br />
-          <%= @room.building.address %>
-        </td>
-        <td rowspan="4" class="text-center align-middle pl-5">
+<h1>Booking room <%= @room.name %></h1>
 
-          <%= content_tag :div, class: "input-group mb-3 row" do %>
-          <%= content_tag :div, class: "input-group-prepend" do %>
-          <%= content_tag :span, class: "input-group-text" do %>
-          <%= icon('fas', 'calendar-day', class: 'fa-fw') %>
-          <% end %>
-          <% end %>
-          <%= f.date_field :id, name: 'booking[valid_from_date]', :required => true, placeholder: 'Date', class: "form-control", min: DateTime.now.to_date, value: DateTime.now.to_date %>
-          <% end %>
-
-          <%= content_tag :div, class: "input-group mb-3 row" do %>
-          <%= content_tag :div, class: "input-group-prepend" do %>
-          <%= content_tag :span, class: "input-group-text" do %>
-          <%= icon('fas', 'city', class: 'fa-door-open') %>
-          <% end %>
-          <% end %>
-          <%= select_tag "booking[valid_from_time]", 
-              options_for_select(@times_from.map { |time| [time[:value], time[:value]] }, 
-              disabled: @times_from.select {|time| time[:disabled]}.map {|time| time[:value]}), 
-              {:include_blank => "From time ...", class: 'form-control', required: true} %>
-          <% end %>
-
-
-          <%= content_tag :div, class: "input-group mb-3 row" do %>
-          <%= content_tag :div, class: "input-group-prepend" do %>
-          <%= content_tag :span, class: "input-group-text" do %>
-          <%= icon('fas', 'city', class: 'fa-door-closed') %>
-          <% end %>
-          <% end %>
-          <%= select_tag "booking[valid_to_time]", 
-              options_for_select(@times_to.map { |time| [time[:value], time[:value]] }, 
-              disabled: @times_to.select {|time| time[:disabled]}.map {|time| time[:value]}), 
-              {:include_blank => "Choose a from time ...", class: 'form-control', required: true, disabled: true} %>
-          <% end %>
-
-          <%= render partial: "form_label", locals: {required: true, field: :number_of_attendants,  fa_icon: 'users',
-                                                      placeholder: '# of Attendants', type: 'number', form: f, max: @room.max_capacity } %>
-        </td>
-      </tr>
-      <tr>
-        <th>Floor:</th>
-        <td><%= @room.floor %></td>
-      </tr>
-      <tr>
-        <th>Max capacity:</th>
-        <td><%= @room.max_capacity %></td>
-      </tr>
-      <tr class="border-bottom">
-        <th>Devices:</th>
-        <td>
-          <% @room.room_accesories.each do |ra| %>
-          - <%= ra.accesory.name + " x " + ra.quantity.to_s %><br />
-          <% end %>
-        </td>
-      </tr>
-    </table>
-
-    <table class="table table-borderless text-center">
-      <tr>
-        <td class="col-2">
-          <%= link_to "Back", rooms_path, class: "btn-outline-secondary btn btn-block btn-lg" %>
-        </td>
-        <td class="col-2">
-          <%= hidden_field_tag(:room_id, @room.id) %>
-          <%= f.submit "Book room", class: "btn-outline-success btn btn-block btn-lg" %>
-        </td>
-      </tr>
-    </table>
-    <% end %>
-  </div>
+<div id="div_cargando">
+  <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
 </div>
+
+<%= form_for @booking, url: {action: "create"} do |f| %>
+<table class="table">
+  <tr style="height: 10px;">
+    <th style="width: 25%;" class="align-middle">Location:</th>
+    <td style="width: 25%">
+      <%= @room.building.name %>
+      <br />
+      <%= @room.building.address %>
+    </td>
+    <td rowspan="6" class="border-bottom text-center align-middle pl-5">
+
+      <div id="script-warning">
+        <code>bookings system</code> must be running.
+      </div>
+
+      <div id="calendar"></div>
+    </td>
+  </tr>
+  <tr style="height: 10px;">
+    <th>Floor:</th>
+    <td><%= @room.floor %></td>
+  </tr>
+  <tr style="height: 10px;">
+    <th>Max capacity:</th>
+    <td><%= @room.max_capacity %></td>
+  </tr>
+  <tr style="height: 10px;">
+    <th>Devices:</th>
+    <td>
+      <% @room.room_accesories.each do |ra| %>
+      - <%= ra.accesory.name + " x " + ra.quantity.to_s %>
+      <% end %>
+    </td>
+  </tr>
+  <tr class="border-bottom" style="height: 10px;">
+    <th>Book:</th>
+    <td style="padding-left: 40px;">
+      <%= content_tag :div, class: "input-group mb-3 row" do %>
+      <%= content_tag :div, class: "input-group-prepend" do %>
+      <%= content_tag :span, class: "input-group-text" do %>
+      <%= icon('fas', 'calendar-day', class: 'fa-fw') %>
+      <% end %>
+      <% end %>
+      <%= f.text_field :id, :disabled => true, class: "form-control", style: "background-color: white", :name => "booking[valid_from_date]",:id => "booking_valid_from_date", "data-toggle" => "tooltip", "data-original-title" => "Please choose date and time on the calendar", "data-placement" => "right" %>
+      <% end %>
+
+      <%= content_tag :div, class: "input-group mb-3 row" do %>
+      <%= content_tag :div, class: "input-group-prepend" do %>
+      <%= content_tag :span, class: "input-group-text" do %>
+      <%= icon('fas', 'city', class: 'fa-door-open') %>
+      <% end %>
+      <% end %>
+      <%= f.text_field :valid_from, :disabled => true, class: "form-control", style: "background-color: white", "data-toggle" => "tooltip", "data-original-title" => "Please choose date and time on the calendar", "data-placement" => "right" %>
+      <% end %>
+
+
+      <%= content_tag :div, class: "input-group mb-3 row" do %>
+      <%= content_tag :div, class: "input-group-prepend" do %>
+      <%= content_tag :span, class: "input-group-text" do %>
+      <%= icon('fas', 'city', class: 'fa-door-closed') %>
+      <% end %>
+      <% end %>
+      <%= f.text_field :valid_to, :disabled => true, class: "form-control", style: "background-color: white", "data-toggle" => "tooltip", "data-original-title" => "Please choose date and time on the calendar", "data-placement" => "right" %>
+      <% end %>
+
+      <%= render partial: "form_label", locals: {required: true, field: :number_of_attendants,  fa_icon: 'users',
+                                                      placeholder: '# of Attendants', type: 'number', form: f, max: @room.max_capacity } %>
+    </td>
+  </tr>
+  <tr class="border-bottom">
+    <td>
+      <%= link_to "Back", rooms_path, class: "btn-outline-secondary btn btn-block btn-lg" %>
+    </td>
+    <td>
+      <%= hidden_field_tag(:room_id, @room.id) %>
+      <%= f.submit "Book room", class: "btn-outline-success btn btn-block btn-lg" %>
+    </td>
+  </tr>
+</table>
+<% end %>
 
 <script>
   function fillOptions(url, select_id, text) {
@@ -122,3 +123,5 @@
   });
 
 </script>
+
+<%= render partial: "calendar_user" %>
