@@ -8,6 +8,23 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <% if (controller_name == 'rooms' && action_name == 'show') %>
+  <!-- FullCalendar -->
+  <%= stylesheet_link_tag '/fullcalendar/core/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag '/fullcalendar/daygrid/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag '/fullcalendar/timegrid/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag '/fullcalendar/list/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/core/main.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/moment.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/moment/main.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/daygrid/main.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/timegrid/main.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/list/main.js', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag '/fullcalendar/interaction/main.js', 'data-turbolinks-track': 'reload' %>
+  <!-- FullCalendar end -->
+  <% end %>
+
 </head>
 
 <body>
@@ -19,7 +36,7 @@
     <% flash.each do |message_type, message| %>
 
     <%= render partial: "alert_box", locals: {message_type: message_type, message: message} %>
-    
+
     <% end %>
 
     <%= yield %>
