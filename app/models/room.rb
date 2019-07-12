@@ -12,6 +12,23 @@ class Room < ApplicationRecord
   has_many :bookings
   has_many :users, through: :bookings
 
+  def get_bookings
+    room_bookings = []
+    self.bookings.each do |b|
+      room_booking = Hash.new
+      room_booking["id"] = b.id
+      room_booking["title"] = b.user.name
+      room_booking["start"] = b.valid_from
+      room_booking["end"] = b.valid_to
+      room_booking["backgroundColor"] = "#ADD8E6"
+      room_booking["textColor"] = "#000000"
+      room_booking["extendedProps"] = Hash.new
+      room_booking["extendedProps"]["icon"] = "user-clock"
+      room_bookings << room_booking
+    end
+    room_bookings
+  end
+
   def get_room_accesories_count
     room_accesories_count = []
     Accesory.all.each do |a|
@@ -65,8 +82,8 @@ class Room < ApplicationRecord
     # MR TODO - This parameters will be on the database
     begin_hour = from_time.split(":")[0].to_i
     begin_minutes = from_time.split(":")[1].to_i
-    end_hour = "20:00".split(":")[0].to_i
-    end_minutes = "20:00".split(":")[1].to_i
+    end_hour = "22:00".split(":")[0].to_i
+    end_minutes = "22:00".split(":")[1].to_i
     step_in_minutes = 5
 
     begin_time = DateTime.new(date.year, date.month, date.day, begin_hour, begin_minutes, 0, "-0300")
