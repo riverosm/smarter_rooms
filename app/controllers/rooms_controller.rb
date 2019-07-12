@@ -111,7 +111,7 @@ class RoomsController < ApplicationController
           room_info["room_info"] = @room
           room_info["available_times"] = @room.get_available_times(params["date"], params["from_time"])
           booking_info = Hash.new
-          room_info["bookings"] = @room.get_bookings(current_user.is_admin?)
+          room_info["bookings"] = @room.get_bookings(current_user)
           if params["only_bookings"] == "1"
             render json: room_info["bookings"]
           else

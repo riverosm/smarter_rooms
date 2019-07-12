@@ -88,14 +88,21 @@
         return true;
       },
 
+      unselectAuto: false,
+
+      unselectCancel: "form-control",
+
       unselect: function (info) {
         clearFields();
       },
 
       select: function (info) {
+        $('#booking_valid_from_date').val(calendar.formatDate(info.startStr, 'DD/MM/YYYY'));
         $('#booking_valid_from').val(calendar.formatDate(info.startStr, 'HH:mm'));
         $('#booking_valid_to').val(calendar.formatDate(info.endStr, 'HH:mm'));
-        $('#booking_valid_from_date').val(calendar.formatDate(info.endStr, 'DD/MM/YYYY'));
+
+        $('#booking_valid_from_full').val(info.startStr);
+        $('#booking_valid_to_full').val(info.endStr);
       },
 
       dateClick: function (info) {
@@ -107,9 +114,9 @@
       },
 
       eventRender: function (info) {
-        if (info.event.extendedProps.icon) {
+        if (info.event.extendedProps.can_delete) {
           if (info.el.querySelector('.fc-title') != null) {
-            info.el.querySelector('.fc-title').innerHTML = '<i class="fas fa-' + info.event.extendedProps.icon + '"></i>&nbsp;' + info.event.title;
+            info.el.querySelector('.fc-title').innerHTML = info.event.title +  '&nbsp;&nbsp;&nbsp;<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>';
           }
         }
       },
@@ -118,6 +125,12 @@
     });
     calendar.render();
   });
+
+  function cancelBooking (id) {
+    if (confirm("Do you want to cancel this booking?")) {
+      alert("Cancela ...");
+    }
+  }
 
   function clearFields() {
     $('#booking_valid_to').val('');

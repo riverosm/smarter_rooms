@@ -4,7 +4,7 @@
   <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
 </div>
 
-<%= form_for @booking, url: {action: "create"} do |f| %>
+<%= form_for Booking.new, url: {action: "create"} do |f| %>
 <table class="table">
   <tr style="height: 10px;">
     <th style="width: 25%;" class="align-middle">Location:</th>
@@ -59,6 +59,8 @@
       <%= f.text_field :valid_from, :disabled => true, class: "form-control", style: "background-color: white", "data-toggle" => "tooltip", "data-original-title" => "Please choose date and time on the calendar", "data-placement" => "right" %>
       <% end %>
 
+      <%= hidden_field_tag "booking[valid_from_full]" %>
+      <%= hidden_field_tag "booking[valid_to_full]" %>
 
       <%= content_tag :div, class: "input-group mb-3 row" do %>
       <%= content_tag :div, class: "input-group-prepend" do %>

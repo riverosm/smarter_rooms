@@ -1,38 +1,66 @@
-<p id="notice"><%= notice %></p>
+<table class="table w-100">
+  <tr>
+    <td class="col-sm-6">
+      <p>
+        <strong>Name:</strong>
+        <%= @room.name %>
+      </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @room.name %>
-</p>
+      <p>
+        <strong>Code:</strong>
+        <%= @room.code %>
+      </p>
 
-<p>
-  <strong>Code:</strong>
-  <%= @room.code %>
-</p>
+      <p>
+        <strong>Floor:</strong>
+        <%= @room.floor %>
+      </p>
 
-<p>
-  <strong>Floor:</strong>
-  <%= @room.floor %>
-</p>
+      <p>
+        <strong>Max capacity:</strong>
+        <%= @room.max_capacity %>
+      </p>
 
-<p>
-  <strong>Max capacity:</strong>
-  <%= @room.max_capacity %>
-</p>
+      <p>
+        <strong>Active:</strong>
+        <%= @room.active %>
+      </p>
 
-<p>
-  <strong>Active:</strong>
-  <%= @room.active %>
-</p>
+      <p>
+        <strong>Building:</strong>
+        <%= @room.building.name %>
+      </p>
 
-<p>
-  <strong>Building:</strong>
-  <%= @room.building.name %>
-</p>
+      <% @room.accesories.each do |a| %>
+      <p><%= a.name %></p>
+      <% end %>
 
-<% @room.accesories.each do |a| %>
-  <p><%= a.name %></p>
-<% end %>
+      <% @room.bookings.order(:valid_from).each do |b| %>
+      <p><b><%= b.user.name %></b>:<%= b.valid_from %> - <%= b.valid_to %></p>
+      <% end %>
+    </td>
+    <td>
+      <div id="script-warning">
+        <code>bookings system</code> must be running.
+      </div>
+
+      <div id="div_cargando">
+        <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+      </div>
+
+      <div style="width: 750px;">
+        <div id="calendar"></div>
+      </div>
+
+    </td>
+  </tr>
+</table>
 
 <%= link_to 'Edit', edit_room_path(@room) %> |
 <%= link_to 'Back', rooms_path %>
+
+<% if current_user.is_admin? %>
+<%= render partial: "calendar_admin" %>
+<% else %>
+<%= render partial: "calendar_admin" %>
+<% end %>
