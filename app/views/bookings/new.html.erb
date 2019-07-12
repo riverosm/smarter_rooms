@@ -94,7 +94,7 @@
     dropdown.prop('selectedIndex', 0);
 
     $.getJSON(url, function (data) {
-      $.each(data, function (key, entry) {
+      $.each(data.available_times, function (key, entry) {
         if (entry.disabled) {
           dropdown.append($('<option disabled="disabled></option>').attr('value', entry.value).text(entry.value));
         } else {

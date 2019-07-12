@@ -106,7 +106,18 @@ class RoomsController < ApplicationController
     else
       respond_to do |format|
         format.html { render :show }
-        format.json { render :show, status: :created, location: @room }
+        room_info = Hash.new
+        format.json {
+          room_info["room_info"] = @room
+          room_info["available_times"] = @room.get_available_times(params["date"], params["from_time"])
+          booking_info = Hash.new
+          room_info["bookings"] = @room.get_bookings
+          if params["only_bookings"] == "1"
+            render json: @room.get_bookings
+          else
+            render json: room_info
+          end
+        }
       end
     end
   end
