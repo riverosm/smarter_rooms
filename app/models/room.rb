@@ -12,18 +12,25 @@ class Room < ApplicationRecord
   has_many :bookings
   has_many :users, through: :bookings
 
-  def get_bookings
+  def get_bookings (is_admin)
     room_bookings = []
     self.bookings.each do |b|
       room_booking = Hash.new
-      room_booking["id"] = b.id
-      room_booking["title"] = b.user.name
+
+      if is_admin
+        room_booking["id"] = b.id
+        room_booking["title"] = b.user.name
+        room_booking["backgroundColor"] = "#ADD8E6"
+        room_booking["textColor"] = "#000000"
+        room_booking["extendedProps"] = Hash.new
+        room_booking["extendedProps"]["icon"] = "user-clock"
+      else
+        room_booking["title"] = "Already booked"
+        room_booking["backgroundColor"] = "#CCC"
+        room_booking["borderColor"] = "#CCC"
+      end
       room_booking["start"] = b.valid_from
       room_booking["end"] = b.valid_to
-      room_booking["backgroundColor"] = "#ADD8E6"
-      room_booking["textColor"] = "#000000"
-      room_booking["extendedProps"] = Hash.new
-      room_booking["extendedProps"]["icon"] = "user-clock"
       room_bookings << room_booking
     end
     room_bookings
