@@ -1,6 +1,6 @@
 # \<Code Academy\> Nivel 3 - Trabajo final
 
-## Ejecución
+## Running and configurations
 
 ```sh
 $ git clone "git@github.ibm.com:riverosm/smarter_rooms.git"
@@ -9,6 +9,14 @@ $ bundle install
 $ rails db:create
 $ rails db:migrate
 $ rails db:seed
+$ cat config/initializers/config_smarter_rooms.rb
+SmarterRooms::Application.config.smarter_rooms_rooms_api_url = 'https://ca-3-api.mybluemix.net/' # IoT API URL
+SmarterRooms::Application.config.smarter_rooms_rooms_api_path = 'api/v1/rooms/' # IoT rooms API path
+SmarterRooms::Application.config.smarter_rooms_rooms_per_page = 6 # Rooms per page for pagination
+SmarterRooms::Application.config.smarter_rooms_calendar_start_time = '09:00' # Calendar start time
+SmarterRooms::Application.config.smarter_rooms_calendar_end_time = '18:00' # Calendar end time
+SmarterRooms::Application.config.smarter_rooms_calendar_slot_duration = '00:15' # Calendar slot duration
+SmarterRooms::Application.config.smarter_rooms_calendar_hidden_days = '[0, 6]' # Calendar hide weekend
 $ rails s
 ```
 
