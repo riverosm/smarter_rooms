@@ -1,6 +1,5 @@
 <script>
-
-$( document ).ready(function() {
+  $(document).ready(function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -14,14 +13,14 @@ $( document ).ready(function() {
       nowIndicator: true,
       fixedWeekCount: true,
       allDaySlot: false,
-      minTime: "<%= Rails.configuration.smarter_rooms_start_time %>",
-      maxTime: "<%= Rails.configuration.smarter_rooms_end_time %>",
-      slotDuration: "<%= Rails.configuration.smarter_rooms_slot_duration %>",
+      minTime: "<%= Rails.configuration.smarter_rooms_calendar_start_time %>",
+      maxTime: "<%= Rails.configuration.smarter_rooms_calendar_end_time %>",
+      slotDuration: "<%= Rails.configuration.smarter_rooms_calendar_slot_duration %>",
+      hiddenDays: "<%= Rails.configuration.smarter_rooms_calendar_hidden_days %>",
       defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
       editable: false,
       navLinks: true,
       eventLimit: false,
-      hiddenDays: [0, 6],
       noEventsMessage: 'No bookings to display',
       eventTimeFormat: {
         hour: '2-digit',
@@ -43,7 +42,7 @@ $( document ).ready(function() {
         timeGrid: 'day'
       },
       loading: function (bool) {
-        $('#div_cargando').toggle(bool);
+        $('#div_calendar_loading').toggle(bool);
       },
       events: {
         url: '<%= url %>',
@@ -60,7 +59,6 @@ $( document ).ready(function() {
         if (info.allDay) {
           calendar.changeView('timeGridDay');
           calendar.gotoDate(info.date);
-          $('#booking_valid_from_date').val(calendar.formatDate(info.date, 'DD/MM/YYYY'));
         }
       },
 
@@ -79,7 +77,7 @@ $( document ).ready(function() {
     calendar.render();
   });
 
-  function cancelBooking (id) {
+  function cancelBooking(id) {
     if (confirm("Do you want to cancel this booking?")) {
       alert("Cancela ...");
     }
@@ -87,7 +85,7 @@ $( document ).ready(function() {
 </script>
 
 <style>
-  #div_cargando {
+  #div_calendar_loading {
     position: fixed;
     z-index: 999;
     height: 2em;
@@ -100,7 +98,7 @@ $( document ).ready(function() {
     right: 0;
   }
 
-  #div_cargando:before {
+  #div_calendar_loading:before {
     content: '';
     display: block;
     position: fixed;
