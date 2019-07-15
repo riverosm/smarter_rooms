@@ -1,24 +1,23 @@
 <script>
 
-  document.addEventListener('DOMContentLoaded', function () {
-    clearFields();
+$( document ).ready(function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['moment', 'dayGrid', 'timeGrid', 'list', 'interaction'],
-      defaultView: 'dayGridMonth',
+      defaultView: 'listWeek',
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'timeGrid,dayGridMonth'
+        right: 'listWeek,timeGrid,timeGridWeek,dayGridMonth'
       },
       nowIndicator: true,
       fixedWeekCount: true,
       allDaySlot: false,
-      minTime: "08:00:00",
-      maxTime: "20:00:00",
-      slotDuration: "00:05:00",
-      defaultDate: "2019-07-12",
+      minTime: "<%= Rails.configuration.smarter_rooms_start_time %>",
+      maxTime: "<%= Rails.configuration.smarter_rooms_end_time %>",
+      slotDuration: "<%= Rails.configuration.smarter_rooms_slot_duration %>",
+      defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
       editable: false,
       navLinks: true,
       eventLimit: false,
@@ -34,6 +33,7 @@
         minute: '2-digit',
         hour12: false
       },
+      eventLimit: true,
       views: {
         week: {
           titleFormat: 'DD/MM'
@@ -46,7 +46,7 @@
         $('#div_cargando').toggle(bool);
       },
       events: {
-        url: '/rooms/<%=@room.id%>.json?only_bookings=1',
+        url: '<%= url %>',
         error: function () {
           $('#script-warning').show();
         }
@@ -54,55 +54,6 @@
       eventMouseEnter: function (mouseEnterInfo) {
         console.log(mouseEnterInfo.el.innerHTML);
         console.log(mouseEnterInfo.event.title);
-      },
-
-      validRange: function (nowDate) {
-        return {
-          start: nowDate,
-          // end: nowDate.clone().add(1, 'months')
-        };
-      },
-
-      selectable: true,
-
-      selectMirror: true,
-
-      viewSkeletonRender: function (info) {
-        clearFields();
-        if (calendar.view.type == 'dayGridMonth' && calendar.getOption('selectable') == true) {
-          calendar.setOption('selectable', false);
-        } else if (calendar.view.type != 'dayGridMonth' && calendar.getOption('selectable') == false) {
-          calendar.setOption('selectable', true);
-        }
-      },
-
-      selectOverlap: function (event) {
-        return event.rendering === 'background';
-      },
-
-      selectAllow: function (selectInfo) {
-        if (selectInfo.start < new Date() || selectInfo.start.getDate() != selectInfo.end.getDate()) {
-          alert("You can't book in the past.");
-          return false;
-        }
-        return true;
-      },
-
-      unselectAuto: false,
-
-      unselectCancel: "form-control",
-
-      unselect: function (info) {
-        clearFields();
-      },
-
-      select: function (info) {
-        $('#booking_valid_from_date').val(calendar.formatDate(info.startStr, 'DD/MM/YYYY'));
-        $('#booking_valid_from').val(calendar.formatDate(info.startStr, 'HH:mm'));
-        $('#booking_valid_to').val(calendar.formatDate(info.endStr, 'HH:mm'));
-
-        $('#booking_valid_from_full').val(info.startStr);
-        $('#booking_valid_to_full').val(info.endStr);
       },
 
       dateClick: function (info) {
@@ -116,12 +67,14 @@
       eventRender: function (info) {
         if (info.event.extendedProps.can_delete) {
           if (info.el.querySelector('.fc-title') != null) {
-            info.el.querySelector('.fc-title').innerHTML = info.event.title +  '&nbsp;&nbsp;&nbsp;<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>';
+            info.el.querySelector('.fc-title').innerHTML = '<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>&nbsp;&nbsp;' + info.event.title;
+          }
+
+          if (info.el.querySelector('.fc-list-item-title') != null) {
+            info.el.querySelector('.fc-list-item-title').innerHTML = '<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>&nbsp;&nbsp;' + info.event.title;
           }
         }
       },
-
-
     });
     calendar.render();
   });
@@ -131,17 +84,6 @@
       alert("Cancela ...");
     }
   }
-
-  function clearFields() {
-    $('#booking_valid_to').val('');
-    $('#booking_valid_from').val('');
-    $('#booking_valid_from_date').val('');
-    $('#booking_valid_to').attr('placeholder', 'Choose a to time ...');
-    $('#booking_valid_from').attr('placeholder', 'Choose a from time ...');
-    $('#booking_valid_from_date').attr('placeholder', 'Choose a date ...');
-  }
-
-
 </script>
 
 <style>
@@ -182,7 +124,7 @@
   }
 
   #calendar {
-    max-width: 650px;
+    max-width: 750px;
     margin: 20px auto;
     padding: 0 10px;
     font-size: 14px;
@@ -192,10 +134,5 @@
     #calendar H2 {
       margin-top: 20px;
     }
-  }
-
-
-  .fc-dayGridMonth-view .fc-event-container {
-    display: none;
   }
 </style>
