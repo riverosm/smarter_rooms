@@ -15,14 +15,14 @@
       nowIndicator: true,
       fixedWeekCount: true,
       allDaySlot: false,
-      minTime: "<%= Rails.configuration.smarter_rooms_start_time %>",
-      maxTime: "20:00:00",
-      slotDuration: "00:05:00",
-      defaultDate: "2019-07-12",
+      minTime: "<%= Rails.configuration.smarter_rooms_calendar_start_time.to_s %>:00",
+      maxTime: "<%= Rails.configuration.smarter_rooms_calendar_end_time.to_s %>:00",
+      slotDuration: "<%= Rails.configuration.smarter_rooms_calendar_slot_duration %>",
+      hiddenDays: "<%= Rails.configuration.smarter_rooms_calendar_hidden_days %>",
+      defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
       editable: false,
       navLinks: true,
       eventLimit: false,
-      hiddenDays: [0, 6],
       noEventsMessage: 'No bookings to display',
       eventTimeFormat: {
         hour: '2-digit',
@@ -116,8 +116,12 @@
 
       eventRender: function (info) {
         if (info.event.extendedProps.can_delete) {
+          can_delete_text = '<a data-confirm="Do you want to cancel this booking?" rel="nofollow" data-method="delete" href="/bookings/' + info.event.extendedProps.can_delete +
+            '"><i class="fas fa-trash text-danger" data-toggle="tooltip" data-original-title="Delete booking" data-placement="top"></i>' +
+            '</a>&nbsp;&nbsp;' + info.event.title;
+            
           if (info.el.querySelector('.fc-title') != null) {
-            info.el.querySelector('.fc-title').innerHTML = '<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>&nbsp;&nbsp;' + info.event.title;
+            info.el.querySelector('.fc-title').innerHTML = can_delete_text;
           }
         }
       },
@@ -126,12 +130,6 @@
     });
     calendar.render();
   });
-
-  function cancelBooking(id) {
-    if (confirm("Do you want to cancel this booking?")) {
-      alert("Cancela ...");
-    }
-  }
 
   function clearFields() {
     $('#booking_valid_to').val('');
