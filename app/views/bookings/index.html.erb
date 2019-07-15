@@ -40,15 +40,16 @@
 
 <% else %>
 
-<h1>Bookings#index</h1>
-<p>Find me in app/views/bookings/index.html.erb</p>
-
-<% current_user.bookings.each do |b| %>
-<b><%= b.id %></b> <br />
-<%= b.valid_from %> <br />
-<%= b.valid_to %> <br />
-<%= b.number_of_attendants %> <br />
-<%= b.room.name %> <br /> <br /> <br />
 <% end %>
 
-<% end %>
+<div id="div_cargando">
+  <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+</div>
+
+<div id="script-warning">
+  <code>bookings system</code> must be running.
+</div>
+
+<div id="calendar"></div>
+
+<%= render partial: "calendar_index_user", locals: {url: '/bookings.json?nocache=' + DateTime.now.to_i.to_s } %>

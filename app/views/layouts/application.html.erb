@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <% if (controller_name == 'rooms' && action_name == 'show' || controller_name == 'bookings' && action_name == 'new') %>
+  <% if (controller_name == 'rooms' && action_name == 'show' || controller_name == 'bookings') %>
   <!-- FullCalendar -->
   <%= stylesheet_link_tag '/fullcalendar/core/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_link_tag '/fullcalendar/daygrid/main.css', media: 'all', 'data-turbolinks-track': 'reload' %>

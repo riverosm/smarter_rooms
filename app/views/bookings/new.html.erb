@@ -126,4 +126,4 @@
 
 </script>
 
-<%= render partial: "calendar_user" %>
+<%= render partial: "calendar_new_user", locals: {url: '/rooms/' + @room.id.to_s + '.json?only_bookings=1'} %>
