@@ -1,8 +1,9 @@
 <script>
+  var calendar;
   $(document).ready(function () {
-    var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    var calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['moment', 'dayGrid', 'timeGrid', 'list', 'interaction'],
       defaultView: 'listWeek',
       header: {
@@ -45,14 +46,14 @@
         $('#div_calendar_loading').toggle(bool);
       },
       events: {
-        url: '<%= url %>',
+        url: '<%= url %>&dates=7',
         error: function () {
           $('#script-warning').show();
         }
       },
       eventMouseEnter: function (mouseEnterInfo) {
-        console.log(mouseEnterInfo.el.innerHTML);
-        console.log(mouseEnterInfo.event.title);
+        // console.log(mouseEnterInfo.el.innerHTML);
+        // console.log(mouseEnterInfo.event.title);
       },
 
       dateClick: function (info) {
@@ -64,12 +65,17 @@
 
       eventRender: function (info) {
         if (info.event.extendedProps.can_delete) {
+          can_delete_text = '<a data-confirm="Do you want to cancel this booking?" rel="nofollow" data-method="delete" href="/bookings/' + info.event.extendedProps.can_delete +
+            '"><i class="fas fa-trash text-danger" data-toggle="tooltip" data-original-title="Delete booking" data-placement="top"></i>' +
+            '</a>&nbsp;&nbsp;' + info.event.title;
+            
           if (info.el.querySelector('.fc-title') != null) {
-            info.el.querySelector('.fc-title').innerHTML = '<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>&nbsp;&nbsp;' + info.event.title;
+            info.el.querySelector('.fc-title').innerHTML = can_delete_text;
           }
 
           if (info.el.querySelector('.fc-list-item-title') != null) {
-            info.el.querySelector('.fc-list-item-title').innerHTML = '<a href="" onclick="cancelBooking(' + info.event.extendedProps.can_delete + '); return false;" class="fas fa-trash text-danger"></a>&nbsp;&nbsp;' + info.event.title;
+            info.el.querySelector('.fc-list-item-title').innerHTML = can_delete_text;
+
           }
         }
       },
@@ -77,11 +83,21 @@
     calendar.render();
   });
 
-  function cancelBooking(id) {
-    if (confirm("Do you want to cancel this booking?")) {
-      alert("Cancela ...");
+  function getBookings() {
+    var firstEventSource = calendar.getEventSources()[0];
+    if (firstEventSource) {
+      console.log(firstEventSource.url);
+      firstEventSource.remove();
     }
+    calendar.addEventSource(
+        '<%= url %>' +
+        '&room_id=' + $('#room_id').children("option:selected").val() +
+        '&dates=' + $('#dates').children("option:selected").val() +
+        '&building_id=' + $('#building_id').children("option:selected").val());
+    calendar.refetchEvents();
   }
+
+
 </script>
 
 <style>

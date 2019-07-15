@@ -6,18 +6,33 @@ class BookingsController < ApplicationController
   # GET /bookings.json <- get the user bookings
 
   def index
-    user_next_five_days_bookings = current_user.bookings.where(valid_from: DateTime.now..DateTime.now+5.days).order(:valid_from)
+    selected_bookings = current_user.bookings
+
+    if !params[:dates].nil? && (params[:dates] == "7" || params[:dates] == "30")
+      selected_bookings = selected_bookings.where(valid_from: DateTime.now..DateTime.now+params["dates"].to_i.days)
+    end
+
+    if !params[:room_id].nil? && params[:room_id] != ""
+      selected_bookings = selected_bookings.where(room: params[:room_id])
+    end
+
+    if !params[:building_id].nil? && params[:building_id] != ""
+      selected_bookings = selected_bookings.joins(:room).where('rooms.building_id': params[:building_id])
+    end
+
+    # selected_bookings = selected_bookings.order(:valid_from)
+
     respond_to do |format|
       format.html { 
         @bookings_today = Booking.where(valid_to: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
         @bookings_lasts = Booking.where(created_at: DateTime.now.beginning_of_day..DateTime.now.end_of_day).order("created_at DESC")
-        @user_next_five_days_bookings = user_next_five_days_bookings
+        @user_next_five_days_bookings = selected_bookings
         render :index 
       }
 
       format.json {
         @user_bookings = []
-        user_next_five_days_bookings.each do |b|
+        selected_bookings.each do |b|
           booking_info = Hash.new
           booking_info["title"] = b.room.name + " room (" + b.room.building.name + ")"
           booking_info["start"] = b.valid_from
@@ -34,19 +49,20 @@ class BookingsController < ApplicationController
   end
 
   def show
+    redirect_to bookings_path
   end
 
   def new
   end
 
+  # DELETE /bookings/1
   def destroy
-    # Remove for enable delete
-    #@booking.destroy
-    #respond_to do |format|
-    #  flash[:warning] = "Booking was successfully canceled."
-    #  format.html { redirect_to bookings_url }
-    #  format.json { head :no_content }
-    #end
+    @booking.destroy
+    respond_to do |format|
+      flash[:warning] = "Booking was successfully canceled."
+      format.html { redirect_to bookings_url }
+      format.json { head :no_content }
+    end
   end
 
   def create
@@ -77,7 +93,8 @@ class BookingsController < ApplicationController
   end
 
   def set_booking
-    if !current_user.is_admin? && Booking.find(params[:id]).user != current_user
+    @booking = Booking.find(params[:id])
+    if !current_user.is_admin? && @booking.user != current_user
       flash[:danger] = "You are not allowed to access this booking."
       redirect_to bookings_url
     end

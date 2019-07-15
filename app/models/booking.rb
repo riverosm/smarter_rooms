@@ -1,6 +1,9 @@
 class Booking < ApplicationRecord
   belongs_to :user
   belongs_to :room
+  belongs_to :building
+
+  delegate :building_id, :to => :room
 
   validates :valid_to, presence: true
   validates :valid_from, presence: true

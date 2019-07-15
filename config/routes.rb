@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :bookings, only: [:index, :show, :new, :create]
+  resources :bookings, only: [:index, :show, :new, :create, :destroy]
 
   get '/rooms/real_state', to: 'rooms#real_state'
   get '/rooms/busy_without_booking', to: 'rooms#busy_without_booking'

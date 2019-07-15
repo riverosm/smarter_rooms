@@ -1,4 +1,3 @@
-<br />
 <% if current_user.is_admin? %>
 <div class="row">
   <div class="col">
@@ -47,9 +46,49 @@
 </div>
 
 <div id="script-warning">
-  <code>bookings system</code> must be running.
+  bookings system must be running.
 </div>
 
-<div id="calendar"></div>
+<div class="row justify-content-md-center mt-0">
+  <div class="col-md-3">
+    <h4 class="m-5">Filters:</h4>
+
+<%= content_tag :div, class: "input-group m-5 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', 'calendar-alt', class: 'fa-fw') %>
+<% end %>
+<% end %>
+<select id="dates" name="dates" class="form-control" onchange="getBookings();">
+  <option value="7">Next week</option>
+  <option value="30">Next month</option>
+  <option value="">All days</option>
+</select>
+<% end %>
+
+<%= content_tag :div, class: "input-group m-5 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', 'city', class: 'fa-fw') %>
+<% end %>
+<% end %>
+<%= collection_select(:building, :id, Building.all, :id, :name, {:prompt=>"All buildings"}, {:class=>'form-control', :onchange=>'getBookings();'}) %>
+<% end %>
+
+<%= content_tag :div, class: "input-group m-5 row" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', 'door-open', class: 'fa-fw') %>
+<% end %>
+<% end %>
+<%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"All rooms"}, {:class=>'form-control', :onchange=>'getBookings();'}) %>
+<% end %>
+
+
+  </div>
+  <div class="col-md-9">
+    <div id="calendar"></div>
+  </div>
+</div>
 
 <%= render partial: "calendar_index_user", locals: {url: '/bookings.json?nocache=' + DateTime.now.to_i.to_s } %>
