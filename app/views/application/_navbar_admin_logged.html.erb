@@ -41,7 +41,7 @@
     <%= icon('fas', 'book-open') %> Bookings
     <% end %>
   </li>
-  <li class="nav-item">
+  <li class="nav-item<%= ' active' if controller_name == 'stats' %>">
     <%= link_to stats_path, class: 'nav-link' do %>
     <%= icon('fas', 'chart-bar') %> Stats
     <% end %>
