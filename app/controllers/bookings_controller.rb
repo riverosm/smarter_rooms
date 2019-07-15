@@ -6,7 +6,11 @@ class BookingsController < ApplicationController
   # GET /bookings.json <- get the user bookings
 
   def index
-    selected_bookings = current_user.bookings
+    if current_user.is_admin?
+      selected_bookings = Booking.all
+    else
+      selected_bookings = current_user.bookings
+    end
 
     if !params[:dates].nil? && (params[:dates] == "7" || params[:dates] == "30")
       selected_bookings = selected_bookings.where(valid_from: DateTime.now..DateTime.now+params["dates"].to_i.days)
