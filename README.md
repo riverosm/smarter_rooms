@@ -9,6 +9,8 @@ $ bundle install
 $ rails db:create
 $ rails db:migrate
 $ rails db:seed
+$ echo "You can change some settings before running the app:"
+You can change some settings before running the app:
 $ cat config/initializers/config_smarter_rooms.rb
 SmarterRooms::Application.config.smarter_rooms_rooms_api_url = 'https://ca-3-api.mybluemix.net/' # IoT API URL
 SmarterRooms::Application.config.smarter_rooms_rooms_api_path = 'api/v1/rooms/' # IoT rooms API path
