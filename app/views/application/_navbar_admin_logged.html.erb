@@ -41,16 +41,29 @@
     <%= icon('fas', 'book-open') %> Bookings
     <% end %>
   </li>
-  <li class="nav-item<%= ' active' if controller_name == 'stats' %>">
-    <%= link_to stats_path, class: 'nav-link' do %>
-    <%= icon('fas', 'chart-bar') %> Stats
-    <% end %>
-  </li>
+  <div class="dropdown show<%= ' active' if (controller_name == 'stats') %>">
+    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownRoomsLink" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false"
+      <%= sanitize(' style="color: white;"') if controller_name == 'stats' %></a> <i class="fas fa-chart-bar"></i>
+      Stats
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownRoomsLink">
+      <%= link_to stats_top_five_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'dice-five') %>&nbsp;&nbsp;Top five
+      <% end %>
+
+      <%= link_to stats_averages_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'percent') %>&nbsp;&nbsp;Averages
+      <% end %>
+    </div>
+  </div>
   <div
     class="dropdown show<%= ' active' if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %>">
     <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false"
-      <%= sanitize(' style="color: white;"') if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %></a> <i class="fas fa-user-circle"></i>
+      <%= sanitize(' style="color: white;"') if (controller_name == 'users' && request.fullpath == '/users/' + current_user.id.to_s) %></a>
+      <i class="fas fa-user-circle"></i>
       <%= current_user.name %>
     </a>
 

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   resources :buildings
   resources :users
 
-  get '/stats', to: 'stats#home'
+  get '/stats/top_five', to: 'stats#top_five'
+  get '/stats/averages', to: 'stats#averages'
+  get '/stats/rooms_bookings_by_day', to: 'stats#rooms_bookings_by_day'
 
   root 'static_pages#home'
   get '/about', to: 'static_pages#about'

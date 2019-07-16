@@ -1,0 +1,86 @@
+<h1>Averages stats</h1>
+
+<div class="row text-center">
+  <div class="col-sm-6 mt-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-4">
+            <%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"Select room ..."}, {:class=>'custom-select'}) %>
+          </div>
+          <div class="col-6">
+            <h5 class="pt-2"><b>Room's bookings by day [%]</b></h5>
+          </div>
+          <div class="col-2">
+            <a href=""
+              onclick="prevWeek(); return false;"><%= icon('fas', 'chevron-circle-left', "data-toggle" => "tooltip", "data-original-title" => "Previous week", "data-placement" => "top") %></a>
+            <a href=""
+              onclick="nextWeek(); return false;"><%= icon('fas', 'chevron-circle-right', "data-toggle" => "tooltip", "data-original-title" => "Next week", "data-placement" => "top") %></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body centered">
+        <div id="chart-container">
+          <span>Please select a room ...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 mt-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-4">
+            <select id="dates" name="dates" class="custom-select" onchange="getBookings();">
+              <option value="7">Next week</option>
+              <option value="30">Next month</option>
+              <option value="">All days</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <h5 class="pt-2"><b>Average booking by hour</b></h5>
+          </div>
+        </div>
+      </div>
+      <div class="card-body centered">
+        <div style="height: 400px">
+          <%= column_chart @average_bookings, id: "average_bookings-chart" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  $("#room_id").change(function (e) {
+
+    $.ajax({
+      type: "GET",
+      url: "/stats/rooms_bookings_by_day",
+      data: {
+        room_id: this.value
+      },
+      success: function (data) {
+        $("#chart-container").html(data);
+      },
+    });
+  });
+  $('#room_id').val("");
+</script>
+
+<style>
+  #chart-container {
+    height: 400px;
+    vertical-align: middle;
+  }
+
+  #chart-container SPAN {
+    padding-top: 50px;
+  }
+
+  H5 {
+    font-size: 16px;
+  }
+</style>

@@ -1,0 +1,21 @@
+<h1>Top five stats</h1>
+
+<div class="row justify-content-md-center text-center">
+  <div class="col-sm-6 mt-1">
+    <div class="card">
+      <h5 class="card-header"><b>Top five of booking users</b></h5>
+      <div class="card-body centered">
+        <%= pie_chart @users, id: "users-chart" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 mt-1">
+    <div class="card">
+      <h5 class="card-header"><b>Top five of booked rooms</b></h5>
+      <div class="card-body centered">
+        <%= pie_chart @rooms, id: "rooms-chart" %>
+      </div>
+    </div>
+  </div>
+</div>
