@@ -1,32 +1,8 @@
 <h1>Averages stats</h1>
 
-<div class="row text-center">
-  <div class="col-sm-6 mt-1">
-    <div class="card">
-      <div class="card-header">
-        <div class="row align-items-center">
-          <div class="col-4">
-            <%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"Select room ..."}, {:class=>'custom-select'}) %>
-          </div>
-          <div class="col-6">
-            <h5 class="pt-2"><b>Room's bookings by day [%]</b></h5>
-          </div>
-          <div class="col-2">
-            <a href=""
-              onclick="prevWeek(); return false;"><%= icon('fas', 'chevron-circle-left', "data-toggle" => "tooltip", "data-original-title" => "Previous week", "data-placement" => "top") %></a>
-            <a href=""
-              onclick="nextWeek(); return false;"><%= icon('fas', 'chevron-circle-right', "data-toggle" => "tooltip", "data-original-title" => "Next week", "data-placement" => "top") %></a>
-          </div>
-        </div>
-      </div>
-      <div class="card-body centered">
-        <div id="chart-container">
-          <span>Please select a room ...</span>
-        </div>
-      </div>
-    </div>
-  </div>
+<%= hidden_field_tag "current_week", "0" %>
 
+<div class="row text-center">
   <div class="col-sm-6 mt-1">
     <div class="card">
       <div class="card-header">
@@ -50,24 +26,89 @@
       </div>
     </div>
   </div>
-
+  <div class="col-sm-6 mt-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-4">
+            <%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"Select room ..."}, {:class=>'custom-select'}) %>
+          </div>
+          <div class="col-6">
+            <h5 class="pt-2"><b>Room's bookings by day [%]</b></h5>
+          </div>
+          <div class="col-2">
+            <button onclick="changeWeek('prev');" id="prev-week" type="button" class="btn btn-primary"
+              data-toggle="tooltip" data-original-title="Previous week" data-placement="top">
+              <%= icon('fas', 'chevron-circle-left') %>
+            </button>
+            <button onclick="changeWeek('next');" id="next-week" type="button" disabled="disabled"
+              class="btn btn-primary" data-toggle="tooltip" data-original-title="Next week" data-placement="top">
+              <%= icon('fas', 'chevron-circle-right') %>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body centered">
+        <div id="chart-container">
+          <span>Please select a room ...</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
   $("#room_id").change(function (e) {
+    $('#current_week').val("-1");
+    changeWeek('next');
+    refreshChart();
+  });
 
+  $('#room_id').val("");
+  $('#current_week').val("0");
+  $('#next-week').attr("disabled", true);
+
+  function refreshChart() {
     $.ajax({
       type: "GET",
       url: "/stats/rooms_bookings_by_day",
       data: {
-        room_id: this.value
+        room_id: $('#room_id').val(),
+        current_week: $('#current_week').val()
       },
       success: function (data) {
         $("#chart-container").html(data);
       },
     });
-  });
-  $('#room_id').val("");
+  }
+
+  function changeWeek(prevnext) {
+    $('#room_id').focus();
+    if ($('#room_id').val() == "") {
+      alert("Select a room first");
+      return false;
+    }
+    if (prevnext == 'prev') {
+      $('#current_week').val($('#current_week').val() - 1);
+    } else {
+      $('#current_week').val(parseInt($('#current_week').val()) + 1);
+    }
+    if ($('#current_week').val() < 0) {
+      $('#next-week').attr("disabled", false);
+    } else {
+      $('#next-week').attr("disabled", true);
+    }
+    if ($('#current_week').val() > -4) {
+      $('#prev-week').attr("disabled", false);
+    } else {
+      $('#prev-week').attr("disabled", true);
+    }
+    refreshChart();
+  }
+
+  function nextWeek() {
+    alert("nextWeek");
+  }
 </script>
 
 <style>

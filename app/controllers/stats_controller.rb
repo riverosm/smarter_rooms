@@ -2,9 +2,9 @@ class StatsController < ApplicationController
   before_action :set_stats, only: [:top_five, :averages, :rooms_bookings_by_day]
 
   def rooms_bookings_by_day
-    @bookings = @stats.get_rooms_bookings_by_day(params[:room_id])
-    if @bookings.count == 5
-      render :inline => '<%= column_chart @bookings, suffix: "%", id: "bookings_by_day-chart", xtitle: "Day", ytitle: "Percent of booking by day [%]", max: 100 %>'
+    @bookings = @stats.get_rooms_bookings_by_day(params[:room_id], params[:current_week].to_i)
+    if @bookings.count > 0
+      render :inline => '<%= column_chart @bookings, suffix: "%", id: "bookings_by_day-chart", xtitle: "Day", ytitle: "Percent of bookings by day [%]", max: 100 %>'
     else
       render :inline => '<%= render partial: "not_enough_info" %>'
     end
