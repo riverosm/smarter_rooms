@@ -10,6 +10,7 @@
 <% @rooms.each do |room| 
 room_image = "/room_icon.png"
 data_image = "No room picture"
+data_image = ""
 path = Rails.root.join("public/rooms/#{room.id}.jpg")
 if File.exists?(path)
   room_image = "/rooms/#{room.id}.jpg"
