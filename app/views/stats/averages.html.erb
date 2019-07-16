@@ -8,10 +8,9 @@
       <div class="card-header">
         <div class="row align-items-center">
           <div class="col-4">
-            <select id="dates" name="dates" class="custom-select" onchange="getBookings();">
-              <option value="7">Next week</option>
-              <option value="30">Next month</option>
-              <option value="">All days</option>
+            <select id="days_count" name="days_count" class="custom-select">
+              <option value="7">Last week</option>
+              <option value="30">Last month</option>
             </select>
           </div>
           <div class="col-6">
@@ -20,9 +19,7 @@
         </div>
       </div>
       <div class="card-body centered">
-        <div style="height: 400px">
-          <%= column_chart @average_bookings, id: "average_bookings-chart" %>
-        </div>
+        <div id="chart-by-hour-container" class="chart-container"></div>
       </div>
     </div>
   </div>
@@ -31,7 +28,7 @@
       <div class="card-header">
         <div class="row align-items-center">
           <div class="col-4">
-            <%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"Select room ..."}, {:class=>'custom-select'}) %>
+            <%= collection_select(:room, :id, Room.active.all, :id, :name, {prompt: false}, {:class=>'custom-select'}) %>
           </div>
           <div class="col-6">
             <h5 class="pt-2"><b>Room's bookings by day [%]</b></h5>
@@ -49,9 +46,7 @@
         </div>
       </div>
       <div class="card-body centered">
-        <div id="chart-container">
-          <span>Please select a room ...</span>
-        </div>
+        <div id="chart-by-day-container" class="chart-container"></div>
       </div>
     </div>
   </div>
@@ -61,14 +56,21 @@
   $("#room_id").change(function (e) {
     $('#current_week').val("-1");
     changeWeek('next');
-    refreshChart();
+    refreshByDayChart();
+  });
+
+  $("#days_count").change(function (e) {
+    refreshByHourChart();
   });
 
   $('#room_id').val("");
   $('#current_week').val("0");
   $('#next-week').attr("disabled", true);
 
-  function refreshChart() {
+  $("#days_count").val($("#days_count option:first").val()).change();
+  $("#room_id").val($("#room_id option:first").val()).change();
+
+  function refreshByDayChart() {
     $.ajax({
       type: "GET",
       url: "/stats/rooms_bookings_by_day",
@@ -77,7 +79,7 @@
         current_week: $('#current_week').val()
       },
       success: function (data) {
-        $("#chart-container").html(data);
+        $("#chart-by-day-container").html(data);
       },
     });
   }
@@ -103,21 +105,31 @@
     } else {
       $('#prev-week').attr("disabled", true);
     }
-    refreshChart();
+    refreshByDayChart();
   }
 
-  function nextWeek() {
-    alert("nextWeek");
+  function refreshByHourChart() {
+    $.ajax({
+      type: "GET",
+      url: "/stats/rooms_bookings_by_hour",
+      data: {
+        days_count: $('#days_count').val()
+      },
+      success: function (data) {
+        $("#chart-by-hour-container").html(data);
+      },
+    });
   }
+
 </script>
 
 <style>
-  #chart-container {
+  .chart-container {
     height: 400px;
     vertical-align: middle;
   }
 
-  #chart-container SPAN {
+  .chart-container SPAN {
     padding-top: 50px;
   }
 
