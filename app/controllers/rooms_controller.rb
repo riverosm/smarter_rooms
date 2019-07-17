@@ -109,7 +109,6 @@ class RoomsController < ApplicationController
         room_info = Hash.new
         format.json {
           room_info["room_info"] = @room
-          room_info["available_times"] = @room.get_available_times(params["date"], params["from_time"])
           booking_info = Hash.new
           room_info["bookings"] = @room.get_bookings(current_user)
           if params["only_bookings"] == "1"
