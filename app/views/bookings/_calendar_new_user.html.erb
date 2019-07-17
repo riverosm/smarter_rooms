@@ -1,7 +1,6 @@
 <script>
 
   $(document).ready(function () {
-    clearFields();
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -69,10 +68,10 @@
       selectMirror: true,
 
       viewSkeletonRender: function (info) {
-        clearFields();
         if (calendar.view.type == 'dayGridMonth' && calendar.getOption('selectable') == true) {
           calendar.setOption('selectable', false);
         } else if (calendar.view.type != 'dayGridMonth' && calendar.getOption('selectable') == false) {
+          clearFields();
           calendar.setOption('selectable', true);
         }
       },
@@ -98,9 +97,9 @@
       },
 
       select: function (info) {
-        $('#booking_valid_from_date').val(calendar.formatDate(info.startStr, 'DD/MM/YYYY'));
-        $('#booking_valid_from').val(calendar.formatDate(info.startStr, 'HH:mm'));
-        $('#booking_valid_to').val(calendar.formatDate(info.endStr, 'HH:mm'));
+        $('#booking_id').val(calendar.formatDate(info.startStr, 'DD/MM/YYYY')).change();;
+        $('#booking_valid_from').val(calendar.formatDate(info.startStr, 'HH:mm')).change();;
+        $('#booking_valid_to').val(calendar.formatDate(info.endStr, 'HH:mm')).change();;
 
         $('#booking_valid_from_full').val(info.startStr);
         $('#booking_valid_to_full').val(info.endStr);
@@ -110,7 +109,8 @@
         if (info.allDay) {
           calendar.changeView('timeGridDay');
           calendar.gotoDate(info.date);
-          $('#booking_valid_from_date').val(calendar.formatDate(info.date, 'DD/MM/YYYY'));
+          $('#booking_id').val(calendar.formatDate(info.date, 'DD/MM/YYYY')).change();
+          $('#new_booking')[0].checkValidity();
         }
       },
 
@@ -119,7 +119,7 @@
           can_delete_text = '<a data-confirm="Do you want to cancel this booking?" rel="nofollow" data-method="delete" href="/bookings/' + info.event.extendedProps.can_delete +
             '"><i class="fas fa-trash text-danger" data-toggle="tooltip" data-original-title="Delete booking" data-placement="top"></i>' +
             '</a>&nbsp;&nbsp;' + info.event.title;
-            
+
           if (info.el.querySelector('.fc-title') != null) {
             info.el.querySelector('.fc-title').innerHTML = can_delete_text;
           }
@@ -129,15 +129,34 @@
 
     });
     calendar.render();
+    var elements = document.getElementsByTagName("INPUT");
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].id == "booking_valid_to" || elements[i].id == "booking_valid_from" || elements[i].id == "booking_id") {
+      
+        elements[i].oninvalid = function (e) {
+          e.target.setCustomValidity('');
+          if (!e.target.validity.valid) {
+            text = "time";
+            if (e.target.id == "booking_id") {
+              text = "date";
+            }
+            e.target.setCustomValidity("Please select " + text + " on the left calendar");
+          }
+        };
+        elements[i].onchange = function (e) {
+          e.target.setCustomValidity('');
+        };
+        elements[i].onfocus = function (e) {
+          $(this).blur();
+        };
+      }
+    }
   });
 
   function clearFields() {
     $('#booking_valid_to').val('');
     $('#booking_valid_from').val('');
-    $('#booking_valid_from_date').val('');
-    $('#booking_valid_to').attr('placeholder', '');
-    $('#booking_valid_from').attr('placeholder', '');
-    $('#booking_valid_from_date').attr('placeholder', '');
+    $('#booking_id').val('');
   }
 
 
@@ -181,7 +200,7 @@
   }
 
   #calendar {
-    max-width: 750px;
+    max-width: 650px;
     margin: 20px auto;
     padding: 0 10px;
     font-size: 14px;
