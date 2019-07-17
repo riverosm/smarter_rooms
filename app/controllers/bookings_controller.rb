@@ -6,39 +6,67 @@ class BookingsController < ApplicationController
   # GET /bookings.json <- get the user bookings
 
   def index
-    if current_user.is_admin?
-      selected_bookings = Booking.all
-    else
-      selected_bookings = current_user.bookings
-    end
-
-    if !params[:dates].nil? && (params[:dates] == "7" || params[:dates] == "30")
-      selected_bookings = selected_bookings.where(valid_from: DateTime.now..DateTime.now+params["dates"].to_i.days)
-    end
-
-    if !params[:room_id].nil? && params[:room_id] != ""
-      selected_bookings = selected_bookings.where(room: params[:room_id])
-    end
-
-    if !params[:building_id].nil? && params[:building_id] != ""
-      selected_bookings = selected_bookings.joins(:room).where('rooms.building_id': params[:building_id])
-    end
-
-    # selected_bookings = selected_bookings.order(:valid_from)
+    @user_id = params[:user_id]
+    @room_id = params[:room_id]
 
     respond_to do |format|
       format.html { 
         @bookings_today = Booking.where(valid_to: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
         @bookings_lasts = Booking.where(created_at: DateTime.now.beginning_of_day..DateTime.now.end_of_day).order("created_at DESC")
-        @user_next_five_days_bookings = selected_bookings
+
+        if !@user_id.nil? && @user_id != "" && current_user.is_admin?
+          @user = User.find(@user_id)
+        end
+        
+        if !@room_id.nil? && @room_id != ""
+          @room = Room.find(@room_id)
+        end
+
         render :index 
       }
 
       format.json {
+
+        if current_user.is_admin?
+          if !params[:user_id].nil? && params[:user_id] != ""
+            selected_bookings = Booking.where(user: params[:user_id])
+          else
+            selected_bookings = Booking.all
+          end
+        else
+          selected_bookings = current_user.bookings
+        end
+
+        date_start = params[:start].to_datetime
+        date_end = params[:end].to_datetime
+
+        selected_bookings = selected_bookings.where(valid_from: date_start..date_end)
+    
+        if !params[:room_id].nil? && params[:room_id] != ""
+          selected_bookings = selected_bookings.where(room: params[:room_id])
+        end
+    
+        # selected_bookings = selected_bookings.order(:valid_from)
+
+        status = 200
+        # if more than 50 results, limit and send status 201 (warning)
+        if selected_bookings.count > 50
+          selected_bookings = selected_bookings.limit(50)
+          status = 201
+        end
+
+        if selected_bookings.count == 0
+          status = 202
+        end
+
         @user_bookings = []
         selected_bookings.each do |b|
           booking_info = Hash.new
-          booking_info["title"] = b.room.name + " room (" + b.room.building.name + ")"
+          if current_user.is_admin?
+            booking_info["title"] = "<b>Room:</b> " + b.room.name + " <b>User:</b> " + b.user.name
+          else
+            booking_info["title"] = b.room.name + " room (" + b.room.building.name + ")"
+          end
           booking_info["start"] = b.valid_from
           booking_info["end"] = b.valid_to
           booking_info["backgroundColor"] = "#ADD8E6"
@@ -47,7 +75,7 @@ class BookingsController < ApplicationController
           booking_info["extendedProps"]["can_delete"] = b.id
           @user_bookings << booking_info
         end
-        render json: @user_bookings
+        render json: @user_bookings, status: status
       }
     end
   end
