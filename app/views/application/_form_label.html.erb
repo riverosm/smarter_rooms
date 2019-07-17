@@ -1,4 +1,11 @@
-<%= content_tag :div, class: "input-group mb-3 row" do %>
+<%
+if defined?(add_class)
+  add_class = ""
+else
+  add_class = "mb-3 row"
+end
+%>
+<%= content_tag :div, class: "input-group " + add_class do %>
 <%= content_tag :div, class: "input-group-prepend" do %>
 <%= content_tag :span, class: "input-group-text" do %>
 <%= icon('fas', fa_icon, class: 'fa-fw') %>
