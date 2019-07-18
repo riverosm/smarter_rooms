@@ -61,7 +61,7 @@
     <%= icon('fas', 'users', class: 'fa-fw') %>
     <% end %>
     <% end %>
-    <%= collection_select(:user, :id, User.all, :id, :name, {:include_blank => 'All users', :selected => @user_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <%= collection_select(:user, :id, User.all, :id, :name, {:include_blank => 'All users', :selected => @user_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
     <% end %>
 
     <div class="m-4" id="user-info">
@@ -77,9 +77,9 @@
     <% end %>
     <% end %>
     <% if current_user.is_admin? %>
-    <%= collection_select(:room, :id, Room.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <%= collection_select(:room, :id, Room.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
     <% else %>
-    <%= collection_select(:room, :id, Room.active.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <%= collection_select(:room, :id, Room.active.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
     <% end %>
     <% end %>
 
