@@ -30,7 +30,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if @building.save
-        flash.now[:success] = "Building was successfully created."
+        flash[:success] = "Building was successfully created."
         format.html { redirect_to @building }
         format.json { render :show, status: :created, location: @building }
       else
@@ -50,7 +50,7 @@ class BuildingsController < ApplicationController
   def update
     respond_to do |format|
       if @building.update(building_params)
-        flash.now[:success] = "Building was successfully updated."
+        flash[:success] = "Building was successfully updated."
         format.html { redirect_to @building }
         format.json { render :show, status: :ok, location: @building }
       else
