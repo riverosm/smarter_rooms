@@ -1,4 +1,4 @@
-<%= content_tag :div, class: "alert alert-#{message_type} alert-white rounded mb-3" do %>
+<%= content_tag :div, class: "alert alert-#{message_type} alert-white rounded mb-3 fade show", id: "alert-general" do %>
 <%= content_tag :div, class: "icon" do %>
 <% if message_type == "danger" %>
 <%= icon('fas', 'times-circle') %>
@@ -12,3 +12,7 @@
 <% end %>
 <%= sanitize(message) %>
 <% end %>
+
+<script>
+  setTimeout(function () { $("#alert-general").alert('close'); }, 3000);
+</script>
