@@ -47,7 +47,7 @@
       },
       events: {
         url: '<%= url %>' +
-          '&room_id=' + $('#room_id').children("option:selected").val() +
+          '?room_id=' + $('#room_id').children("option:selected").val() +
           '&user_id=' + $('#user_id').children("option:selected").val(),
         error: function () {
           $('#script-warning').show();
@@ -105,7 +105,7 @@
     }
     calendar.addEventSource({
       url: '<%= url %>' +
-        '&room_id=' + $('#room_id').children("option:selected").val() +
+        '?room_id=' + $('#room_id').children("option:selected").val() +
         '&user_id=' + $('#user_id').children("option:selected").val(),
       success: function (data, xhr) {
         if (xhr.status == 201) {
