@@ -114,8 +114,6 @@ class BookingsController < ApplicationController
       check_max_attendants = false
     end
 
-    byebug
-
     if check_valid_from && check_valid_to && check_max_attendants
       @booking = Booking.new
       @booking.valid_from = params["booking"]["valid_from_full"].to_datetime
