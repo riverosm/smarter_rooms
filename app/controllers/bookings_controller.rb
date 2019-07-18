@@ -153,6 +153,11 @@ class BookingsController < ApplicationController
       flash[:danger] = "You are not allowed to access this booking."
       redirect_to bookings_url
     end
+
+    if current_user.is_admin? && @booking.valid_from < DateTime.now
+      flash[:danger] = "This booking is in the past, it can't be deleted."
+      redirect_to bookings_url
+    end
   end
 
   def booking_params
