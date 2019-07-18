@@ -1,3 +1,15 @@
+<%
+minTime = Rails.configuration.smarter_rooms_calendar_start_time.to_s + ":00"
+maxTime = Rails.configuration.smarter_rooms_calendar_end_time.to_s + ":00"
+slotDuration = Rails.configuration.smarter_rooms_calendar_slot_duration
+hiddenDays = Rails.configuration.smarter_rooms_calendar_hidden_days
+defaultDate = DateTime.now.strftime('%Y-%m-%d')
+
+if Rails.configuration.smarter_rooms_calendar_end_time <= DateTime.now.strftime('%H').to_i
+  defaultDate = (DateTime.now+1.day).strftime('%Y-%m-%d')
+end
+
+%>
 <script>
   var calendar;
   $(document).ready(function () {
@@ -14,11 +26,11 @@
       nowIndicator: true,
       fixedWeekCount: true,
       allDaySlot: false,
-      minTime: "<%= Rails.configuration.smarter_rooms_calendar_start_time.to_s %>:00",
-      maxTime: "<%= Rails.configuration.smarter_rooms_calendar_end_time.to_s %>:00",
-      slotDuration: "<%= Rails.configuration.smarter_rooms_calendar_slot_duration %>",
-      hiddenDays: "<%= Rails.configuration.smarter_rooms_calendar_hidden_days %>",
-      defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
+      minTime: "<%= minTime %>",
+      maxTime: "<%= maxTime %>",
+      slotDuration: "<%= slotDuration %>",
+      hiddenDays: "<%= hiddenDays %>",
+      defaultDate: "<%= defaultDate %>",
       editable: false,
       navLinks: false,
       eventLimit: false,
