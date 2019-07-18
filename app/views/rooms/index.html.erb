@@ -118,7 +118,9 @@ if (i % Kaminari.config.default_per_page) == 0 %>
 
 <br />
 
+<div class="container pagination justify-content-center" >
 <%= paginate @rooms, param_name: :pagina %>
+</div>
 
 <% if current_user.is_admin? %>
 
