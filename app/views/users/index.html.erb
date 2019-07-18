@@ -34,6 +34,11 @@
         <% end %>
       </td>
       <td>
+        <%= link_to bookings_path(user_id: user.id) do %>
+        <%= icon('fas', 'book-open', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user bookings", "data-placement" => "right") %>
+        <% end %>
+      </td>
+      <td>
 
         <%= link_to edit_user_path(user) do %>
         <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right") %>
