@@ -98,10 +98,25 @@ class BookingsController < ApplicationController
   end
 
   def create
-    if params["booking"]["valid_from_full"].to_datetime.class != DateTime || params["booking"]["valid_to_full"].to_datetime.class != DateTime || booking_params[:number_of_attendants] != Integer
-      flash[:danger] = "Please fill all the required fields"
-      redirect_to new_booking_path(room_id: @room.id)
-    else
+    check_valid_from = true
+    check_valid_to = true
+    check_max_attendants = true
+
+    if params["booking"]["valid_from_full"].nil? || params["booking"]["valid_from_full"].to_datetime.class != DateTime
+      check_valid_from = false
+    end
+
+    if params["booking"]["valid_to_full"].nil? || params["booking"]["valid_to_full"].to_datetime.class != DateTime
+      check_valid_to = false
+    end
+
+    if booking_params[:number_of_attendants].nil? || booking_params[:number_of_attendants].to_i.class != Integer || booking_params[:number_of_attendants].to_i <= 0
+      check_max_attendants = false
+    end
+
+    byebug
+
+    if check_valid_from && check_valid_to && check_max_attendants
       @booking = Booking.new
       @booking.valid_from = params["booking"]["valid_from_full"].to_datetime
       @booking.valid_to = params["booking"]["valid_to_full"].to_datetime
@@ -116,6 +131,9 @@ class BookingsController < ApplicationController
         flash[:danger] = "There was errors perfmorming the operation: <br> #{@booking.errors.first.last}"
         redirect_to new_booking_path(room_id: @room.id)
       end
+    else
+      flash[:danger] = "Please fill all the required fields"
+      redirect_to new_booking_path(room_id: @room.id)
     end
   end
 
@@ -123,7 +141,7 @@ class BookingsController < ApplicationController
   def set_room
     @room = Room.where("active = 1 AND id = ?",params[:room_id]).first
     if @room.nil?
-      flash[:danger] = "You are not allowed to access this room."
+      flash[:danger] = "You are not allowed to book this room."
       redirect_to rooms_url
     end
   end
