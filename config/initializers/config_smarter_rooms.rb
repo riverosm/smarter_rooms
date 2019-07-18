@@ -5,3 +5,4 @@ SmarterRooms::Application.config.smarter_rooms_calendar_start_time = 9
 SmarterRooms::Application.config.smarter_rooms_calendar_end_time = 18
 SmarterRooms::Application.config.smarter_rooms_calendar_slot_duration = '00:15'
 SmarterRooms::Application.config.smarter_rooms_calendar_hidden_days = '[0, 6]'
+SmarterRooms::Application.config.smarter_rooms_calendar_max_results = 100

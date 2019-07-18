@@ -9,6 +9,8 @@ if Rails.configuration.smarter_rooms_calendar_end_time <= DateTime.now.strftime(
   defaultDate = (DateTime.now+1.day).strftime('%Y-%m-%d')
 end
 
+maxResults = Rails.configuration.smarter_rooms_calendar_max_results
+
 %>
 <script>
   var calendar;
@@ -66,7 +68,7 @@ end
         },
         success: function (data, xhr) {
           if (xhr.status == 201) {
-            $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First 50 results displayed<br />Please use the below filters</p>');
+            $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First <%= maxResults %> results displayed<br />Please use the below filters</p>');
           } else if (xhr.status == 200) {
             $('#div_info').html('<p class="text-center text-success">All results displayed</p>');
           } else if (xhr.status == 202) {
@@ -121,7 +123,7 @@ end
         '&user_id=' + $('#user_id').children("option:selected").val(),
       success: function (data, xhr) {
         if (xhr.status == 201) {
-          $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First 50 results displayed<br />Please use the below filters</p>');
+          $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First <%= maxResults %> results displayed<br />Please use the below filters</p>');
         } else if (xhr.status == 200) {
           $('#div_info').html('<p class="text-center text-success">All results displayed</p>');
         } else if (xhr.status == 202) {

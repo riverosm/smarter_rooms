@@ -49,9 +49,9 @@ class BookingsController < ApplicationController
         # selected_bookings = selected_bookings.order(:valid_from)
 
         status = 200
-        # if more than 50 results, limit and send status 201 (warning)
-        if selected_bookings.count > 50
-          selected_bookings = selected_bookings.limit(50)
+        # if more than calendar_max_results, limit and send status 201 (warning)
+        if selected_bookings.count > Rails.configuration.smarter_rooms_calendar_max_results
+          selected_bookings = selected_bookings.limit(Rails.configuration.smarter_rooms_calendar_max_results)
           status = 201
         end
 
