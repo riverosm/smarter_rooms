@@ -1,67 +1,103 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+  <title>SmarterRooms</title>
+  <meta name="csrf-param" content="authenticity_token" />
+  <meta http-equiv="refresh" content="3;url=/" />
+  <meta name="csrf-token"
+    content="d54zkueCt7m9KYbdOcOUhKewq7YBBHTwGnmhh7Wb+0CFoVgqiYSHeVfi4hpY2sha5u9Kz0lB2Kcc8U6bLunGDA==" />
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+  <link rel="stylesheet" media="all"
+    href="/assets/bookings.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1"
+    data-turbolinks-track="reload" />
+  <link rel="stylesheet" media="all"
+    href="/assets/buildings.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1"
+    data-turbolinks-track="reload" />
+  <link rel="stylesheet" media="all"
+    href="/assets/rooms.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1"
+    data-turbolinks-track="reload" />
+  <link rel="stylesheet" media="all"
+    href="/assets/scaffolds.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1"
+    data-turbolinks-track="reload" />
+  <link rel="stylesheet" media="all"
+    href="/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1"
+    data-turbolinks-track="reload" />
+  <link rel="stylesheet" media="all"
+    href="/assets/application.self-cdb6df291beebe061d3796c8b92484e20a91f437e8ce460bee3737dc26266bf5.css?body=1"
+    data-turbolinks-track="reload" />
+  <script src="/assets/rails-ujs.self-2b8935521e2301b06b45bd42e623eb0c0acf76c3a6ba383b7429c6a2884f8c23.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/activestorage.self-1ed4604ac2170045f1ffca4edb81a75246661555e4f9cf682bb8a21825e32e1c.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/turbolinks.self-569ee74eaa15c1e2019317ff770b8769b1ec033a0f572a485f64c82ddc8f989e.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/bookings.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/buildings.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/action_cable.self-69fddfcddf4fdef9828648f9330d6ce108b93b82b0b8d3affffc59a114853451.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/cable.self-8484513823f404ed0c0f039f75243bfdede7af7919dda65f2e66391252443ce9.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/rooms.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/jquery3.self-e200ee796ef24add7054280d843a80de75392557bb4248241e870fac0914c0c1.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/popper.self-70e1b2b78096eb80eb35ebac513e7a8007033ee3e881919cfdca4ece7779cffd.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/bootstrap.self-91405a85c7ea7ffc2407472f08a86cd29ba078b4e18f962931a4cf3270a7ba4d.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/chartkick.self-b5d0f43820be81572006b83dca3b4b32ab7f28478fc6954349696bd6a4042fde.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/Chart.bundle.self-f4a94f9a9c61f47cfd8b46041c35cce200ea8e7c89213e36a620d69dc1d5464a.js?body=1"
+    data-turbolinks-track="reload"></script>
+  <script src="/assets/application.self-f74b421b6b3f8f87122d354a558aa64b553aee34b1bf06a7515456271b87a3c5.js?body=1"
+    data-turbolinks-track="reload"></script>
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-  </style>
 </head>
 
-<body class="rails-default-error-page">
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <img src="/ibm_logo.png" width="50" height="20" />&nbsp;&nbsp;&nbsp;&nbsp;
+      <a class="navbar-brand" href="/">SmarterRooms</a>
+    </nav>
+  </header>
+
+  <div class="container-fluid">
+
+
+    <div class="alert alert-danger alert-white rounded mb-3 fade show" id="alert-general">
+      <div class="icon">
+        <i class="fas fa-times-circle"></i>
+      </div>This page does not exists, redirecting to index ...
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
+    <script>
+      setTimeout(function () { $("#alert-general").alert('close'); }, 3000);
+    </script>
+
+
+
   </div>
+
+  <footer class="footer bg-dark text-center">
+    <div class="container">
+      <span class="text-muted">IBM &copy; SmarterRooms - 2019</span>
+    </div>
+  </footer>
+
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
 </body>
+
 </html>
