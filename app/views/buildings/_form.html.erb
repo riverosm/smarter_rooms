@@ -7,10 +7,10 @@
                                            placeholder: 'Address', type: 'text', form: f} %>
 
 <%= render partial: "form_label", locals: {required: true, field: :latitude,  fa_icon: 'compass',
-                                           placeholder: 'Latitude', type: 'number', form: f} %>
+                                           placeholder: 'Latitude', type: 'float', form: f} %>
 
 <%= render partial: "form_label", locals: {required: true, field: :longitude,  fa_icon: 'compass',
-                                           placeholder: 'Longitude', type: 'number', form: f} %>
+                                           placeholder: 'Longitude', type: 'float', form: f} %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <% if action == "new" %>

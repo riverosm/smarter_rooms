@@ -24,6 +24,8 @@ case type
     form.password_field field, :required => required, placeholder: placeholder, class: "form-control", minlength: 8
   when "number"
     form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: :any, min: 1, max: max
+  when "float"
+    form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: "0.01"
 end
 %>
 <% end %>
