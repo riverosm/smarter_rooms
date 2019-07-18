@@ -20,7 +20,7 @@ if (i % Kaminari.config.default_per_page) == 0 %>
 <div class="row justify-content-md-center text-center">
   <% end %>
   <div class="col-sm-2 mt-1">
-    <div class="card<%= ' room_disabled' if !room.active? %>">
+    <div class="card<%= room.active? ? ' room_enabled' : ' room_disabled' %>">
       <h5 class="card-header"><b><%= room.name %></b></h5>
       <div class="card-body centered">
         <table class="text-left w-100">
@@ -76,8 +76,13 @@ if (i % Kaminari.config.default_per_page) == 0 %>
               <% end %>
             </td>
             <td>
+              <%= link_to new_booking_path(room_id: room.id) do %>
+              <%= icon('fas', 'calendar-alt', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "Book this room!", "data-placement" => "bottom") %>
+              <% end %>
+            </td>
+            <td>
               <%= link_to bookings_path(room_id: room.id) do %>
-              <%= icon('fas', 'book-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View room bookings", "data-placement" => "bottom") %>
+              <%= icon('fas', 'book-open', class: "text-info", "data-toggle" => "tooltip", "data-original-title" => "View room bookings", "data-placement" => "bottom") %>
               <% end %>
             </td>
             <td>

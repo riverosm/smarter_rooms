@@ -201,8 +201,13 @@ H1 {
 }
 
 .room_disabled {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  border: solid 1px red;
+  // opacity: 0.5;
+  // filter: alpha(opacity=50);
+}
+
+.room_enabled {
+  border: solid 1px #28a745;
 }
 
 .accesory_disabled {
