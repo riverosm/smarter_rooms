@@ -12,6 +12,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/1
   # GET /buildings/1.json
   def show
+    redirect_to buildings_path
   end
 
   # GET /buildings/new
