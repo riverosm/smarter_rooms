@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
-  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:new, :edit, :update, :destroy, :real_state, :busy_without_booking]
+  before_action :verify_if_admin_and_redirect_with_error_message_if_not, only: [:new, :edit, :update, :destroy, :real_state, :busy_without_booking, :empty_with_booking]
 
   # GET /rooms
   # GET /rooms.json
@@ -23,6 +23,36 @@ class RoomsController < ApplicationController
     end
 
     @rooms = @rooms.order(:name).page params[:pagina]
+  end
+
+  # GET /rooms/empty_with_booking
+  # GET /rooms/empty_with_booking.json
+  def empty_with_booking
+    respond_to do |format|
+      format.html { render :empty_with_booking }
+      format.json {
+        @rooms = []
+        booked_now_rooms = Booking.booked_now.map{|booked_now| booked_now.room}
+        if booked_now_rooms == []
+          booked_now_rooms = ''
+        end
+        Room.where("id IN (?)", booked_now_rooms).each do |booked_room|
+          room_info = Hash.new
+          room_info["estimated_occupants"] = booked_room.get_estimated_occupants
+
+          if !room_info["estimated_occupants"].nil? && room_info["estimated_occupants"] == 0
+            room_info["name"] = booked_room.name
+            room_info["building"] = booked_room.building.name
+            room_info["max_capacity"] = booked_room.max_capacity
+            room_info["state"] = "Empty with active booking!"
+            room_info["class"] = "danger"
+            room_info["used_percent"] = (room_info["estimated_occupants"].to_f / room_info["max_capacity"].to_f * 100).ceil
+            @rooms << room_info
+          end
+        end
+        render json: @rooms
+      }
+    end
   end
 
   # GET /rooms/real_state

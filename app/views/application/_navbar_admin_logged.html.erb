@@ -31,6 +31,10 @@
       <%= icon('fas', 'chalkboard-teacher') %> View real state rooms
       <% end %>
 
+      <%= link_to rooms_empty_with_booking_path, class: 'dropdown-item' do %>
+      <%= icon('fas', 'chalkboard') %> View empty rooms with active booking
+      <% end %>
+
       <%= link_to rooms_busy_without_booking_path, class: 'dropdown-item' do %>
       <%= icon('fas', 'user-slash') %> View busy rooms without booking
       <% end %>
