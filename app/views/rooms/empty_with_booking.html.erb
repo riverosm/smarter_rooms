@@ -13,26 +13,33 @@
 <div class="row justify-content-md-center text-center" id="showData"></div>
 
 <script>
-$.getJSON("/rooms/empty_with_booking.json").done(function (data) {
-  $.each(data, function (key, room) {
+  $.getJSON("/rooms/empty_with_booking.json").done(function (data) {
+    var emptySet = true;
+    $.each(data, function (key, room) {
+      var emptySet = false;
 
-    var new_div = document.createElement("div");
-    new_div.className = "col-sm-2 mt-1"
-    new_div.innerHTML =  '<div class="card text-center"><h5 class="card-header"><b>' + room.name + '</b></h5>' +
-          '<div class="card-body centered">' +
-            '<p>' + room.building + '</p>' +
-            '<div class="progress" style="height: 15px;">' +
-              '<div class="progress-bar bg-primary" role="progressbar" style="width: ' + room.used_percent + '%;" aria-valuenow="' + room.used_percent +'" aria-valuemin="0" aria-valuemax="100"></div>' +
-            '</div>' +
-            '<p>' + room.estimated_occupants + ' of ' + room.max_capacity + '</p>' +
-            '<button class="btn btn-block btn-' + room.class + '" type="button" disabled>' +
-              room.state +
-            '</button>' +
-          '</div>' +
-      '</div>';
-    $('#showData').append(new_div);
-  })
-  $('#div_loading').hide();
-  $('#div_info').show();
-});
+      var new_div = document.createElement("div");
+      new_div.className = "col-sm-2 mt-1"
+      new_div.innerHTML = '<div class="card text-center"><h5 class="card-header"><b>' + room.name + '</b></h5>' +
+        '<div class="card-body centered">' +
+        '<p>' + room.building + '</p>' +
+        '<div class="progress" style="height: 15px;">' +
+        '<div class="progress-bar bg-primary" role="progressbar" style="width: ' + room.used_percent + '%;" aria-valuenow="' + room.used_percent + '" aria-valuemin="0" aria-valuemax="100"></div>' +
+        '</div>' +
+        '<p>' + room.estimated_occupants + ' of ' + room.max_capacity + '</p>' +
+        '<button class="btn btn-block btn-' + room.class + '" type="button" disabled>' +
+        room.state +
+        '</button>' +
+        '</div>' +
+        '</div>';
+      $('#showData').append(new_div);
+    })
+    $('#div_loading').hide();
+    if (emptySet) {
+      $('#div_info').html('<p class="text-danger text-center">No available results</p>');
+      $('#div_info').show();
+    } else {
+      $('#div_info').show();
+    }
+  });
 </script>
