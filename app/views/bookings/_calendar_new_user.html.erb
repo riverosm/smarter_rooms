@@ -20,7 +20,7 @@
       hiddenDays: "<%= Rails.configuration.smarter_rooms_calendar_hidden_days %>",
       defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
       editable: false,
-      navLinks: true,
+      navLinks: false,
       eventLimit: false,
       noEventsMessage: 'No bookings to display',
       eventTimeFormat: {
@@ -49,6 +49,11 @@
         url: '<%= url %>',
         error: function () {
           $('#script-warning').show();
+        },
+        extraParams: function () {
+          return {
+            cachebuster: new Date().valueOf()
+          };
         }
       },
       eventMouseEnter: function (mouseEnterInfo) {
@@ -132,7 +137,7 @@
     var elements = document.getElementsByTagName("INPUT");
     for (var i = 0; i < elements.length; i++) {
       if (elements[i].id == "booking_valid_to" || elements[i].id == "booking_valid_from" || elements[i].id == "booking_id") {
-      
+
         elements[i].oninvalid = function (e) {
           e.target.setCustomValidity('');
           if (!e.target.validity.valid) {
