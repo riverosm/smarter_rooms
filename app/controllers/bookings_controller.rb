@@ -63,16 +63,19 @@ class BookingsController < ApplicationController
         selected_bookings.each do |b|
           booking_info = Hash.new
           if current_user.is_admin?
-            booking_info["title"] = "<b>Room:</b> " + b.room.name + " <b>User:</b> " + b.user.name
+            booking_info["title"] = "Room: <b>" + b.room.name + " </b>User:<b> " + b.user.name + "</b>"
           else
             booking_info["title"] = b.room.name + " room (" + b.room.building.name + ")"
           end
           booking_info["start"] = b.valid_from
           booking_info["end"] = b.valid_to
-          booking_info["backgroundColor"] = "#ADD8E6"
+          booking_info["backgroundColor"] = "#98FB98"
           booking_info["borderColor"] = "#000"
-          booking_info["extendedProps"] = Hash.new
-          booking_info["extendedProps"]["can_delete"] = b.id
+          if b.valid_from > DateTime.now
+            booking_info["backgroundColor"] = "#ADD8E6"
+            booking_info["extendedProps"] = Hash.new
+            booking_info["extendedProps"]["can_delete"] = b.id
+          end
           @user_bookings << booking_info
         end
         render json: @user_bookings, status: status

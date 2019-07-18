@@ -107,6 +107,14 @@ maxResults = Rails.configuration.smarter_rooms_calendar_max_results
           if (info.el.querySelector('.fc-list-item-title') != null) {
             info.el.querySelector('.fc-list-item-title').innerHTML = can_delete_text;
           }
+        } else {
+          if (info.el.querySelector('.fc-title') != null) {
+            info.el.querySelector('.fc-title').innerHTML = info.event.title;
+          }
+
+          if (info.el.querySelector('.fc-list-item-title') != null) {
+            info.el.querySelector('.fc-list-item-title').innerHTML = info.event.title;
+          }
         }
       },
     });
