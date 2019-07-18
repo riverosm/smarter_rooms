@@ -76,8 +76,8 @@ if (i % Kaminari.config.default_per_page) == 0 %>
               <% end %>
             </td>
             <td>
-              <%= link_to room do %>
-              <%= icon('fas', 'eye', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View room details", "data-placement" => "bottom") %>
+              <%= link_to bookings_path(room_id: room.id) do %>
+              <%= icon('fas', 'book-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View room bookings", "data-placement" => "bottom") %>
               <% end %>
             </td>
             <td>

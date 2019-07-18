@@ -105,7 +105,7 @@ class RoomsController < ApplicationController
       redirect_to rooms_url
     else
       respond_to do |format|
-        format.html { render :show }
+        format.html { redirect_to rooms_path }
         room_info = Hash.new
         format.json {
           room_info["room_info"] = @room
