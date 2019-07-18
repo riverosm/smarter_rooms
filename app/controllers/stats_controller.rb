@@ -2,9 +2,23 @@ class StatsController < ApplicationController
   before_action :set_stats, only: [:top_five, :averages, :rooms_bookings_by_day, :rooms_bookings_by_hour]
 
   def rooms_bookings_by_day
-    @bookings = @stats.get_rooms_bookings_by_day(params[:room_id], params[:current_week].to_i)
+
+    current_week = params[:current_week].to_i
+
+    last_day = DateTime.yesterday
+    if current_week > -5 && current_week < 0
+        last_day = DateTime.now+(8*current_week).days
+    end
+
+    date_start = last_day.end_of_day-7.days
+    date_end = last_day.end_of_day
+
+    @date_from = date_start.strftime("%d/%m/%Y")
+    @date_to = date_end.strftime("%d/%m/%Y")
+
+    @bookings = @stats.get_rooms_bookings_by_day(params[:room_id], date_start, date_end)
     if @bookings.count > 0
-      render :inline => '<%= column_chart @bookings, suffix: "%", id: "bookings_by_day-chart", xtitle: "Day", ytitle: "Percent of bookings by day [%]", max: 100 %>'
+      render :inline => '<%= column_chart @bookings, suffix: "%", id: "bookings_by_day-chart", xtitle: "Day - Only weekdays from " + @date_from + " to " + @date_to, ytitle: "Percent of bookings by day [%]", max: 100 %>'
     else
       render :inline => '<%= render partial: "not_enough_info" %>'
     end

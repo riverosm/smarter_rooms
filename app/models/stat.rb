@@ -16,17 +16,10 @@ class Stat < ApplicationController
     range_filter.group('strftime("%H", valid_from)').count.map {|a| [a[0],(a[1]/(hours_per_day*days_count).to_f).round(2)]}
   end
 
-  def get_rooms_bookings_by_day(room_id, current_week)
+  def get_rooms_bookings_by_day(room_id, date_start, date_end)
     # For all rooms and comparisions
     # Booking.where(room_id: ' + params[:room_id] + ').joins(:room).group("rooms.name", "strftime(\"%d/%m/%Y\", valid_from)").order(:valid_from).count
     hours_per_day = Rails.configuration.smarter_rooms_calendar_end_time - Rails.configuration.smarter_rooms_calendar_start_time
-    last_day = DateTime.yesterday
-    if current_week > -5 && current_week < 0
-        last_day = DateTime.now+(8*current_week).days
-    end
-
-    date_start = last_day.end_of_day-7.days
-    date_end = last_day.end_of_day
 
     room_filter = Booking.where(room: room_id)
     range_filter = room_filter.where(valid_from: date_start..date_end)
