@@ -29,8 +29,8 @@ class Stat < ApplicationController
     date_end = last_day.end_of_day
 
     room_filter = Booking.where(room: room_id)
-    range_filter = room_filter.where(valid_from: last_day.end_of_day-7.days..last_day.end_of_day)
-    @rooms_bookings_by_day = range_filter.group('DATE(valid_from)').sum('round((strftime("%H:%m", valid_to) - strftime("%H:%m", valid_from) / ' + hours_per_day.to_s + '),2)')
+    range_filter = room_filter.where(valid_from: date_start..date_end)
+    @rooms_bookings_by_day = range_filter.group('DATE(valid_from)').sum('strftime("%H:%m", valid_to) - strftime("%H:%m", valid_from)')
 
     # For dates with zero bookings
     while(date_start < date_end) do
@@ -46,7 +46,7 @@ class Stat < ApplicationController
     if @rooms_bookings_by_day.values.sum == 0
       @rooms_bookings_by_day = []
     else
-      @rooms_bookings_by_day.sort.map {|rb| [rb[0].to_date.strftime("%a %d/%m"),rb[1]]}
+      @rooms_bookings_by_day.sort.map {|rb| [rb[0].to_date.strftime("%a %d/%m"),(rb[1]/hours_per_day.to_f.round(2)*100).round(2)]}
     end
   end
 end
