@@ -30,8 +30,18 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        flash[:success] = "User was successfully created. Please login."
-        format.html { redirect_to root_path }
+        success_message = "User was successfully created."
+        if !logged_in?
+          success_message += " Please login."
+        end
+        flash[:success] = success_message
+        format.html {
+          if !logged_in?
+            redirect_to root_path
+          else
+            redirect_to users_path
+          end
+        }
         format.json { render :show, status: :created, location: @user }
       else
         error_msgs = ""
