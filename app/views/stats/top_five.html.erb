@@ -5,7 +5,11 @@
     <div class="card">
       <h5 class="card-header"><b>Top five of booking users</b></h5>
       <div class="card-body centered">
+        <% if @users.count > 4 %>
         <%= pie_chart @users, id: "users-chart" %>
+        <% else %>
+        <%= render partial: "not_enough_info" %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -14,7 +18,11 @@
     <div class="card">
       <h5 class="card-header"><b>Top five of booked rooms</b></h5>
       <div class="card-body centered">
+        <% if @rooms.count > 4 %>
         <%= pie_chart @rooms, id: "rooms-chart" %>
+        <% else %>
+        <%= render partial: "not_enough_info" %>
+        <% end %>
       </div>
     </div>
   </div>
