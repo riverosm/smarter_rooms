@@ -55,7 +55,7 @@ end
         timeGrid: 'day'
       },
       loading: function (bool) {
-        $('#div_cargando').toggle(bool);
+        $('#div_calendar_loading').toggle(bool);
       },
       events: {
         url: '<%= url %>',
@@ -180,7 +180,7 @@ end
 </script>
 
 <style>
-  #div_cargando {
+  #div_calendar_loading {
     position: fixed;
     z-index: 999;
     height: 2em;
@@ -193,7 +193,7 @@ end
     right: 0;
   }
 
-  #div_cargando:before {
+  #div_calendar_loading:before {
     content: '';
     display: block;
     position: fixed;
