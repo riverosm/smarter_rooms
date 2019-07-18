@@ -200,16 +200,6 @@ H1 {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.room_disabled {
-  border: solid 1px red;
-  // opacity: 0.5;
-  // filter: alpha(opacity=50);
-}
-
-.room_enabled {
-  border: solid 1px #28a745;
-}
-
 .accesory_disabled {
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -218,4 +208,53 @@ H1 {
 #div_loading {
   margin: 0 auto;
   width: 50%;
+}
+
+.room_info {
+  height: 260px;
+  color: white;
+  padding-top: 10px;
+}
+
+A:hover {
+  text-decoration: none;
+}
+
+.room_name {
+  padding-left: 10px;
+}
+
+.building_name {
+  font-size: 10px;
+}
+
+.room_info HR {
+  width: 90%;
+  margin-top: 10px;
+  color: white;
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 1px 0;
+}
+
+.room_img {
+  position: absolute;
+  float: left;
+  padding-left: 10px;
+  margin-top: 10px;
+}
+
+.room_img IMG {
+  width: 60px;
+}
+
+.room_accesories {
+  text-align: center;
+  margin: 0 auto;
+  display: table;
 }
