@@ -75,11 +75,13 @@ if (i % Kaminari.config.default_per_page) == 0 %>
               <% end %>
               <% end %>
             </td>
+            <% if room.active? %>
             <td>
               <%= link_to new_booking_path(room_id: room.id) do %>
               <%= icon('fas', 'calendar-alt', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "Book this room!", "data-placement" => "bottom") %>
               <% end %>
             </td>
+            <% end %>
             <td>
               <%= link_to bookings_path(room_id: room.id) do %>
               <%= icon('fas', 'book-open', class: "text-info", "data-toggle" => "tooltip", "data-original-title" => "View room bookings", "data-placement" => "bottom") %>
