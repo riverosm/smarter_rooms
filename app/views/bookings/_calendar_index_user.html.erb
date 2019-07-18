@@ -20,7 +20,7 @@
       hiddenDays: "<%= Rails.configuration.smarter_rooms_calendar_hidden_days %>",
       defaultDate: "<%= DateTime.now.strftime('%Y-%m-%d') %>",
       editable: false,
-      navLinks: true,
+      navLinks: false,
       eventLimit: false,
       noEventsMessage: 'No bookings to display',
       eventTimeFormat: {
@@ -46,9 +46,25 @@
         $('#div_calendar_loading').toggle(bool);
       },
       events: {
-        url: '<%= url %>&dates=7',
+        url: '<%= url %>' +
+          '&room_id=' + $('#room_id').children("option:selected").val() +
+          '&user_id=' + $('#user_id').children("option:selected").val(),
         error: function () {
           $('#script-warning').show();
+        },
+        success: function (data, xhr) {
+          if (xhr.status == 201) {
+            $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First 50 results displayed<br />Please use the below filters</p>');
+          } else if (xhr.status == 200) {
+            $('#div_info').html('<p class="text-center text-success">All results displayed</p>');
+          } else if (xhr.status == 202) {
+            $('#div_info').html('<p class="text-center text-primary">No results to show</p>');
+          }
+        },
+        extraParams: function () {
+          return {
+            cachebuster: new Date().valueOf()
+          };
         }
       },
       eventMouseEnter: function (mouseEnterInfo) {
@@ -68,14 +84,13 @@
           can_delete_text = '<a data-confirm="Do you want to cancel this booking?" rel="nofollow" data-method="delete" href="/bookings/' + info.event.extendedProps.can_delete +
             '"><i class="fas fa-trash text-danger" data-toggle="tooltip" data-original-title="Delete booking" data-placement="top"></i>' +
             '</a>&nbsp;&nbsp;' + info.event.title;
-            
+
           if (info.el.querySelector('.fc-title') != null) {
             info.el.querySelector('.fc-title').innerHTML = can_delete_text;
           }
 
           if (info.el.querySelector('.fc-list-item-title') != null) {
             info.el.querySelector('.fc-list-item-title').innerHTML = can_delete_text;
-
           }
         }
       },
@@ -86,14 +101,27 @@
   function getBookings() {
     var firstEventSource = calendar.getEventSources()[0];
     if (firstEventSource) {
-      console.log(firstEventSource.url);
       firstEventSource.remove();
     }
-    calendar.addEventSource(
-        '<%= url %>' +
+    calendar.addEventSource({
+      url: '<%= url %>' +
         '&room_id=' + $('#room_id').children("option:selected").val() +
-        '&dates=' + $('#dates').children("option:selected").val() +
-        '&building_id=' + $('#building_id').children("option:selected").val());
+        '&user_id=' + $('#user_id').children("option:selected").val(),
+      success: function (data, xhr) {
+        if (xhr.status == 201) {
+          $('#div_info').html('<p class="text-center text-danger">There are more results to show<br />First 50 results displayed<br />Please use the below filters</p>');
+        } else if (xhr.status == 200) {
+          $('#div_info').html('<p class="text-center text-success">All results displayed</p>');
+        } else if (xhr.status == 202) {
+          $('#div_info').html('<p class="text-center text-primary">No results to show</p>');
+        }
+      },
+      extraParams: function () {
+        return {
+          cachebuster: new Date().valueOf()
+        };
+      }
+    });
     calendar.refetchEvents();
   }
 

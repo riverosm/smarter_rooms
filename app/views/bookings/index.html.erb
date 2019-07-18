@@ -1,4 +1,4 @@
-<% if current_user.is_admin? %>
+<% if current_user.is_admin? && false %>
 <div class="row">
   <div class="col">
     <div class="card">
@@ -13,27 +13,28 @@
     </div>
   </div>
   <div class="col">
-      <div class="card">
-        <h5 class="card-header">Last bookings</h5>
-        <div class="card-body centered">
-            <% @bookings_lasts.each do |b| %>
-            <b><%= b.created_at.to_s + " " + b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
-            <br />
-            <%= b.user.name %> <br /> <br />
-            <% end %>
-        </div>
+    <div class="card">
+      <h5 class="card-header">Last bookings</h5>
+      <div class="card-body centered">
+        <% @bookings_lasts.each do |b| %>
+        <b><%= b.created_at.to_s + " " + b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> -
+        <%= b.valid_to.strftime('%H:%M') %>)
+        <br />
+        <%= b.user.name %> <br /> <br />
+        <% end %>
       </div>
     </div>
+  </div>
   <div class="col">
-      <div class="card">
-        <h5 class="card-header">All bookings</h5>
-        <div class="card-body centered">
-          By Room <br />
-          By Site <br />
-          By Date <br />
-        </div>
+    <div class="card">
+      <h5 class="card-header">All bookings</h5>
+      <div class="card-body centered">
+        By Room <br />
+        By Site <br />
+        By Date <br />
       </div>
     </div>
+  </div>
 </div>
 
 
@@ -51,39 +52,42 @@
 
 <div class="row justify-content-md-center mt-0">
   <div class="col-md-3">
-    <h4 class="m-5">Filters:</h4>
+    <div class="m-4" id="div_info"></div>
+    <h4 class="m-4">Filters:</h4>
 
-<%= content_tag :div, class: "input-group m-5 row" do %>
-<%= content_tag :div, class: "input-group-prepend" do %>
-<%= content_tag :span, class: "input-group-text" do %>
-<%= icon('fas', 'calendar-alt', class: 'fa-fw') %>
-<% end %>
-<% end %>
-<select id="dates" name="dates" class="form-control" onchange="getBookings();">
-  <option value="7">Next week</option>
-  <option value="30">Next month</option>
-  <option value="">All days</option>
-</select>
-<% end %>
+    <%= content_tag :div, class: "input-group m-4 row" do %>
+    <%= content_tag :div, class: "input-group-prepend" do %>
+    <%= content_tag :span, class: "input-group-text" do %>
+    <%= icon('fas', 'users', class: 'fa-fw') %>
+    <% end %>
+    <% end %>
+    <%= collection_select(:user, :id, User.all, :id, :name, {:include_blank => 'All users', :selected => @user_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <% end %>
 
-<%= content_tag :div, class: "input-group m-5 row" do %>
-<%= content_tag :div, class: "input-group-prepend" do %>
-<%= content_tag :span, class: "input-group-text" do %>
-<%= icon('fas', 'city', class: 'fa-fw') %>
-<% end %>
-<% end %>
-<%= collection_select(:building, :id, Building.all, :id, :name, {:prompt=>"All buildings"}, {:class=>'form-control', :onchange=>'getBookings();'}) %>
-<% end %>
+    <div class="m-4" id="user-info">
+      <b>Name:</b> Pepito <br />
+      <b>Phone:</b> 1234-5512 <br />
+      <b>E-mail:</b> room_reservations@ar.ibm.com
+    </div>
 
-<%= content_tag :div, class: "input-group m-5 row" do %>
-<%= content_tag :div, class: "input-group-prepend" do %>
-<%= content_tag :span, class: "input-group-text" do %>
-<%= icon('fas', 'door-open', class: 'fa-fw') %>
-<% end %>
-<% end %>
-<%= collection_select(:room, :id, Room.active.all, :id, :name, {:prompt=>"All rooms"}, {:class=>'form-control', :onchange=>'getBookings();'}) %>
-<% end %>
+    <%= content_tag :div, class: "input-group m-4 row" do %>
+    <%= content_tag :div, class: "input-group-prepend" do %>
+    <%= content_tag :span, class: "input-group-text" do %>
+    <%= icon('fas', 'door-open', class: 'fa-fw') %>
+    <% end %>
+    <% end %>
+    <% if current_user.is_admin? %>
+    <%= collection_select(:room, :id, Room.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <% else %>
+    <%= collection_select(:room, :id, Room.active.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();'}) %>
+    <% end %>
+    <% end %>
 
+    <div class="m-4" id="room-info">
+      <b>Name:</b> Pepito <br />
+      <b>Phone:</b> 1234-5512 <br />
+      <b>E-mail:</b> room_reservations@ar.ibm.com
+    </div>
 
   </div>
   <div class="col-md-9">
@@ -91,4 +95,15 @@
   </div>
 </div>
 
-<%= render partial: "calendar_index_user", locals: {url: '/bookings.json?nocache=' + DateTime.now.to_i.to_s } %>
+<%= render partial: "calendar_index_user", locals: {url: '/bookings.json' } %>
+
+<style>
+  #user-info,
+  #room-info {
+    height: 120px;
+    width: 100%;
+  }
+  #div_info {
+    height: 80px;
+  }
+</style>
