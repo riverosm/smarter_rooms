@@ -1,57 +1,70 @@
 <h1>Users</h1>
 
-<%= link_to 'Create new user', new_user_path, :class => "btn btn-outline-success btn-block btn-lg"%>
+<div class="row justify-content-md-center">
+  <div class="col-sm-12 mt-1">
+    <table class="table table-striped text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</td>
+          <th>Email</td>
+          <th>Phone</td>
+          <th>Is admin</th>
+          <th colspan="3">Actions</th>
+        </tr>
+      </thead>
 
-<br />
+      <tbody>
+        <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.phone %></td>
+          <td>
+            <% if user.is_admin? %>
+            <%= icon('fas', 'check', class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is admin", "data-placement" => "right") %>
+            <% else %>
+            <%= icon('fas', 'minus-circle', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right") %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to user do %>
+            <%= icon('fas', 'eye', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user", "data-placement" => "right") %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to bookings_path(user_id: user.id) do %>
+            <%= icon('fas', 'book-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user bookings", "data-placement" => "right") %>
+            <% end %>
+          </td>
+          <td>
 
-<table class="table table-striped text-center">
-  <thead class="thead-dark">
-    <tr>
-      <th>Name</td>
-      <th>Email</td>
-      <th>Phone</td>
-      <th>Is admin</th>
-      <th colspan="3">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.email %></td>
-      <td><%= user.phone %></td>
-      <td>
-        <% if user.is_admin? %>
-        <%= icon('fas', 'check', class: "fa-2x text-success", "data-toggle" => "tooltip", "data-original-title" => "This user is admin", "data-placement" => "right") %>
-        <% else %>
-        <%= icon('fas', 'minus-circle', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to user do %>
-        <%= icon('fas', 'eye', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to bookings_path(user_id: user.id) do %>
-        <%= icon('fas', 'book-open', class: "fa-2x text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user bookings", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <td>
-
-        <%= link_to edit_user_path(user) do %>
-        <%= icon('fas', 'edit', class: "fa-2x text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right") %>
-        <% end %>
-      </td>
-      <!-- Remove for enable delete
+            <%= link_to edit_user_path(user) do %>
+            <%= icon('fas', 'edit', class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit user", "data-placement" => "right") %>
+            <% end %>
+          </td>
+          <!-- Remove for enable delete
       <td>
         <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
-        <%= icon('fas', 'trash-alt', class: "fa-2x text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
+        <%= icon('fas', 'trash-alt', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "Delete user", "data-placement" => "right") %>
         <% end %>
       </td>
       -->
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container pagination justify-content-center">
+  <%= paginate @users, param_name: :pagina %>
+</div>
+
+<div class="row mt-4 justify-content-md-center text-center">
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Back', root_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+  </div>
+  <div class="col-sm-3 m-1">
+    <%= link_to 'Create new user', new_user_path, :class => "btn btn-outline-success btn-block btn-lg"%>
+  </div>
+</div>
