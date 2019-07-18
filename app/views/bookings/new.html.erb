@@ -72,7 +72,7 @@
       <tr class="border-bottom">
         <td>
           <%= render partial: "form_label", locals: {required: true, field: :number_of_attendants,  fa_icon: 'users',
-                placeholder: '# of Attendants', type: 'number', form: f, add_class: true } %>
+                placeholder: '# of Attendants', type: 'number', form: f, max: @room.max_capacity, add_class: true } %>
         </td>
         <td>
           <%= f.submit "Book room", class: "btn-success btn btn-block" %>
