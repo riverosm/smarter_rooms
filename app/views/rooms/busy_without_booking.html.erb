@@ -16,7 +16,7 @@
   $.getJSON("/rooms/busy_without_booking.json").done(function (data) {
     var emptySet = true;
     $.each(data, function (key, room) {
-      var emptySet = false;
+      emptySet = false;
       var new_div = document.createElement("div");
       new_div.className = "col-sm-2 mt-1"
       new_div.innerHTML = '<div class="card text-center"><h5 class="card-header"><b>' + room.name + '</b></h5>' +
