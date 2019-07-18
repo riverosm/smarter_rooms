@@ -15,7 +15,7 @@ class Booking < ApplicationRecord
   validate :min_from_time
   validate :max_to_time
 
-  scope :last_30_days, -> {where('created_at > ?', 30.days.ago)}
+  scope :last_30_days, -> {where('valid_from > ? AND valid_from < ?', 30.days.ago, DateTime.now)}
   scope :booked_now, ->{where("? BETWEEN valid_from AND valid_to", DateTime.now)}
   scope :not_booked_now, ->{where("? NOT BETWEEN valid_from AND valid_to", DateTime.now)}
 
