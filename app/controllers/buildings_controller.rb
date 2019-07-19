@@ -31,7 +31,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if @building.save
-        flash[:success] = "Building was successfully created."
+        flash[:success] = "Site was successfully created."
         format.html { redirect_to @building }
         format.json { render :show, status: :created, location: @building }
       else
@@ -51,7 +51,7 @@ class BuildingsController < ApplicationController
   def update
     respond_to do |format|
       if @building.update(building_params)
-        flash[:success] = "Building was successfully updated."
+        flash[:success] = "Site was successfully updated."
         format.html { redirect_to @building }
         format.json { render :show, status: :ok, location: @building }
       else
@@ -72,7 +72,7 @@ class BuildingsController < ApplicationController
     # Remove for enable delete
     #@building.destroy
     #respond_to do |format|
-    #  flash.now[:success] = "Building was successfully destroyed."
+    #  flash.now[:success] = "Site was successfully destroyed."
     #  format.html { redirect_to buildings_url }
     #  format.json { head :no_content }
     #end
