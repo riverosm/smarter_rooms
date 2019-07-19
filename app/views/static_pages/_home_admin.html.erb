@@ -30,7 +30,7 @@ Buildings
 <% if (@cant_buildings) > 0 %>
 Created buildings: <br />
 <b><%= @cant_buildings %></b>
-<%= pie_chart(@rooms_per_building, height: "280px", legend: "bottom", suffix: " active rooms", colors: ["#F5DEB3", "#DAA520", "#B8860B", "#FFDEAD", "#DEB887"]) %>
+<%= pie_chart(@rooms_per_building, height: "280px", legend: "bottom", suffix: " active rooms", colors: ["#483D8B", "#7B68EE", "#800080", "#8A2BE2", "#9932CC"]) %>
 <% else %>
 <% view_path = "" %>
 <%= render partial: "alert_box", locals: {message_type: "info", message: "No buildings yet.", hide_alert: false} %>
