@@ -1,10 +1,5 @@
 <% i = 0 %>
 <% @buildings.each do |building| 
-building_image = "ibm_logo.png"
-path = Rails.root.join("public/sites/#{building.id}.jpg")
-if File.exists?(path)
-  building_image = "sites/#{building.id}.jpg"
-end
 if (i % 4) == 0 %>
 <div class="row justify-content-md-center text-center">
   <% end %>
@@ -14,31 +9,23 @@ if (i % 4) == 0 %>
       <div class="card-body centered">
         <table class="text-center w-100 table-borderedless">
           <tr>
-            <td colspan="5"><%= building.address %></td>
+            <td colspan="5">
+              <%= building.get_building_image_tag %>
+            </td>
           </tr>
           <tr>
             <td colspan="5">
-              <div style="width: 100%; height: 200px;">
-                <img src="<%= building_image %>" style="width: 95%; margin-top: 35px;" />
-              </div>
+              <%= building.get_map_image_tag %>
             </td>
           </tr>
+          <tr>
+            <td colspan="5"><%= building.address %></td>
+          </tr>
           <% if current_user.is_admin? %>
-          <tr>
-            <td colspan="5"><%= building.latitude %></td>
-          </tr>
-          <tr>
-            <td colspan="5"><%= building.longitude %></td>
-          </tr>
           <tr>
             <td>
               <%= link_to rooms_path(:building => building.id) do %>
               <%= icon('fas', 'door-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View rooms", "data-placement" => "top") %>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to building do %>
-              <%= icon('fas', 'eye', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View building", "data-placement" => "top") %>
               <% end %>
             </td>
             <td>
@@ -55,7 +42,9 @@ if (i % 4) == 0 %>
             //-->
           </tr>
           <% else %>
-          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
           <tr>
             <td>
               <%= link_to rooms_path(:building => building.id) do %>
