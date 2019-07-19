@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :bookings
   has_many :rooms, through: :bookings
 
+  scope :is_admin, -> {where('admin = 1')}
+  scope :is_user, -> {where('admin = 0')}
+
   def is_admin?
     self.admin
   end
