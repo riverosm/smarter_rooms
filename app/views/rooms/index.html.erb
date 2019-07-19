@@ -2,7 +2,7 @@
 
 <% if @rooms.size == 0 %>
 
-<%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms with selected criteria."} %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms with selected criteria.", hide_alert: false} %>
 
 <% end %>
 

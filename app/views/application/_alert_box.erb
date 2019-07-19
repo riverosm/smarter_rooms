@@ -13,6 +13,8 @@
 <%= sanitize(message) %>
 <% end %>
 
+<% if hide_alert %>
 <script>
   setTimeout(function () { $("#alert-general").alert('close'); }, 3000);
 </script>
+<% end %>

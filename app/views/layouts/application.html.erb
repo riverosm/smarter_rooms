@@ -36,7 +36,7 @@
 
     <% flash.each do |message_type, message| %>
 
-    <%= render partial: "alert_box", locals: {message_type: message_type, message: message} %>
+    <%= render partial: "alert_box", locals: {message_type: message_type, message: message, hide_alert: true} %>
 
     <% end %>
 
