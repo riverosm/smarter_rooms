@@ -50,7 +50,13 @@ class Room < ApplicationRecord
       room_accesories = Hash.new
       room_accesories["name"] = a.name
       room_accesories["quantity"] = self.accesory_count(a)
-      room_accesories["icon"] = a.icon
+      if a.icon.nil? || a.icon == ""
+        # set default icon if no icon present
+        room_accesories["icon"] = "laptop"
+      else
+        room_accesories["icon"] = a.icon
+      end
+
       room_accesories["class"] = ""
       room_accesories["class"] = "accesory_disabled" if room_accesories["quantity"] == 0
       room_accesories["quantity"] = "No " if room_accesories["quantity"] == 0

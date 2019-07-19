@@ -42,7 +42,7 @@
         <td colspan="2"><%= @room.max_capacity %></td>
       </tr>
       <tr>
-        <th>Devices:</th>
+        <th>Resources:</th>
         <td colspan="2">
           <% @room.get_room_accesories_count.map {|ra| %>
           <%= icon('fas',ra["icon"], class: ra["class"], "data-toggle" => "tooltip", "data-original-title" => ra["quantity"].to_s + " " + ra["name"], "data-placement" => "bottom") %>
