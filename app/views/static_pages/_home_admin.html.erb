@@ -1,0 +1,83 @@
+<%= content_tag :div, class: "row justify-content-md-center text-center home_admin" do %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+Users
+<% end %>
+<%= content_tag :div, class: "card-body centered" do %>
+<% view_path = users_path %>
+<% if (@total_users) > 0 %>
+Created users: <br />
+<b><%= @total_users %></b>
+<%= pie_chart({"User's" => @cant_users, "Admin's" => @cant_admin}, height: "280px", legend: "bottom", colors: ["#008B8B", "#20B2AA"]) %>
+<% else %>
+<% view_path = "" %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No users yet.", hide_alert: false} %>
+<% end %>
+<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_user_path} %>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+Buildings
+<% end %>
+<%= content_tag :div, class: "card-body centered" do %>
+<% view_path = buildings_path %>
+<% if (@cant_buildings) > 0 %>
+Created buildings: <br />
+<b><%= @cant_buildings %></b>
+<%= pie_chart(@rooms_per_building, height: "280px", legend: "bottom", suffix: " active rooms", colors: ["#F5DEB3", "#DAA520", "#B8860B", "#FFDEAD", "#DEB887"]) %>
+<% else %>
+<% view_path = "" %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No buildings yet.", hide_alert: false} %>
+<% end %>
+<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_building_path} %>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+Rooms
+<% end %>
+<%= content_tag :div, class: "card-body centered" do %>
+<% view_path = rooms_path %>
+<% if (@total_rooms) > 0 %>
+Created rooms: <br />
+<b><%= @total_rooms %></b>
+<%= pie_chart({"Active" => @cant_rooms_active, "Inactive" => @cant_rooms_inactive}, height: "280px", legend: "bottom", colors: ["#FFA500", "#FF7F50"]) %>
+<% else %>
+<% view_path = "" %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms yet.", hide_alert: false} %>
+<% end %>
+<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_room_path} %>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+Bookings
+<% end %>
+<%= content_tag :div, class: "card-body centered" do %>
+<% view_path = bookings_path %>
+<% if (@total_bookings) > 0 %>
+Created bookings: <br />
+<b><%= @total_bookings %></b>
+<%= pie_chart({"Past" => @cant_bookings_past, "Next" => @cant_bookings_next}, height: "280px", legend: "bottom", colors: ["#8B0000", "#DC143C"]) %>
+<% else %>
+<% view_path = "" %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No bookings yet.", hide_alert: false} %>
+<% end %>
+<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: ""} %>
+<% end %>
+<% end %>
+<% end %>
+
+<% end %>
