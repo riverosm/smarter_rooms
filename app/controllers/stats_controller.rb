@@ -25,9 +25,24 @@ class StatsController < ApplicationController
   end
 
   def rooms_bookings_by_hour
-    @bookings = @stats.get_rooms_bookings_by_hour(params[:days_count].to_i)
+    days_count = params[:days_count].to_i
+
+    hours_per_day = Rails.configuration.smarter_rooms_calendar_end_time - Rails.configuration.smarter_rooms_calendar_start_time
+
+    date_start = (DateTime.yesterday.end_of_day-days_count.days).beginning_of_day
+    date_end = DateTime.yesterday.end_of_day
+
+    # get the REAL min, max and days_count <- if there is not enough data will be different to date_start and date_end
+    real_date_start = Booking.where(valid_from: date_start..date_end).minimum(:valid_from).beginning_of_day
+    real_date_end = Booking.where(valid_from: date_start..date_end).maximum(:valid_from).end_of_day
+    real_days_count = (real_date_end.to_date - real_date_start.to_date).to_i
+
+    @date_from = real_date_start.strftime("%d/%m/%Y")
+    @date_to = real_date_end.strftime("%d/%m/%Y")
+
+    @bookings = @stats.get_rooms_bookings_by_hour(real_days_count,real_date_start,real_date_end)
     if @bookings.count > 0
-      render :inline => '<%= column_chart @bookings, id: "bookings_by_hour-chart" , xtitle: "Hour", ytitle: "Average booking of the last ' + params[:days_count].to_s + ' days"%>'
+      render :inline => '<%= column_chart @bookings, id: "bookings_by_hour-chart" , xtitle: "Hour (Information from " + @date_from + " to " + @date_to + ")", ytitle: "Average booking count of the last ' + params[:days_count].to_s + ' days"%>'
     else
       render :inline => '<%= render partial: "not_enough_info" %>'
     end
@@ -39,7 +54,6 @@ class StatsController < ApplicationController
   end
 
   def averages
-    @average_bookings = @stats.get_rooms_bookings_by_hour(30)
   end
 
   private

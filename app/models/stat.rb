@@ -7,13 +7,34 @@ class Stat < ApplicationController
     Booking.last_30_days.group(:room).order('count_all desc').limit(5).count.map { |u| [u[0].name, u[1]] }.sort_by { |k| -k[1] }
   end
 
-  def get_rooms_bookings_by_hour(days_count)
+  def get_rooms_bookings_by_hour(days_count, date_start, date_end)
+    rooms_bookings_by_hour = Hash.new
+
+    Rails.configuration.smarter_rooms_calendar_start_time.upto(Rails.configuration.smarter_rooms_calendar_end_time-1).each {|time|
+      rooms_bookings_by_hour[time] = 0
+    }
+
     hours_per_day = Rails.configuration.smarter_rooms_calendar_end_time - Rails.configuration.smarter_rooms_calendar_start_time
 
-    # sort y get first y last day para sacar el day_count REAL
-
-    range_filter = Booking.where(valid_from: DateTime.yesterday.end_of_day-days_count.days..DateTime.yesterday.end_of_day)
-    range_filter.group('strftime("%H", valid_from)').count.map {|a| [a[0],(a[1]/(hours_per_day*days_count).to_f).round(2)]}
+    range_filter = Booking.where(valid_from: date_start..date_end)
+    # get time ranges with format {from-to} and iterate to get real booking count
+    range_filter.group('strftime("%H", valid_from) || "-" || strftime("%H", valid_to)').count.map {|time_range|
+      from_time = time_range[0].split('-')[0].to_i
+      to_time = time_range[0].split('-')[1].to_i
+      from_time.upto(to_time - 1).each {|time|
+        if !rooms_bookings_by_hour[time].nil?
+          rooms_bookings_by_hour[time] += time_range[1]
+        end
+        #puts time_range[0] + " -> " + time_range[1].to_s + ": " + time.to_s + " -> " + time_range[1].to_s
+      }
+    }
+    Rails.configuration.smarter_rooms_calendar_start_time.upto(Rails.configuration.smarter_rooms_calendar_end_time-1).each {|time|
+      rooms_bookings_by_hour[time] = (rooms_bookings_by_hour[time] / days_count.to_f).round(2)
+    }
+    if rooms_bookings_by_hour.values.sum == 0
+      rooms_bookings_by_hour = []
+    end
+    rooms_bookings_by_hour
   end
 
   def get_rooms_bookings_by_day(room_id, date_start, date_end)
