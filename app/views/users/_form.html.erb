@@ -41,10 +41,15 @@
 <% end %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
+<%= content_tag :div, class: "col" do %>
+<%= link_to 'Back', users_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+<% end %>
+<%= content_tag :div, class: "col" do %>
 <% if action == "new" %>
-<%= f.submit :"Create user", class: "btn-outline-primary btn btn-block btn-lg" %>
+<%= f.submit :"Create user", class: "btn-outline-success btn btn-block btn-lg" %>
 <% else %>
 <%= f.submit :"Change user", class: "btn-outline-warning btn btn-block btn-lg" %>
+<% end %>
 <% end %>
 <% end %>
 
@@ -54,8 +59,8 @@
 
 <script>
   $('#password_hidden').hide();
-  function showPasswordInput () {
-    $('#password_hidden').toggle();  
+  function showPasswordInput() {
+    $('#password_hidden').toggle();
   }
 </script>
 
