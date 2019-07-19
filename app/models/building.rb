@@ -3,6 +3,14 @@ class Building < ApplicationRecord
 
   has_many :rooms
 
+  def get_active_rooms_count
+    self.rooms.active.count
+  end
+
+  def get_inactive_rooms_count
+    self.rooms.inactive.count
+  end
+
   def get_map_image_tag
     # external seeding => id unknown so I'll try by name ...
     building_map_image = "/sites/ibm_martinez_map.png"
