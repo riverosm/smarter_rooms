@@ -4,14 +4,14 @@
     <%= icon('fas', 'home') %> Home
     <% end %>
   </li>
-  <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
-    <%= link_to bookings_path, class: 'nav-link' do %>
-    <%= icon('fas', 'book-open') %> My Bookings
-    <% end %>
-  </li>
   <li class="nav-item<%= ' active' if controller_name == 'rooms' || controller_name == 'buildings' %>">
     <%= link_to buildings_path, class: 'nav-link' do %>
     <%= icon('fas', 'door-open') %> Rooms
+    <% end %>
+  </li>
+  <li class="nav-item<%= ' active' if controller_name == 'bookings' %>">
+    <%= link_to bookings_path, class: 'nav-link' do %>
+    <%= icon('fas', 'book-open') %> My Bookings
     <% end %>
   </li>
   <div class="dropdown show<%= ' active' if controller_name == 'users' %>">
