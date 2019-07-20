@@ -26,7 +26,7 @@
             <%= icon('fas', 'minus-circle', class: "text-danger", "data-toggle" => "tooltip", "data-original-title" => "This user is not admin", "data-placement" => "right") %>
             <% end %>
           </td>
-          <td>
+          <td class="border-left">
             <%= link_to bookings_path(user_id: user.id) do %>
             <%= icon('fas', 'book-open', class: "text-primary", "data-toggle" => "tooltip", "data-original-title" => "View user bookings", "data-placement" => "right") %>
             <% end %>
