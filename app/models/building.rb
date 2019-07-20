@@ -13,7 +13,7 @@ class Building < ApplicationRecord
 
   def get_map_image_tag
     # external seeding => id unknown so I'll try by name ...
-    building_map_image = "/sites/ibm_martinez_map.png"
+    building_map_image = "/ibm_logo_200.png"
 
     if self.name.downcase.include?("martinez") || self.name.downcase.include?("martínez")
       building_map_image = "/sites/ibm_martinez_map.png"
