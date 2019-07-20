@@ -1,1 +1,144 @@
-User home
+<%= content_tag :div, class: "row justify-content-md-center home_user" do %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+My last bookings
+<% end %>
+<%= content_tag :div, class: "card-body centered d-flex flex-column" do %>
+<% if @bookings_lasts.count > 0 %>
+<%= content_tag :ul, class: "fa-ul" do %>
+<% @bookings_lasts.each do |b| %>
+<%= content_tag :li do %>
+<%= content_tag :span, class: "fa-li text-secondary" do %>
+<%= icon('fas', 'arrow-circle-left') %>
+<% end %>
+<b><%= b.room.name %></b>
+<br />
+(<%= b.valid_from.strftime('%d/%m/%Y %H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
+<% end %>
+<% end %>
+<% end %>
+<% else %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No bookings.", hide_alert: false} %>
+<% end %>
+<%= link_to icon('fas', 'book-open', class: 'mr-2') + 'View all my bookings', bookings_path, :class => "btn btn-outline-secondary btn-block btn-sm mt-auto"%>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+My today's bookings
+<% end %>
+<%= content_tag :div, class: "card-body centered d-flex flex-column" do %>
+<% if @bookings_today.count > 0 %>
+<%= content_tag :ul, class: "fa-ul" do %>
+<% @bookings_today.each do |b| %>
+<%= content_tag :li do %>
+<%= content_tag :span, class: "fa-li text-warning" do %>
+<%= icon('fas', 'arrow-circle-down') %>
+<% end %>
+<b><%= b.room.name %></b>
+&nbsp;
+<%= link_to icon('fas', 'trash-alt', class: 'text-danger'), b, method: :delete, data: { confirm: 'Do you want to cancel this booking?' }, "data-toggle" => "tooltip", "data-original-title" => "Cancel booking", "data-placement" => "top" %>
+<br />
+(<%= b.valid_from.strftime('%d/%m/%Y %H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
+<% end %>
+<% end %>
+<% end %>
+<% else %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No bookings.", hide_alert: false} %>
+<% end %>
+<%= link_to icon('fas', 'book-open', class: 'mr-2') + 'View all my bookings', bookings_path, :class => "btn btn-outline-secondary btn-block btn-sm mt-auto"%>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+My next bookings
+<% end %>
+<%= content_tag :div, class: "card-body centered d-flex flex-column" do %>
+<% if @bookings_nexts.count > 0 %>
+<%= content_tag :ul, class: "fa-ul" do %>
+<% @bookings_nexts.each do |b| %>
+<%= content_tag :li do %>
+<%= content_tag :span, class: "fa-li text-primary" do %>
+<%= icon('fas', 'arrow-circle-right') %>
+<% end %>
+<b><%= b.room.name %></b>
+&nbsp;
+<%= link_to icon('fas', 'trash-alt', class: 'text-danger'), booking_path(b, home: 'true'), method: :delete, data: { confirm: 'Do you want to cancel this booking?' }, "data-toggle" => "tooltip", "data-original-title" => "Cancel booking", "data-placement" => "top" %>
+<br />
+(<%= b.valid_from.strftime('%d/%m/%Y %H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
+<% end %>
+<% end %>
+<% end %>
+<% else %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No bookings.", hide_alert: false} %>
+<% end %>
+<%= link_to icon('fas', 'book-open', class: 'mr-2') + 'View all my bookings', bookings_path, :class => "btn btn-outline-secondary btn-block btn-sm mt-auto"%>
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag :div, class: "col-sm-3 mt-1" do %>
+<%= content_tag :div, class: "card" do %>
+<%= content_tag :h5, class: "card-header" do %>
+My most booked rooms
+<% end %>
+<%= content_tag :div, class: "card-body centered d-flex flex-column" do %>
+<% if @most_booked_rooms.count > 0 %>
+<table class="w-100 m-0">
+  <% @most_booked_rooms.each do |r| %>
+  <tr>
+    <td style="width: 30px;">
+      <%= icon('fas', 'check-circle', class: "text-success") %>
+    </td>
+    <td>
+      <b><%= Room.find(r[0]).name %></b>
+    </td>
+    <td rowspan="2" style="width: 120px;">
+      <%= link_to icon('fas', 'book-open', class: 'mr-2') + 'Book now', new_booking_path(room_id: r[0]), :class => "btn btn-outline-success btn-sm"%>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      (<%= r[1] %> bookings)
+    </td>
+  </tr>
+  <% end %>
+</table>
+<br />
+<% else %>
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms.", hide_alert: false} %>
+<% end %>
+<%= link_to icon('fas', 'door-open', class: 'mr-2') + 'View all rooms', rooms_path, :class => "btn btn-outline-secondary btn-block btn-sm mt-auto"%>
+<% end %>
+<% end %>
+<% end %>
+
+<% end %>
+
+<style>
+  span {
+    padding-right: 20px;
+  }
+</style>
+
+<script>
+  var max_height = 250;
+
+  $('.card-body').each(function (i, obj) {
+    if ($(this).height() > max_height) {
+      max_height = $(this).height();
+    }
+  });
+  $('.card-body').each(function (i, obj) {
+    $(this).height(max_height + 20);
+  });
+</script>
