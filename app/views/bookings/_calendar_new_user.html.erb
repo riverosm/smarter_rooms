@@ -11,6 +11,7 @@ end
 
 %>
 <script>
+  var show_tooltip = true;
 
   $(document).ready(function () {
     var calendarEl = document.getElementById('calendar');
@@ -120,6 +121,7 @@ end
 
         $('#booking_valid_from_full').val(info.startStr);
         $('#booking_valid_to_full').val(info.endStr);
+        show_tooltip = false;
       },
 
       dateClick: function (info) {
@@ -168,9 +170,25 @@ end
         };
       }
     }
+    $("#calendar").on('mousemove', function (e) {
+      if (show_tooltip) {
+        title = "Please pic a date";
+        if (calendar.view.type == "timeGridDay") {
+          title = "Please drag the start and end time of this booking";
+        }
+
+        $("#img-tooltip").css({ top: e.pageY, left: e.pageX });
+        $('#img-tooltip').attr('data-original-title', title).tooltip('show');
+      }
+    })
+
+    $("#calendar").on('mouseleave', function (e) {
+      $('#img-tooltip').tooltip('hide');
+    })
   });
 
   function clearFields() {
+    show_tooltip = true;
     $('#booking_valid_to').val('');
     $('#booking_valid_from').val('');
     $('#booking_id').val('');
@@ -232,4 +250,11 @@ end
   .fc-dayGridMonth-view .fc-event-container {
     display: none;
   }
+
+  #img-tooltip {
+    position: absolute;
+  }
 </style>
+
+<i id="img-tooltip" data-toggle="tooltip" data-placement="right" title="Pic a date" data-animation="false"
+  data-trigger="manual" />&nbsp;</i>
