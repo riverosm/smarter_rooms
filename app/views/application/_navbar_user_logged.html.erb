@@ -14,22 +14,6 @@
     <%= icon('fas', 'book-open') %> My Bookings
     <% end %>
   </li>
-  <div class="dropdown show<%= ' active' if controller_name == 'users' %>">
-    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false"<%= sanitize(' style="color: white;"') if controller_name == 'users' %></a>
-      <i class="fas fa-user-circle"></i>
-      <%= current_user.name %>
-    </a>
-
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <%= link_to edit_user_path(current_user), class: 'dropdown-item' do %>
-      <%= icon('fas', 'user') %> My Profile
-      <% end %>
-      <%= link_to logout_path, method: 'delete', class: 'dropdown-item' do %>
-      <%= icon('fas', 'sign-out-alt') %> Logout
-      <% end %>
-    </div>
-  </div>
   <li class="nav-item<%= ' active' if request.fullpath == '/about' %>">
     <%= link_to about_path, class: 'nav-link' do %>
     <%= icon('fas', 'envelope') %> About
@@ -40,3 +24,24 @@
 <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
 <%= button_tag 'Search', class: 'btn btn-primary my-2 my-sm-0' %>
 <% end %>
+
+<div>&nbsp;</div>
+
+<div class="dropdown show<%= ' active' if controller_name == 'users' %>">
+  <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false"<%= sanitize(' style="color: white;"') if controller_name == 'users' %></a>
+    <i class="fas fa-user-circle"></i>
+    <%= current_user.name %>
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <%= link_to edit_user_path(current_user), class: 'dropdown-item' do %>
+    <%= icon('fas', 'user') %> My Profile
+    <% end %>
+    <%= link_to logout_path, method: 'delete', class: 'dropdown-item' do %>
+    <%= icon('fas', 'sign-out-alt') %> Logout
+    <% end %>
+  </div>
+</div>
+
+<div>&nbsp;</div>
