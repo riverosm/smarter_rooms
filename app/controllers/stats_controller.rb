@@ -36,16 +36,24 @@ class StatsController < ApplicationController
       date_end = DateTime.yesterday.end_of_day
 
       # get the REAL min, max and days_count <- if there is not enough data will be different to date_start and date_end
-      real_date_start = Booking.where(valid_from: date_start..date_end).minimum(:valid_from).beginning_of_day
-      real_date_end = Booking.where(valid_from: date_start..date_end).maximum(:valid_from).end_of_day
-      real_days_count = (real_date_end.to_date - real_date_start.to_date).to_i
+      real_date_start = Booking.where(valid_from: date_start..date_end).minimum(:valid_from)
+      real_date_end = Booking.where(valid_from: date_start..date_end).maximum(:valid_from)
 
-      @date_from = real_date_start.strftime("%d/%m/%Y")
-      @date_to = real_date_end.strftime("%d/%m/%Y")
+      if !real_date_start.nil? && !real_date_end.nil?
+        real_date_start = real_date_start.beginning_of_day
+        real_date_end = real_date_end.end_of_day
 
-      @bookings = @stats.get_rooms_bookings_by_hour(real_days_count,real_date_start,real_date_end)
-      if @bookings.count > 0
-        render :inline => '<%= column_chart @bookings, id: "bookings_by_hour-chart" , xtitle: "Hour (Information from " + @date_from + " to " + @date_to + ")", ytitle: "Average booking count of the last ' + params[:days_count].to_s + ' days"%>'
+        real_days_count = (real_date_end.to_date - real_date_start.to_date).to_i
+
+        @date_from = real_date_start.strftime("%d/%m/%Y")
+        @date_to = real_date_end.strftime("%d/%m/%Y")
+
+        @bookings = @stats.get_rooms_bookings_by_hour(real_days_count,real_date_start,real_date_end)
+        if @bookings.count > 0
+          render :inline => '<%= column_chart @bookings, id: "bookings_by_hour-chart" , xtitle: "Hour (Information from " + @date_from + " to " + @date_to + ")", ytitle: "Average booking count of the last ' + params[:days_count].to_s + ' days"%>'
+        else
+          render :inline => '<%= render partial: "not_enough_info" %>'
+        end
       else
         render :inline => '<%= render partial: "not_enough_info" %>'
       end
