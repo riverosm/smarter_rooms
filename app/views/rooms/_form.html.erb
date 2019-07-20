@@ -18,7 +18,7 @@
 <%= icon('fas', 'city', class: 'fa-fw') %>
 <% end %>
 <% end %>
-<%= f.collection_select :building_id, @buildings, :id, :name, {prompt: "Select a building"}, {class: "custom-select", required: true} %>
+<%= f.collection_select :building_id, @buildings, :id, :name, {:include_blank => 'All buildings', :selected => @building_id}, {class: "custom-select", required: true} %>
 <% end %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
@@ -32,7 +32,11 @@
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <%= content_tag :div, class: "col" do %>
+<% if @building_id == "" %>
 <%= link_to 'Back', rooms_path, :class => "btn btn-outline-secondary btn-block"%>
+<% else %>
+<%= link_to 'Back', buildings_path, :class => "btn btn-outline-secondary btn-block"%>
+<% end %>
 <% end %>
 <%= content_tag :div, class: "col" do %>
 <% if action == "new" %>

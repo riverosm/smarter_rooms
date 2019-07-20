@@ -155,6 +155,10 @@ class RoomsController < ApplicationController
   def new
     @room = Room.new
     @buildings = Building.all.sort_by{|b| b.name}
+    @building_id = ""
+    if !params[:building_id].nil?
+      @building_id = params[:building_id]
+    end
   end
 
   # GET /rooms/1/edit
@@ -171,7 +175,7 @@ class RoomsController < ApplicationController
     respond_to do |format|
       if @room.save
         flash[:success] = "Room was successfully created."
-        format.html { redirect_to @room }
+        format.html { redirect_to rooms_path(building: room_params[:building_id]) }
         format.json { render :show, status: :created, location: @room }
       else
         error_msgs = ""
@@ -192,10 +196,10 @@ class RoomsController < ApplicationController
       if @room.update(room_params)
         flash[:success] = "Room was successfully updated."
         if (room_params.has_key?(:name))
-          format.html { redirect_to @room }
+          format.html { redirect_to rooms_path(building: room_params[:building_id]) }
           format.json { render :show, status: :ok, location: @room }
         else
-          format.html { redirect_to rooms_path }
+          format.html { redirect_to rooms_path(building: room_params[:building_id]) }
         end
       else
         error_msgs = ""

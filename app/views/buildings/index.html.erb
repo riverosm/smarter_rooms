@@ -28,6 +28,11 @@ if (i % 4) == 0 %>
               <% end %>
             </div>
             <div class="col">
+              <%= link_to new_room_path(building_id: building.id) do %>
+              <%= icon('fas', 'plus', class: "text-success", "data-toggle" => "tooltip", "data-original-title" => "Create new room", "data-placement" => "top") %>
+              <% end %>
+            </div>
+            <div class="col">
               <%= link_to edit_building_path(building) do %>
               <%= icon('fas', 'edit', class: "text-warning", "data-toggle" => "tooltip", "data-original-title" => "Edit building", "data-placement" => "top") %>
               <% end %>
