@@ -70,16 +70,11 @@
           <%= f.submit "Book room", class: "btn-success btn btn-block" %>
         </td>
         <td>
-          <%= link_to 'Cancel', root_path, :class => "btn btn-outline-secondary btn-block"%>
+          <%= link_to 'Cancel', rooms_path, :class => "btn btn-outline-secondary btn-block"%>
         </td>
   </div>
 </div>
 </td>
-</tr>
-<tr>
-  <td colspan="3">
-    <%= link_to 'Back', rooms_path, :class => "btn btn-outline-secondary btn-block"%>
-  </td>
 </tr>
 </table>
 <% end %>
