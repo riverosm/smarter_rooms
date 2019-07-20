@@ -16,7 +16,9 @@ if (i % Kaminari.config.default_per_page) == 0 %>
     <div class="card<%= room.active? ? ' border-success' : ' border-danger' %>">
       <div class="card-body centered">
         <% end %>
+        <% if room.active? %>
         <a href="<%=new_booking_path(room_id: room.id)%>">
+        <% end %>
           <div class="room_info bg-dark rounded">
             <span class="room_name"><b><%= room.name %></b></span> <br />
             <span class="room_name">Room</span>
@@ -79,7 +81,9 @@ if (i % Kaminari.config.default_per_page) == 0 %>
           </table>
           <% end %>
       </div>
+      <% if room.active? %>
       </a>
+      <% end %>
       <% if current_user.is_admin? %>
     </div>
   </div>
