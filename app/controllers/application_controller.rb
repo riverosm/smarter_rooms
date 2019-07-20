@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_if_admin_and_redirect_with_error_message_if_not
-    unless current_user.is_admin?
+    unless logged_in? && current_user.is_admin?
       flash[:danger] = 'You are not authorized to perform that action'
       redirect_to root_url
     end
