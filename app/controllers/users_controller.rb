@@ -35,6 +35,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     respond_to do |format|
+      if !logged_in?
+        @user.admin = false
+      end
       if @user.save
         success_message = "User was successfully created."
         if !logged_in?
