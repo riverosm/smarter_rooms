@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @title = "Rooms"
+    @title = "All rooms"
     if @current_user.is_admin?
       @rooms = Room.all
     else
