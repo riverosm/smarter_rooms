@@ -19,7 +19,7 @@ maxResults = Rails.configuration.smarter_rooms_calendar_max_results
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['moment', 'dayGrid', 'timeGrid', 'list', 'interaction'],
-      defaultView: 'listWeek',
+      defaultView: 'dayGridMonth',
       header: {
         left: 'prev,next',
         center: 'title',
