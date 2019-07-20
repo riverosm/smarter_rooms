@@ -108,7 +108,7 @@ My most booked rooms
   <tr>
     <td>&nbsp;</td>
     <td>
-      (<%= r[1] %> bookings)
+      (<%= r[1] %> booking<% if r[1] > 1 %>s<% end %>)
     </td>
   </tr>
   <% end %>
