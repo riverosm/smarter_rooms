@@ -3,7 +3,7 @@
 <div class="row justify-content-md-center text-center">
   <div class="col-sm-6 mt-1">
     <div class="card">
-      <h5 class="card-header"><b>Top five of booking users</b></h5>
+      <h5 class="card-header"><b>Top five of booking users (last 30 days)</b></h5>
       <div class="card-body centered">
         <% if @users.count > 4 %>
         <%= pie_chart @users, id: "users-chart" %>
@@ -16,7 +16,7 @@
 
   <div class="col-sm-6 mt-1">
     <div class="card">
-      <h5 class="card-header"><b>Top five of booked rooms</b></h5>
+      <h5 class="card-header"><b>Top five of booked rooms (last 30 days)</b></h5>
       <div class="card-body centered">
         <% if @rooms.count > 4 %>
         <%= pie_chart @rooms, id: "rooms-chart" %>
