@@ -21,27 +21,27 @@ class Booking < ApplicationRecord
 
   private
     def same_day
-      errors.add(:booking, "You can't book in two different days") if valid_to.to_date != valid_from.to_date
+      errors.add(:booking, "You can not book two different days.") if valid_to.to_date != valid_from.to_date
     end
 
     def min_from_time
-      errors.add(:booking, "The from time is wrong") if valid_from.hour < Rails.configuration.smarter_rooms_calendar_start_time
+      errors.add(:booking, "The from time is wrong.") if valid_from.hour < Rails.configuration.smarter_rooms_calendar_start_time
     end
 
     def max_to_time
-      errors.add(:booking, "The to time is wrong") if valid_to.hour > Rails.configuration.smarter_rooms_calendar_end_time
+      errors.add(:booking, "The to time is wrong.") if valid_to.hour > Rails.configuration.smarter_rooms_calendar_end_time
     end
 
     def not_in_weekend
-      errors.add(:booking, "You can't book on weekends") if valid_to.on_weekend? || valid_from.on_weekend?
+      errors.add(:booking, "You can not book on weekends.") if valid_to.on_weekend? || valid_from.on_weekend?
     end
 
     def valid_from_greater_valid_to
-      errors.add(:booking, "To time must be greater than the from time.") if valid_to <= valid_from
+      errors.add(:booking, "End time must be greater than start time.") if valid_to <= valid_from
     end
 
     def not_in_the_past
-      errors.add(:booking, "You can't make bookings in the past.") if valid_to < DateTime.now || valid_from < DateTime.now
+      errors.add(:booking, "You can not make bookings in the past.") if valid_to < DateTime.now || valid_from < DateTime.now
     end
     
     def room_not_currently_booked

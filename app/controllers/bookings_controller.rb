@@ -157,7 +157,7 @@ class BookingsController < ApplicationController
         flash[:success] = "You have successfully booked #{@room.name}"
         redirect_to bookings_path
       else
-        flash[:danger] = "There was errors perfmorming the operation: <br> #{@booking.errors.first.last}"
+        flash[:danger] = "Error(s) perfmorming the operation: <br> #{@booking.errors.first.last}"
         redirect_to new_booking_path(room_id: @room.id)
       end
     else
