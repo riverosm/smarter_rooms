@@ -104,16 +104,26 @@ class BookingsController < ApplicationController
 
   # DELETE /bookings/1
   def destroy
-    @booking.destroy
     respond_to do |format|
-      if params[:room_id].nil? || params[:room_id] == ""
-        room_id = ""
+      if DateTime.now > @booking.valid_from
+        flash[:danger] = "Past bookings can not be canceled"
       else
-        room_id = params[:room_id]
-      end
+        @booking.destroy
+        if params[:room_id].nil? || params[:room_id] == ""
+          room_id = ""
+        else
+          room_id = params[:room_id]
+        end
 
-      flash[:warning] = "Booking was successfully canceled."
-      format.html { redirect_to bookings_url(room_id: room_id) }
+        flash[:warning] = "Booking was successfully canceled."
+      end
+      format.html {
+        if !params[:home].nil?
+          redirect_to root_path
+        else
+          redirect_to bookings_url(room_id: room_id)
+        end
+      }
       format.json { head :no_content }
     end
   end
