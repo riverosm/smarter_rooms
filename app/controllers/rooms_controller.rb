@@ -164,6 +164,7 @@ class RoomsController < ApplicationController
   # GET /rooms/1/edit
   def edit
     @buildings = Building.all.sort_by{|b| b.name}
+    @building_id = @room.building.id
   end
 
   # POST /rooms
