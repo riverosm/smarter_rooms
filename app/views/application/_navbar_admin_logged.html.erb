@@ -1,5 +1,5 @@
 <ul class="navbar-nav mr-auto">
-  <li class="nav-item<%= ' active' if controller_name == 'static_pages' || controller_name == 'sessions' %>">
+  <li class="nav-item<%= ' active' if (controller_name == 'static_pages' || controller_name == 'sessions') && request.path != '/about' %>">
     <%= link_to '/', class: 'nav-link' do %>
     <%= icon('fas', 'home') %> Home
     <% end %>
@@ -80,6 +80,11 @@
       <% end %>
     </div>
   </div>
+  <li class="nav-item<%= ' active' if request.fullpath == '/about' %>">
+    <%= link_to about_path, class: 'nav-link' do %>
+    <%= icon('fas', 'envelope') %> About
+    <% end %>
+  </li>
 </ul>
 <%= form_tag(rooms_path, method: :get, class: 'form-inline mt-2 mt-md-0') do %>
 <%= text_field_tag :search_name, "", class: 'form-control mr-sm-2', placeholder: 'Find room by name ...' %>
