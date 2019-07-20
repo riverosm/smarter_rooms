@@ -1,3 +1,5 @@
+<% if @buildings.count > 0 %>
+
 <%= form_with model: @room, local: true, class: "forms" do |f| %>
 
 <%= render partial: "form_label", locals: {required: true, field: :name,  fa_icon: 'door-open',
@@ -46,5 +48,11 @@
 <% end %>
 <% end %>
 <% end %>
+
+<% end %>
+
+<% else %>
+
+<%= render partial: "alert_box", locals: {message_type: "info", message: "There are no sites yet.", hide_alert: false} %>
 
 <% end %>
