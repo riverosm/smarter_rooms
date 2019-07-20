@@ -41,7 +41,7 @@
 <% end %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
-<% if current_user.is_admin? %>
+<% if logged_in? && current_user.is_admin? %>
 <%= content_tag :div, class: "col" do %>
 <%= link_to 'Back', users_path, :class => "btn btn-outline-secondary btn-block"%>
 <% end %>
