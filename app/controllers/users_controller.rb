@@ -13,7 +13,11 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    redirect_to users_path
+    if current_user.is_admin?
+      redirect_to users_path
+    else
+      redirect_to edit_user_path
+    end
   end
 
   # GET /users/new
