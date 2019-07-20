@@ -1,6 +1,8 @@
 class StatsController < ApplicationController
   before_action :set_stats, only: [:top_five, :averages, :rooms_bookings_by_day, :rooms_bookings_by_hour]
 
+  before_action :verify_if_admin_and_redirect_with_error_message_if_not
+
   def rooms_bookings_by_day
 
     current_week = params[:current_week].to_i
