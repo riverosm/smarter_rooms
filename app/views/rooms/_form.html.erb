@@ -26,7 +26,11 @@
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <%= content_tag :div, class: "input-group-prepend" do %>
 <%= content_tag :span, class: "input-group-text" do %>
+<% if action == "new" %>
+<%= f.check_box :active, {required: false, checked: true, class: "faw"} %> &nbsp;
+<% else %>
 <%= f.check_box :active, {required: false, class: "faw"} %> &nbsp;
+<% end %>
 <% end %>
 <% end %>
 <%= f.text_field "", :disabled => true, placeholder: "Activate room", class: "form-control", style: "background-color: white" %>
