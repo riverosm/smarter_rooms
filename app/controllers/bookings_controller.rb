@@ -168,14 +168,14 @@ class BookingsController < ApplicationController
 
   private
   def set_room
-    if logged_in_user
+    if logged_in?
       @room = Room.where("active = 1 AND id = ?",params[:room_id]).first
       if @room.nil?
         flash[:danger] = "You are not allowed to book this room."
         redirect_to rooms_url
       end
     else
-
+      logged_in_user
     end
   end
 
