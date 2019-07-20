@@ -1,3 +1,11 @@
+<h3>Sites</h3>
+
+<% if @buildings.size == 0 %>
+
+<%= render partial: "alert_box", locals: {message_type: "info", message: "No buildings yet.", hide_alert: false} %>
+
+<% end %>
+
 <% i = 0 %>
 <% @buildings.each do |building| 
 if (i % 4) == 0 %>
