@@ -25,7 +25,7 @@ case type
   when "number"
     form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: :any, min: 1, max: max
   when "float"
-    form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: "0.01"
+    form.number_field field, :required => required, placeholder: placeholder, class: "form-control", step: "0.000001"
 end
 %>
 <% end %>
