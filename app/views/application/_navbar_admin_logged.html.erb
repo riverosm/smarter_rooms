@@ -72,7 +72,7 @@
     </a>
 
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <%= link_to current_user, class: 'dropdown-item' do %>
+      <%= link_to user_edit_path(current_user), class: 'dropdown-item' do %>
       <%= icon('fas', 'user') %> My Profile
       <% end %>
       <%= link_to logout_path, method: 'delete', class: 'dropdown-item' do %>
