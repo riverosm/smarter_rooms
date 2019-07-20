@@ -6,7 +6,7 @@
 <% end %>
 <% if new_path != "" %>
 <%= content_tag :div, class: "col mt-1" do %>
-<%= link_to icon('fas', 'plus', class: 'mr-2') + 'Create new', new_path, :class => "btn btn-outline-success btn-block btn-sm"%>
+<%= link_to icon('fas', 'plus', class: 'mr-2') + 'Add ' + create_text, new_path, :class => "btn btn-outline-success btn-block btn-sm"%>
 <% end %>
 <% end %>
 <% end %>

@@ -15,7 +15,7 @@ Created users: <br />
 <% view_path = "" %>
 <%= render partial: "alert_box", locals: {message_type: "info", message: "No users yet.", hide_alert: false} %>
 <% end %>
-<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_user_path} %>
+<%= render partial: "action_buttons", locals: {create_text: 'user', view_path: view_path, new_path: new_user_path} %>
 <% end %>
 <% end %>
 <% end %>
@@ -23,7 +23,7 @@ Created users: <br />
 <%= content_tag :div, class: "col-sm-3 mt-1" do %>
 <%= content_tag :div, class: "card" do %>
 <%= content_tag :h5, class: "card-header" do %>
-Sites
+Rooms by site
 <% end %>
 <%= content_tag :div, class: "card-body centered" do %>
 <% view_path = buildings_path %>
@@ -35,7 +35,7 @@ Created sites: <br />
 <% view_path = "" %>
 <%= render partial: "alert_box", locals: {message_type: "info", message: "No sites yet.", hide_alert: false} %>
 <% end %>
-<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_building_path} %>
+<%= render partial: "action_buttons", locals: {create_text: 'site', view_path: view_path, new_path: new_building_path} %>
 <% end %>
 <% end %>
 <% end %>
@@ -43,7 +43,7 @@ Created sites: <br />
 <%= content_tag :div, class: "col-sm-3 mt-1" do %>
 <%= content_tag :div, class: "card" do %>
 <%= content_tag :h5, class: "card-header" do %>
-Rooms
+Rooms states
 <% end %>
 <%= content_tag :div, class: "card-body centered" do %>
 <% view_path = rooms_path %>
@@ -55,7 +55,7 @@ Created rooms: <br />
 <% view_path = "" %>
 <%= render partial: "alert_box", locals: {message_type: "info", message: "No rooms yet.", hide_alert: false} %>
 <% end %>
-<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: new_room_path} %>
+<%= render partial: "action_buttons", locals: {create_text: 'room', view_path: view_path, new_path: new_room_path} %>
 <% end %>
 <% end %>
 <% end %>
@@ -75,7 +75,7 @@ Created bookings: <br />
 <% view_path = "" %>
 <%= render partial: "alert_box", locals: {message_type: "info", message: "No bookings yet.", hide_alert: false} %>
 <% end %>
-<%= render partial: "action_buttons", locals: {view_path: view_path, new_path: ""} %>
+<%= render partial: "action_buttons", locals: {create_text: 'booking', view_path: view_path, new_path: rooms_path} %>
 <% end %>
 <% end %>
 <% end %>
