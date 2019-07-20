@@ -1,7 +1,7 @@
 <% if logged_in? && current_user.is_admin? %>
-<h1>Add User</h1>
+<h3>Add User</h3>
 <% else %>
-<h1>Sign up</h1>
+<h3>Sign up</h3>
 <% end %>
 
 <%= render 'form', user: @user, action: 'new' %>
