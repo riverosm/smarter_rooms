@@ -10,7 +10,14 @@ class BookingsController < ApplicationController
     @room_id = params[:room_id]
 
     respond_to do |format|
-      format.html { 
+      format.html {
+        @users = User.all.order(:name)
+        if current_user.is_admin?
+          @rooms = Room.all.order(:name)
+        else
+          @rooms = Room.active.order(:name)
+        end
+
         @bookings_today = Booking.where(valid_to: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
         @bookings_lasts = Booking.where(created_at: DateTime.now.beginning_of_day..DateTime.now.end_of_day).order("created_at DESC")
 
@@ -62,8 +69,10 @@ class BookingsController < ApplicationController
         @user_bookings = []
         selected_bookings.each do |b|
           booking_info = Hash.new
+          booking_info["extendedProps"] = Hash.new
           if current_user.is_admin?
             booking_info["title"] = "Room: <b>" + b.room.name + " </b>User:<b> " + b.user.name + "</b>"
+            booking_info["extendedProps"]["user_name"] = b.user.name
           else
             booking_info["title"] = b.room.name + " room (" + b.room.building.name + ")"
           end
@@ -71,9 +80,12 @@ class BookingsController < ApplicationController
           booking_info["end"] = b.valid_to
           booking_info["backgroundColor"] = "#98FB98"
           booking_info["borderColor"] = "#000"
+          booking_info["extendedProps"]["number_of_attendants"] = b.number_of_attendants
+          booking_info["extendedProps"]["room_name"] = b.room.name
+          booking_info["extendedProps"]["building_name"] = "#{b.room.building.name} - #{b.room.floor} floor"
+          booking_info["extendedProps"]["booking_date"] = b.valid_from.strftime("%d/%m/%Y %H:%M") + "-" + b.valid_to.strftime("%H:%M")
           if b.valid_from > DateTime.now
             booking_info["backgroundColor"] = "#ADD8E6"
-            booking_info["extendedProps"] = Hash.new
             booking_info["extendedProps"]["can_delete"] = b.id
           end
           @user_bookings << booking_info
@@ -94,8 +106,14 @@ class BookingsController < ApplicationController
   def destroy
     @booking.destroy
     respond_to do |format|
+      if params[:room_id].nil? || params[:room_id] == ""
+        room_id = ""
+      else
+        room_id = params[:room_id]
+      end
+
       flash[:warning] = "Booking was successfully canceled."
-      format.html { redirect_to bookings_url }
+      format.html { redirect_to bookings_url(room_id: room_id) }
       format.json { head :no_content }
     end
   end

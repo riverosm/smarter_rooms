@@ -42,68 +42,57 @@
 
 <% end %>
 
-<div id="div_calendar_loading">
-  <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
-</div>
+<%= content_tag :div, id: "div_calendar_loading" do %>
+<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+<% end %>
 
-<div id="script-warning">
-  bookings system must be running.
-</div>
+<%= content_tag :div, id: "script-warning" do %>
+bookings system must be running.
+<% end %>
 
-<div class="row justify-content-md-center mt-0">
-  <div class="col-md-3">
-    <div class="m-4" id="div_info"></div>
-    <h4 class="m-4">Filters:</h4>
-
-    <%= content_tag :div, class: "input-group m-4 row" do %>
-    <%= content_tag :div, class: "input-group-prepend" do %>
-    <%= content_tag :span, class: "input-group-text" do %>
-    <%= icon('fas', 'users', class: 'fa-fw') %>
-    <% end %>
-    <% end %>
-    <%= collection_select(:user, :id, User.all, :id, :name, {:include_blank => 'All users', :selected => @user_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
-    <% end %>
-
-    <div class="m-4" id="user-info">
-      <b>Name:</b> Pepito <br />
-      <b>Phone:</b> 1234-5512 <br />
-      <b>E-mail:</b> room_reservations@ar.ibm.com
-    </div>
-
-    <%= content_tag :div, class: "input-group m-4 row" do %>
-    <%= content_tag :div, class: "input-group-prepend" do %>
-    <%= content_tag :span, class: "input-group-text" do %>
-    <%= icon('fas', 'door-open', class: 'fa-fw') %>
-    <% end %>
-    <% end %>
-    <% if current_user.is_admin? %>
-    <%= collection_select(:room, :id, Room.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
-    <% else %>
-    <%= collection_select(:room, :id, Room.active.all, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
-    <% end %>
-    <% end %>
-
-    <div class="m-4" id="room-info">
-      <b>Name:</b> Pepito <br />
-      <b>Phone:</b> 1234-5512 <br />
-      <b>E-mail:</b> room_reservations@ar.ibm.com
-    </div>
-
-  </div>
-  <div class="col-md-9">
-    <div id="calendar"></div>
-  </div>
-</div>
+<%= content_tag :div, class: "row justify-content-md-center mt-0" do %>
+<%= content_tag :div, class: "col-sm-6" do %>
+<%= content_tag :div, class: "row" do %>
+<%= content_tag :div, class: "col-sm-12" do %>
+<% end %>
+<% end %>
+<%= content_tag :div, class: "row m-4" do %>
+<% col_size = 12 %>
+<% if current_user.is_admin? %>
+<% col_size = 6 %>
+<%= content_tag :div, class: "col-sm-6" do %>
+<%= content_tag :div, class: "input-group" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', 'users', class: 'fa-fw') %>
+<% end %>
+<% end %>
+<%= collection_select(:user, :id, @users, :id, :name, {:include_blank => 'All users', :selected => @user_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
+<% end %>
+<% end %>
+<% end %>
+<%= content_tag :div, class: "col-sm-" + col_size.to_s do %>
+<%= content_tag :div, class: "input-group" do %>
+<%= content_tag :div, class: "input-group-prepend" do %>
+<%= content_tag :span, class: "input-group-text" do %>
+<%= icon('fas', 'door-open', class: 'fa-fw') %>
+<% end %>
+<% end %>
+<%= collection_select(:room, :id, @rooms, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
+<% end %>
+<% end %>
+<% end %>
+<%= content_tag :div, class: "row m-4" do %>
+<%= content_tag :div, class: "col-sm-12" do %>
+<%= content_tag :div, id: "div_info" do %>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+<%= content_tag :div, class: "col-sm-6" do %>
+<%= content_tag :div, id: "calendar" do %>
+<% end %>
+<% end %>
+<% end %>
 
 <%= render partial: "calendar_index_user", locals: {url: '/bookings.json' } %>
-
-<style>
-  #user-info,
-  #room-info {
-    height: 120px;
-    width: 100%;
-  }
-  #div_info {
-    height: 80px;
-  }
-</style>

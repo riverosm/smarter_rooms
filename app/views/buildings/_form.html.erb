@@ -14,13 +14,13 @@
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <%= content_tag :div, class: "col" do %>
-<%= link_to 'Back', buildings_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+<%= link_to 'Back', buildings_path, :class => "btn btn-outline-secondary btn-block"%>
 <% end %>
 <%= content_tag :div, class: "col" do %>
 <% if action == "new" %>
-<%= f.submit :"Create site", class: "btn-outline-success btn btn-block btn-lg" %>
+<%= f.submit :"Create site", class: "btn-outline-success btn btn-block" %>
 <% else %>
-<%= f.submit :"Change site", class: "btn-outline-warning btn btn-block btn-lg" %>
+<%= f.submit :"Change site", class: "btn-outline-warning btn btn-block" %>
 <% end %>
 <% end %>
 <% end %>

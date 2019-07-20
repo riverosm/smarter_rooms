@@ -32,13 +32,13 @@
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
 <%= content_tag :div, class: "col" do %>
-<%= link_to 'Back', rooms_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+<%= link_to 'Back', rooms_path, :class => "btn btn-outline-secondary btn-block"%>
 <% end %>
 <%= content_tag :div, class: "col" do %>
 <% if action == "new" %>
-<%= f.submit :"Create room", class: "btn-outline-success btn btn-block btn-lg" %>
+<%= f.submit :"Create room", class: "btn-outline-success btn btn-block" %>
 <% else %>
-<%= f.submit :"Change room", class: "btn-outline-warning btn btn-block btn-lg" %>
+<%= f.submit :"Change room", class: "btn-outline-warning btn btn-block" %>
 <% end %>
 <% end %>
 <% end %>

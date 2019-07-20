@@ -41,14 +41,16 @@
 <% end %>
 
 <%= content_tag :div, class: "input-group mb-3 row" do %>
+<% if current_user.is_admin? %>
 <%= content_tag :div, class: "col" do %>
-<%= link_to 'Back', users_path, :class => "btn btn-outline-secondary btn-block btn-lg"%>
+<%= link_to 'Back', users_path, :class => "btn btn-outline-secondary btn-block"%>
+<% end %>
 <% end %>
 <%= content_tag :div, class: "col" do %>
 <% if action == "new" %>
-<%= f.submit :"Create user", class: "btn-outline-success btn btn-block btn-lg" %>
+<%= f.submit :"Create user", class: "btn-outline-success btn btn-block" %>
 <% else %>
-<%= f.submit :"Change user", class: "btn-outline-warning btn btn-block btn-lg" %>
+<%= f.submit :"Change user", class: "btn-outline-warning btn btn-block" %>
 <% end %>
 <% end %>
 <% end %>
