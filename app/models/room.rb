@@ -12,6 +12,8 @@ class Room < ApplicationRecord
   has_many :bookings
   has_many :users, through: :bookings
 
+  paginates_per Rails.configuration.smarter_rooms_rooms_per_page
+
   def get_bookings (user)
     room_bookings = []
     self.bookings.each do |b|

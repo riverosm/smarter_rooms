@@ -12,6 +12,8 @@ class User < ApplicationRecord
   scope :is_admin, -> {where('admin = 1')}
   scope :is_user, -> {where('admin = 0')}
 
+  paginates_per Rails.configuration.smarter_rooms_users_per_page
+
   def is_admin?
     self.admin
   end
