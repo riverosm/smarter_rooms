@@ -1,49 +1,5 @@
 <h3>Bookings</h3>
 
-<% if current_user.is_admin? && false %>
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header">Today's bookings</h5>
-      <div class="card-body centered">
-        <% @bookings_today.each do |b| %>
-        <b><%= b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> - <%= b.valid_to.strftime('%H:%M') %>)
-        <br />
-        <%= b.user.name %> <br /> <br />
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header">Last bookings</h5>
-      <div class="card-body centered">
-        <% @bookings_lasts.each do |b| %>
-        <b><%= b.created_at.to_s + " " + b.room.name %></b> (<%= b.valid_from.strftime('%H:%M') %> -
-        <%= b.valid_to.strftime('%H:%M') %>)
-        <br />
-        <%= b.user.name %> <br /> <br />
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header">All bookings</h5>
-      <div class="card-body centered">
-        By Room <br />
-        By Site <br />
-        By Date <br />
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<% else %>
-
-<% end %>
-
 <%= content_tag :div, id: "div_calendar_loading" do %>
 <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
 <% end %>
@@ -59,8 +15,8 @@ bookings system must be running.
 <% end %>
 <% end %>
 <%= content_tag :div, class: "row m-4" do %>
-<% col_size = 12 %>
-<% if current_user.is_admin? %>
+<% col_size = 8 %>
+<% if current_user.is_admin? && !@my_bookings%>
 <% col_size = 6 %>
 <%= content_tag :div, class: "col-sm-6" do %>
 <%= content_tag :div, class: "input-group" do %>
@@ -83,7 +39,15 @@ bookings system must be running.
 <%= collection_select(:room, :id, @rooms, :id, :name, {:include_blank => 'All rooms', :selected => @room_id}, {:class=>'custom-select', :onchange=>'getBookings();', :autocomplete=>'off'}) %>
 <% end %>
 <% end %>
+
+<% if (current_user.is_admin? && @my_bookings) || !current_user.is_admin? %>
+<%= content_tag :div, class: "col-sm-4" do %>
+<%= link_to icon('fas', 'book-open', class: 'mr-2') + 'Book now', new_booking_path(room_id: @room_id), :class => "btn btn-outline-success btn d-none", id: "book_now_button" %>
 <% end %>
+<% end %>
+
+<% end %>
+
 <%= content_tag :div, class: "row m-4" do %>
 <%= content_tag :div, class: "col-sm-12" do %>
 <%= content_tag :div, id: "div_info" do %>
@@ -97,4 +61,8 @@ bookings system must be running.
 <% end %>
 <% end %>
 
-<%= render partial: "calendar_index_user", locals: {url: '/bookings.json' } %>
+<% if @my_bookings %>
+<%= render partial: "calendar_index_user", locals: {url: '/bookings.json?my_bookings=true' } %>
+<% else %>
+<%= render partial: "calendar_index_user", locals: {url: '/bookings.json?my_bookings=false' } %>
+<% end %>

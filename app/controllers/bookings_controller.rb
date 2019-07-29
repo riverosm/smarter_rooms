@@ -8,6 +8,14 @@ class BookingsController < ApplicationController
   def index
     @user_id = params[:user_id]
     @room_id = params[:room_id]
+    @my_bookings = params[:my_bookings]
+
+    if @my_bookings.nil? || @my_bookings != "true"
+      @my_bookings = false
+    else
+      @my_bookings = true
+      @user_id = current_user.id
+    end
 
     respond_to do |format|
       format.html {
@@ -17,9 +25,6 @@ class BookingsController < ApplicationController
         else
           @rooms = Room.active.order(:name)
         end
-
-        @bookings_today = Booking.where(valid_to: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
-        @bookings_lasts = Booking.where(created_at: DateTime.now.beginning_of_day..DateTime.now.end_of_day).order("created_at DESC")
 
         if !@user_id.nil? && @user_id != "" && current_user.is_admin?
           @user = User.find(@user_id)
@@ -34,14 +39,14 @@ class BookingsController < ApplicationController
 
       format.json {
 
-        if current_user.is_admin?
+        selected_bookings = current_user.bookings
+
+        if current_user.is_admin? && !@my_bookings
           if !params[:user_id].nil? && params[:user_id] != ""
-            selected_bookings = Booking.where(user: params[:user_id])
+              selected_bookings = Booking.where(user: params[:user_id])
           else
             selected_bookings = Booking.all
           end
-        else
-          selected_bookings = current_user.bookings
         end
 
         date_start = params[:start].to_datetime

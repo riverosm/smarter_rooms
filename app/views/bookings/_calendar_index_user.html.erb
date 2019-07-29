@@ -62,7 +62,7 @@ maxResults = Rails.configuration.smarter_rooms_calendar_max_results
       },
       events: {
         url: '<%= url %>' +
-          '?room_id=' + $('#room_id').children("option:selected").val() +
+          '&room_id=' + $('#room_id').children("option:selected").val() +
           '&user_id=' + $('#user_id').children("option:selected").val(),
         error: function () {
           $('#script-warning').show();
@@ -147,16 +147,32 @@ maxResults = Rails.configuration.smarter_rooms_calendar_max_results
       },
     });
     calendar.render();
+
+    if ($('#room_id').children("option:selected").val() == "") {
+      $('#book_now_button').addClass("d-none");
+    } else {
+      $('#book_now_button').attr("href", "/bookings/new?room_id=" + $('#room_id').children("option:selected").val());
+      $('#book_now_button').removeClass("d-none");
+    }
+
   });
 
   function getBookings() {
+
+    if ($('#room_id').children("option:selected").val() == "") {
+      $('#book_now_button').addClass("d-none");
+    } else {
+      $('#book_now_button').attr("href", "/bookings/new?room_id=" + $('#room_id').children("option:selected").val());
+      $('#book_now_button').removeClass("d-none");
+    }
+
     var firstEventSource = calendar.getEventSources()[0];
     if (firstEventSource) {
       firstEventSource.remove();
     }
     calendar.addEventSource({
       url: '<%= url %>' +
-        '?room_id=' + $('#room_id').children("option:selected").val() +
+        '&room_id=' + $('#room_id').children("option:selected").val() +
         '&user_id=' + $('#user_id').children("option:selected").val(),
       success: function (data, xhr) {
         if (xhr.status == 201) {
