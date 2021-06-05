@@ -1,5 +1,7 @@
 # \<Code Academy\> Nivel 3 - Trabajo final
 
+Repository clonated from IBM Github
+
 ## Installation
 
 ```sh
@@ -61,7 +63,7 @@ A default icon will be displayed if none is configured.
 
 ## Class diagram
 
-![Class diagram](https://github.ibm.com/riverosm/smarter_rooms/blob/master/SmarterRooms.png)
+![Class diagram](https://github.com/riverosm/smarter_rooms/blob/master/SmarterRooms.png)
 
 ## ToDo
 
@@ -79,7 +81,7 @@ SmarterRooms v1.0 tested on:
 
 Developed by:
 
-![Author image](https://github.ibm.com/riverosm/smarter_rooms/blob/master/public/riverosm.jpg)
+![Author image](https://github.com/riverosm/smarter_rooms/blob/master/public/riverosm.jpg)
 
 * Matias Riveros
 * IBM Argentina
